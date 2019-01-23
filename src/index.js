@@ -1,21 +1,11 @@
 import * as utils from './utils';
-import UploadImg from './components/UploadImg';
-import EnhanceTable from './components/EnhanceTable';
-import WithSearch from './components/WithSearch';
-import RenderDetail from './components/RenderDetail';
-import HModal from './components/HModal';
-import DaynamicForm from './components/DaynamicForm';
-import formRender from './components/FormRender';
-import FileUpload from './components/FileUpload';
 
-export {
-  utils,
-  UploadImg,
-  FileUpload,
-  EnhanceTable,
-  WithSearch,
-  RenderDetail,
-  HModal,
-  formRender,
-  DaynamicForm,
-};
+export { default as UploadImg } from './components/UploadImg';
+export { default as EnhanceTable } from './components/EnhanceTable';
+export { default as WithSearch } from './components/WithSearch';
+export { default as RenderDetail } from './components/RenderDetail';
+export { default as HModal } from './components/HModal';
+export { default as DaynamicForm } from './components/DaynamicForm';
+export { default as formRender } from './components/FormRender';
+export { default as FileUpload } from './components/FileUpload';
+export default utils;
