@@ -1,0 +1,45 @@
+:global {
+  // 以下CSS 用于搜索表单的渲染
+  .search-form {
+    padding: 10px 20px 15px;
+    border: 1px solid #108ee9;
+    border-radius: 7px;
+  } // 以下CSS 用于详情的渲染
+  .showInfo-model {
+    margin-bottom: 20px;
+    h3 {
+      padding-left: 10px;
+      color: #108ee9;
+      border-left: 3px solid #108ee9;
+      line-height: 25px;
+      font-weight: bold;
+    }
+  }
+  .showInfo-content {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    .showInfo-item {
+      display: flex;
+      width: 50%;
+      margin-top: 20px;
+    }
+    .showInfo-label {
+      position: relative;
+      display: inline-block;
+      width: 50%;
+      text-align: right;
+      &::before {
+        content: ':';
+        position: absolute;
+        right: -5px;
+      }
+    }
+    .showInfo-value {
+      padding-left: 20px;
+      width: 50%;
+      text-align: left;
+    }
+  }
+}
