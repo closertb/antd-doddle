@@ -1,9 +1,8 @@
 import React from 'react';
 import { Table } from 'antd';
-import { TableUtil } from 'carno/addons';
+import table from '../utils/table';
 
-const { createColumns } = TableUtil;
-
+const { createColumns } = table;
 export default class EnhanceTable extends React.Component {
   constructor(props) {
     super(props);

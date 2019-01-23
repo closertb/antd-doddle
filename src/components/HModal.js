@@ -1,8 +1,5 @@
 import React from 'react';
 import { Modal } from 'antd';
-import { FormUtil } from 'carno/addons';
-
-const { validate } = FormUtil;
 /**
  * 模态框组件
  *
@@ -10,6 +7,7 @@ const { validate } = FormUtil;
  * @props form 如果配置了form属性，则onOk属性会传递values,且只有在form validate success之后，才触发cancel逻辑
  * @props {...modalProps} 参考antd 模态框组件
  */
+
 export default class HModal extends React.Component {
   constructor(props) {
     super(props);
@@ -70,9 +68,12 @@ export default class HModal extends React.Component {
 
     if (onOk && form) {
       // 如果设置了form属性，则验证成功后才关闭表单
-      validate(form)((values, originValues) => {
-        onOk(values, originValues);
-        hideModal();
+      form.validateFields((err, values) => {
+        if (err) {
+          return;
+        }
+        const success = onOk(values); // onOk处理为true时才关闭窗口；
+        success && hideModal();
       });
     } else {
       onOk && onOk();

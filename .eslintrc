@@ -2,10 +2,7 @@
   "parser": "babel-eslint",
   "extends": "eslint-config-hcb",
   "rules": {},
-  "globals": {},
-  "parserOptions": {
-    "ecmaFeatures": {
-      "legacyDecorators": true
-    }
+  "globals": {
+    "Image": true
   }
 }

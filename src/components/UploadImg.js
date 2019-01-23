@@ -1,7 +1,6 @@
 import React from 'react';
 import { Upload, Icon, Modal } from 'antd';
 import bind from 'bind-decorator';
-import { getServer } from 'utils';
 
 class UploadImg extends React.Component {
   state = {
@@ -49,7 +48,7 @@ class UploadImg extends React.Component {
 
   render() {
     const { previewVisible, previewImage } = this.state;
-    const { value: fileList = [], config = {}, disabled } = this.props;
+    const { value: fileList = [], config = {}, disabled, service } = this.props;
     const { maxCount = Infinity, ...resetConfig } = config;
 
     const uploadButton = (
@@ -62,7 +61,7 @@ class UploadImg extends React.Component {
       <div className="clearfix">
         <Upload
           accept="image/*"
-          action={`${getServer().admin}/common/base/uploadFile`}
+          action={service}
           listType="picture-card"
           fileList={fileList}
           headers={{ 'X-Requested-With': null }}

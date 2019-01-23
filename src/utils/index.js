@@ -1,7 +1,10 @@
-import moment from 'moment';
-
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
+/**
+ * @param {*} value 判断该对象是否是空对象或空数组
+ */
+export const isEmpty = value => typeof value === 'object' && Object.keys(value).length === 0;
 
 // 表单通用格式
 export const formItemLayout = {
@@ -22,7 +25,7 @@ export const formItemLayout = {
 export const getEnumObject = (enums, value, key = 'value') => {
   const res = enums.filter(item => item[key] === value);
   return res.length > 0 ? res[0] : {};
-}
+};
 
 /**
  * 作用：拼接区域和详细地址，处理一些特殊情况

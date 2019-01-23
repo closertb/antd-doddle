@@ -1,7 +1,7 @@
 import React from 'react';
 import bind from 'bind-decorator';
 import { Button } from 'antd';
-import styles from './index.less';  
+import styles from './index.less';
 
 // 根据方向，找出指定索引的有效的上一或下一数据项
 function findValid(arr, index, dir = 1) {

@@ -1,5 +1,7 @@
 import React from 'react';
-import './index.less';
+import moment from 'moment';
+import { getEnumObject, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
+import style from './index.less';
 
 /**
  * 作用: 详情信息表单的渲染
@@ -47,8 +49,8 @@ export default class RecordDetail extends React.Component {
   render() {
     const { fields, detail = {}, fieldsName } = this.props;
     return (
-      <div className="showInfo-model">
-        <h3>{fieldsName}</h3>
+      <div className={style.RenderDetail}>
+        <h3 className="title">{fieldsName}</h3>
         <div className="showInfo-content">
           {renderBaseFields(fields, detail)}
         </div>

@@ -1,5 +1,6 @@
+import React from 'react';
 import { Input, AutoComplete, Spin, Icon } from 'antd';
-import { Type } from 'carno/utils';
+import { throttle, isEmpty } from '../../utils';
 import './index.less';
 
 const Option = AutoComplete.Option;
@@ -39,7 +40,7 @@ export default class HInputSearch extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     const { value } = nextProps;
-    if (!Type.isEmpty(value) && value !== this.props.value) {
+    if (isEmpty(value) && value !== this.props.value) {
       this.setState({ value: nextProps.value });
     }
   }
@@ -81,7 +82,7 @@ export default class HInputSearch extends React.Component {
         return;
       }
       let options;
-      if (Type.isEmpty(list)) {
+      if (isEmpty(list)) {
         options = [DefaultOption];
       } else {
         // 用户自定义数据格式转换；
