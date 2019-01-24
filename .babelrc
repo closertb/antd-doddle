@@ -1,11 +1,5 @@
 {
-  "presets": [
-    "@babel/env",
-    ["@babel/stage-0", { "decoratorsLegacy": true }],
-    "@babel/react"
-  ],
   "plugins": [
-    ["@babel/plugin-transform-runtime", { "polyfill": false }],
     ["import", { "libraryName": "antd" }]
   ]
 }

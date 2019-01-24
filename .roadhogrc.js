@@ -1,5 +1,6 @@
 module.exports = (config) => {
-  config.disableCSSModules = true;
+  // config.disableCSSModules = true;
+  config.disableCSSSourceMap = true;
   config.disableAntdStyle = true;
   config.library = 'ffe-basic';
   config.libraryTarget = 'umd';
