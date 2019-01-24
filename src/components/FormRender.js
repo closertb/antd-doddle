@@ -1,5 +1,5 @@
 import React from 'react';
-import { moment } from 'moment';
+import moment from 'moment';
 import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
 import { formItemLayout as layout, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
 import OriginSearch from './OriginSearch';
