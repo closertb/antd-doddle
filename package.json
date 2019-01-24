@@ -1,9 +1,9 @@
 {
   "name": "ffe-basic",
-  "version": "0.0.2",
+  "version": "0.0.6",
   "license": "ISC",
   "description": "金融前端组件和方法库",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "galileo build --lib",
     "prepublish": "galileo build --lib"
