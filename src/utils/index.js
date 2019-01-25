@@ -106,58 +106,6 @@ export function unCompileParam(code = '') {
   return c;
 }
 
-/**
- * 统一社会信用代码校验
- * @param String  id   合法的身份证编号
- * @param Boolean mask 身份证编号是否包含掩码
-*/
-export function creditCodeValid(code) {
-  const patrn = /^[0-9A-Z]+$/;
-  let checkBool = true;
-
-  // 18位校验及大写校验
-  if ((code.length !== 18) || (patrn.test(code) === false)) {
-    checkBool = false;
-  } else {
-    // 加权因子
-    const weightedfactors = [1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28];
-
-    const str = '0123456789ABCDEFGHJKLMNPQRTUWXY';
-    const arr = str.split('');
-    const checkcode = code.substring(17, 18);
-
-    // 统一社会信用代码的每一个值
-    let ancode;
-
-    // 统一社会信用代码每一个值的权重
-    let ancodevalue;
-
-    let total = 0;
-
-    // 不用I、O、S、V、Z
-    for (let i = 0; i < code.length - 1; i += 1) {
-      ancode = code.substring(i, i + 1);
-      ancodevalue = str.indexOf(ancode);
-
-      // 权重与加权因子相乘之和
-      total += ancodevalue * weightedfactors[i];
-    }
-
-    let logiccheckcode = 31 - (total % 31);
-
-    if (logiccheckcode === 31) {
-      logiccheckcode = 0;
-    }
-
-    logiccheckcode = arr[logiccheckcode];
-
-    if (logiccheckcode !== checkcode) {
-      checkBool = false;
-    }
-  }
-
-  return checkBool;
-}
 
 /**
  * 校验身份证号码是否合法

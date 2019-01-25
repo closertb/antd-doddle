@@ -1,6 +1,5 @@
 import * as utils from './utils';
 
-export { default as UploadImg } from './components/UploadImg';
 export { default as EnhanceTable } from './components/EnhanceTable';
 export { default as WithSearch } from './components/WithSearch';
 export { default as RenderDetail } from './components/RenderDetail';
