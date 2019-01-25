@@ -1,6 +1,6 @@
 {
   "name": "ffe-basic",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "license": "ISC",
   "description": "金融前端组件和方法库",
   "main": "dist/index.js",
