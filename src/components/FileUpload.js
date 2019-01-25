@@ -1,3 +1,4 @@
+import React from 'react';
 import { Modal, Upload, Icon, Button } from 'antd';
 import style from './index.less';
 
@@ -22,7 +23,8 @@ const uploadButton = (type = 'picture-card') => type === 'picture-card' ? (
   </div>
 ) : (
   <Button>
-    <Icon type="upload" /> 选择文件
+    <Icon type="upload" />
+    选择文件
   </Button>
 );
 
@@ -149,7 +151,7 @@ export default class FileUpload extends React.Component {
           }
         </div>
         {info && fileList.length === 0 &&
-          <div className={'show-info'}>{info}</div>
+          <div className="show-info">{info}</div>
         }
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="" style={{ width: '100%' }} src={imageUrl} />
@@ -158,4 +160,3 @@ export default class FileUpload extends React.Component {
     );
   }
 }
-

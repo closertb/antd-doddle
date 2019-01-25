@@ -23,10 +23,15 @@
     "antd": "^3.12.4",
     "moment": "^2.17.1",
     "react": "^16.7.0",
+    "bind-decorator": "^1.0.11",
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
-    "bind-decorator": "^1.0.11",
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-jsx-a11y": "^6.2.0",
+    "eslint-plugin-react": "^7.12.4",
     "roadhog": "^2.4.9"
   }
 }

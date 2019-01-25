@@ -34,10 +34,12 @@ export function renderBaseFields(fields, props = {}) {
     }
     // 处理没有值时，统一显示为--,
     (value === undefined || value === '') && (value = '--');
-    return (<div className="showInfo-item" key={index} >
-      <span className="showInfo-label">{name}</span>
-      <span className="showInfo-value">{value}</span>
-    </div>);
+    return (
+      <div className="showInfo-item" key={index}>
+        <span className="showInfo-label">{name}</span>
+        <span className="showInfo-value">{value}</span>
+      </div>
+    );
   });
 }
 

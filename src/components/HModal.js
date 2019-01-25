@@ -93,7 +93,7 @@ export default class HModal extends React.Component {
       onOk: this.handleOk,
       onCancel: this.handleCancel };
     return (
-      <div>{this.state.visible && <Modal {...modalProps} >{this.props.children}</Modal>}</div>
+      <div>{this.state.visible && <Modal {...modalProps}>{this.props.children}</Modal>}</div>
     );
   }
 }

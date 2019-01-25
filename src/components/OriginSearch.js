@@ -3,8 +3,8 @@ import { Input, AutoComplete, Spin, Icon } from 'antd';
 import { throttle, isEmpty } from '../utils';
 import sty from './index.less';
 
-const Option = AutoComplete.Option;
-const DefaultOption = <Option key="empty" disabled >暂无可匹配的搜索结果</Option>;
+const { Option } = AutoComplete;
+const DefaultOption = <Option key="empty" disabled>暂无可匹配的搜索结果</Option>;
 
 /**
  * 作用: 用户名远程搜索下拉列表选择框
@@ -128,46 +128,49 @@ export default class HInputSearch extends React.Component {
     const inputProps = isShowSearch ? { disabled: true } : {
       onClick: this.handleOpenSearch,
     };
-    return (<div
-      className={sty.OriginSearch}
-      style={style}
-      // eslint-disable-next-line
-      ref={el => this.searchInputElement = el}
-    >
-      <Input
+    return (
+      <div
+        className={sty.OriginSearch}
+        style={style}
         // eslint-disable-next-line
-        disabled={disabled}
-        ref={e => this.searchInput = e}
-        readOnly
-        placeholder={placeholder}
-        value={valueFormat(value)}
-        style={{ width: '100%' }}
-        size={size}
-        {...inputProps}
-      />
-      {
-        isShowSearch &&
-        <div className="js-origin-search origin-search">
-          <Icon type="search" className="origin-search-icon" />
-          <AutoComplete
-            className="certain-category-search"
-            dropdownClassName="certain-category-search-dropdown"
-            dropdownMatchSelectWidth
-            size={size}
-            onSearch={this.handleChange}
-            onSelect={this.handleSelect}
-            style={{ width: '100%' }}
-            optionLabelProp="value"
-          >
-            {loading ?
-              [<Option key="loading" disabled>
-                <Spin spinning={loading} style={{ paddingLeft: '45%', textAlign: 'center' }} />
-              </Option>] : options
-            }
-          </AutoComplete>
-        </div>
-      }
-    </div>);
+        ref={el => this.searchInputElement = el}
+      >
+        <Input
+          // eslint-disable-next-line
+          disabled={disabled}
+          ref={e => this.searchInput = e}
+          readOnly
+          placeholder={placeholder}
+          value={valueFormat(value)}
+          style={{ width: '100%' }}
+          size={size}
+          {...inputProps}
+        />
+        {
+          isShowSearch &&
+          <div className="js-origin-search origin-search">
+            <Icon type="search" className="origin-search-icon" />
+            <AutoComplete
+              className="certain-category-search"
+              dropdownClassName="certain-category-search-dropdown"
+              dropdownMatchSelectWidth
+              size={size}
+              onSearch={this.handleChange}
+              onSelect={this.handleSelect}
+              style={{ width: '100%' }}
+              optionLabelProp="value"
+            >
+              {loading ?
+                [
+                  <Option key="loading" disabled>
+                    <Spin spinning={loading} style={{ paddingLeft: '45%', textAlign: 'center' }} />
+                  </Option>
+                ] : options
+              }
+            </AutoComplete>
+          </div>
+        }
+      </div>
+    );
   }
 }
-

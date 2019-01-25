@@ -1,8 +1,27 @@
 {
   "parser": "babel-eslint",
-  "extends": "eslint-config-airbnb",
-  "rules": {},
+  "extends": ["eslint-config-airbnb"],
+  "rules": {
+    "react/prop-types": 0,
+    "lines-between-class-members": "off",
+    "comma-dangle": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-wrap-multilines": "off",
+    "operator-linebreak": "off",
+    "function-paren-newline": "off",
+    "object-curly-newline": "off",
+    "no-unused-expressions":"off",
+    "no-param-reassign":"off",
+    "no-return-assign":"off",
+    "no-confusing-arrow":"off",
+    "max-len":"off",
+    "react/destructuring-assignment": 0,
+    "react/no-array-index-key": "off"
+
+  },
   "globals": {
-    "Image": true
+    "Image": true,
+    "FileReader": true,
+    "document": true
   }
 }

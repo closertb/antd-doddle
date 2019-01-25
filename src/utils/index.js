@@ -36,8 +36,9 @@ export const getEnumObject = (enums, value, key = 'value') => {
  * @param {string} value value对应属性
  * @param {string} label label对应属性
  */
-export const toFormatEnums = (arr = [], value, label) =>
-  arr.map(target => ({ label: target[label], value: target[value] }));
+export const toFormatEnums = (arr = [], value, label) => arr.map(target => ({
+  label: target[label], value: target[value],
+}));
 
 /**
  * 作用：拼接区域和详细地址，处理一些特殊情况
@@ -154,7 +155,7 @@ export function idCodeValid(code, mask, startNum = 4, endNum = 4) {
     71: '台湾',
     81: '香港',
     82: '澳门',
-    91: '国外'
+    91: '国外',
   };
   let checkBool = true;
 
@@ -261,19 +262,19 @@ export function objectToList(values) {
   const indexObj = {};
   // 筛选当前Form的'field-num'字符串到list数组中
   const list = Object.keys(values).filter(x => regExp.test(x));
-  const arr = list.reduce((arr, x) => {
+  const array = list.reduce((arr, x) => {
     const field = x.split('-')[0]; // 列名
     const i = x.split('-')[1]; // arr index，index有可能能不是连贯的
     const obj = arr[i] || {};
     indexObj[i] = i; // 记录出现过的Index
     obj[field] = values[x];
+    // eslint-disable-next-line
     arr[i] = obj;
     return arr;
   }, []);
   // 因为index可能不是连贯的，所以可能某些数组是空的
   return {
     indexObj, // 出现过的index
-    list: arr.filter(obj => Object.keys(obj).length)
+    list: array.filter(obj => Object.keys(obj).length),
   };
 }
-

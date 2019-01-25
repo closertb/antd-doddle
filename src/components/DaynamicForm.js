@@ -23,15 +23,6 @@ export default class DaynamicForm extends React.Component {
       rules: value.map((ele, key) => ({ ...ele, key })),
     };
   }
-  @bind
-  handlMinus(index) {
-    const { rules } = this.state;
-    rules[index].deleteFlag = true;
-    this.setState({
-      rules: [...rules]
-    });
-    this.trigger(rules);
-  }
   handlMoveUp = index => () => {
     const { rules } = this.state;
     const { key, ...temp } = rules[index];
@@ -49,6 +40,15 @@ export default class DaynamicForm extends React.Component {
     const nextIndex = findValid(rules, key, 1);
     rules[index] = { ...rules[nextIndex], key };
     rules[nextIndex] = { ...temp, key: nextIndex };
+    this.setState({
+      rules: [...rules]
+    });
+    this.trigger(rules);
+  }
+  @bind
+  handlMinus(index) {
+    const { rules } = this.state;
+    rules[index].deleteFlag = true;
     this.setState({
       rules: [...rules]
     });

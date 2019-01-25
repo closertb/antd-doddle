@@ -34,10 +34,9 @@ export default class EnhanceTable extends React.Component {
     };
 
     return (
-      <div style={{ marginTop: 20 }} >
+      <div style={{ marginTop: 20 }}>
         <Table {...tableProps} />
       </div>
     );
   }
 }
-

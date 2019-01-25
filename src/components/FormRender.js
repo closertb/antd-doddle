@@ -6,7 +6,7 @@ import OriginSearch from './OriginSearch';
 import FileUpload from './FileUpload';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
+const { Option } = Select;
 const RadioGroup = Radio.Group;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -14,8 +14,7 @@ const CheckboxGroup = Checkbox.Group;
 
 const defaultAction = () => { };
 const isUndefind = (value, defaultValue) => typeof value === 'undefined' ? defaultValue : value;
-const handleDisabledDate = currentDate =>
-  currentDate && currentDate > moment().endOf('day');
+const handleDisabledDate = currentDate => currentDate && currentDate > moment().endOf('day');
 
 /**
  * @param string formItemLayout         : 表单项整体样式定义
