@@ -2,6 +2,7 @@ import React from 'react';
 import { Form } from 'antd';
 import { formItemLayout } from '../utils';
 import formRender from './FormRender';
+import './index.less';
 
 class WithSearch extends React.Component {
   constructor(props) {
