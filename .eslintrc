@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": "eslint-config-hcb",
+  "extends": "eslint-config-airbnb",
   "rules": {},
   "globals": {
     "Image": true

@@ -1,6 +1,6 @@
 {
   "name": "antd-doddle",
-  "version": "0.0.11",
+  "version": "0.0.1",
   "license": "ISC",
   "description": "antd后台项目前端组件封装和方法库",
   "main": "dist/index.js",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.56qq.com:FFE/ffe-basic.git"
+    "url": "https://github.com/closertb/antd-doddle.git"
   },
   "keywords": [],
-  "author": "ffe",
+  "author": "denzelt",
   "files": [
     "src",
     "dist",
@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "bind-decorator": "^1.0.11",
-    "eslint-config-hcb": "^1.1.3",
     "roadhog": "^2.4.9"
   }
 }
