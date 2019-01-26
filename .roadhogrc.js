@@ -1,10 +1,10 @@
-module.exports = (config) => {
-  // config.disableCSSModules = true;
-  config.disableCSSSourceMap = true;
-  config.disableAntdStyle = true;
-  config.library = 'ffe-basic';
-  config.libraryTarget = 'umd';
-  config.externals = {
+export default {
+  disableCSSSourceMap: true,
+  disableAntdStyle: true,
+  library: 'antd-doddle',
+  libraryTarget: 'umd',
+  extraBabelPlugins: ["transform-decorators-legacy"],
+  externals: {
     react: {
       commonjs: 'react',
       commonjs2: 'react',
@@ -26,5 +26,4 @@ module.exports = (config) => {
         amd: 'moment',
     },
   }
-  return config;
-};
+}

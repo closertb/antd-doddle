@@ -27,11 +27,12 @@
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "eslint": "^5.12.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-jsx-a11y": "^6.2.0",
     "eslint-plugin-react": "^7.12.4",
-    "roadhog": "^2.4.9"
+    "roadhog": "^1.4.5"
   }
 }
