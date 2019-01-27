@@ -1,6 +1,7 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -16,16 +17,20 @@ module.exports = {
     libraryTarget: 'umd',
     sourceMapFilename: '[file].map', // string
   },
+  /*   optimization: {
+    sideEffects: false,
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true
+      })
+    ]
+  }, */
   externals: {
     react: {
       commonjs: 'react',
       commonjs2: 'react',
       amd: 'react',
-    },
-    'react-dom': {
-      commonjs: 'react-dom',
-      commonjs2: 'react-dom',
-      amd: 'react-dom',
     },
     antd: {
       commonjs: 'antd',
@@ -65,7 +70,7 @@ module.exports = {
         options: {
           // minimize: true,
           modules: true,
-          localIndetName: '[local]_[hash:base64:5]'
+          localIdentName: '[local]_[hash:base64:5]',
         }
       }, 'less-loader']
     }]
