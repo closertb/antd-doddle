@@ -1,0 +1,5 @@
+{
+  "name": "antd-doddle/utils",
+  "private": true,
+  "main": "../dist/utils.js"
+}

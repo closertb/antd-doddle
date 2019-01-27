@@ -3,11 +3,14 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+    utils: './src/utils/index.js'
+  },
   devtool: 'none',
   mode: 'production',
   output: {
-    filename: 'index.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, './dist'),
     library: 'antd-doddle',
     libraryTarget: 'umd',
