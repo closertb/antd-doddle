@@ -3,17 +3,12 @@ export default {
   disableAntdStyle: true,
   library: 'antd-doddle',
   libraryTarget: 'umd',
-  extraBabelPlugins: ["transform-decorators-legacy"],
+  extraBabelPlugins: ["transform-decorators-legacy"], // ,["import", { "libraryName": "antd", "libraryDirectory": "lib", "style": "css" }]
   externals: {
     react: {
       commonjs: 'react',
       commonjs2: 'react',
         amd: 'react',
-    },
-    'react-dom': {
-      commonjs: 'react-dom',
-      commonjs2: 'react-dom',
-      amd: 'react-dom',
     },
     antd: {
       commonjs: 'antd',
