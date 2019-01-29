@@ -5,8 +5,9 @@
   "description": "antd后台项目前端组件封装和方法库",
   "main": "dist/index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "prepublish": "webpack --config webpack.config.js"
+    "build": "gulp && webpack --config webpack.config.js",
+    "lib": "gulp",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -38,12 +39,15 @@
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.9",
+    "del": "^3.0.0",
     "eslint": "^5.12.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-jsx-a11y": "^6.2.0",
     "eslint-plugin-react": "^7.12.4",
     "file-loader": "^2.0.0",
+    "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0",
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
