@@ -1,5 +1,6 @@
 {
   "name": "antd-doddle/utils",
   "private": true,
-  "main": "../dist/utils.js"
+  "main": "../lib/utils.js",
+  "module": "../src/utils/index.js"
 }
