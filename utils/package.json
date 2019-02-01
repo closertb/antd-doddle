@@ -2,5 +2,5 @@
   "name": "antd-doddle/utils",
   "private": true,
   "main": "../lib/utils.js",
-  "module": "../src/utils/index.js"
+  "module": "../es/utils/index.js"
 }

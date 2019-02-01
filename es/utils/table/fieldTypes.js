@@ -9,11 +9,7 @@ var _moment = _interopRequireDefault(require("moment"));
 
 var _index = require("../index");
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var isValid = function isValid(date) {
   return Boolean(date) && (typeof date === 'number' || typeof date === 'string');
