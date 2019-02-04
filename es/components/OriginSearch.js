@@ -1,20 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _antd = require("antd");
-
-var _utils = require("../utils");
-
-var _index = _interopRequireDefault(require("./index.less"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -39,9 +22,12 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-var Option = _antd.AutoComplete.Option;
-
-var DefaultOption = _react.default.createElement(Option, {
+import React from 'react';
+import { Input, AutoComplete, Spin, Icon } from 'antd';
+import { throttle, isEmpty } from '../utils';
+import sty from './index.less';
+var Option = AutoComplete.Option;
+var DefaultOption = React.createElement(Option, {
   key: "empty",
   disabled: true
 }, "\u6682\u65E0\u53EF\u5339\u914D\u7684\u641C\u7D22\u7ED3\u679C");
@@ -56,7 +42,6 @@ var DefaultOption = _react.default.createElement(Option, {
  * @prop: { object }        search       自定义搜索数据对象，不设置则采用默认itmp默认用户查询对象
  * @prop: { string }        searchKey    自定义搜索数据对象，关键词属性名，默认keyword
  */
-
 
 var HInputSearch =
 /*#__PURE__*/
@@ -84,7 +69,7 @@ function (_React$Component) {
     _this.handleOpenSearch = _this.handleOpenSearch.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleCloseSearch = _this.handleCloseSearch.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleChangeVisible = _this.handleChangeVisible.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.lazyLoad = (0, _utils.throttle)(_this.load);
+    _this.lazyLoad = throttle(_this.load);
     return _this;
   }
 
@@ -93,7 +78,7 @@ function (_React$Component) {
     value: function componentWillReceiveProps(nextProps) {
       var value = nextProps.value;
 
-      if ((0, _utils.isEmpty)(value) && value !== this.props.value) {
+      if (isEmpty(value) && value !== this.props.value) {
         this.setState({
           value: nextProps.value
         });
@@ -157,14 +142,14 @@ function (_React$Component) {
 
         var options;
 
-        if ((0, _utils.isEmpty)(list)) {
+        if (isEmpty(list)) {
           options = [DefaultOption];
         } else {
           // 用户自定义数据格式转换；
           options = format(list).map(function (_ref2, key) {
             var label = _ref2.label,
                 value = _ref2.value;
-            return _react.default.createElement(Option, {
+            return React.createElement(Option, {
               key: key,
               value: String(value)
             }, label);
@@ -256,14 +241,14 @@ function (_React$Component) {
       } : {
         onClick: this.handleOpenSearch
       };
-      return _react.default.createElement("div", {
-        className: _index.default.OriginSearch,
+      return React.createElement("div", {
+        className: sty.OriginSearch,
         style: style // eslint-disable-next-line
         ,
         ref: function ref(el) {
           return _this3.searchInputElement = el;
         }
-      }, _react.default.createElement(_antd.Input // eslint-disable-next-line
+      }, React.createElement(Input // eslint-disable-next-line
       , _extends({
         disabled: disabled,
         ref: function ref(e) {
@@ -276,12 +261,12 @@ function (_React$Component) {
           width: '100%'
         },
         size: size
-      }, inputProps)), isShowSearch && _react.default.createElement("div", {
+      }, inputProps)), isShowSearch && React.createElement("div", {
         className: "js-origin-search origin-search"
-      }, _react.default.createElement(_antd.Icon, {
+      }, React.createElement(Icon, {
         type: "search",
         className: "origin-search-icon"
-      }), _react.default.createElement(_antd.AutoComplete, {
+      }), React.createElement(AutoComplete, {
         className: "certain-category-search",
         dropdownClassName: "certain-category-search-dropdown",
         dropdownMatchSelectWidth: true,
@@ -292,10 +277,10 @@ function (_React$Component) {
           width: '100%'
         },
         optionLabelProp: "value"
-      }, loading ? [_react.default.createElement(Option, {
+      }, loading ? [React.createElement(Option, {
         key: "loading",
         disabled: true
-      }, _react.default.createElement(_antd.Spin, {
+      }, React.createElement(Spin, {
         spinning: loading,
         style: {
           paddingLeft: '45%',
@@ -306,6 +291,6 @@ function (_React$Component) {
   }]);
 
   return HInputSearch;
-}(_react.default.Component);
+}(React.Component);
 
-exports.default = HInputSearch;
+export { HInputSearch as default };

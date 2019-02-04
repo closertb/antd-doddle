@@ -1,31 +1,12 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.compileParam = compileParam;
-exports.unCompileParam = unCompileParam;
-exports.idCodeValid = idCodeValid;
-exports.getSexById = getSexById;
-exports.getAgeById = getAgeById;
-exports.toDecimalNumber = toDecimalNumber;
-exports.objectToList = objectToList;
-exports.throttle = exports.concatAddress = exports.toFormatEnums = exports.getEnumObject = exports.isEmpty = exports.formItemLayout = exports.DATE_TIME_FORMAT = exports.DATE_FORMAT = void 0;
-
-var _moment = _interopRequireDefault(require("moment"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var DATE_FORMAT = 'YYYY-MM-DD';
-exports.DATE_FORMAT = DATE_FORMAT;
-var DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'; // 表单通用格式
+import moment from 'moment';
+export var DATE_FORMAT = 'YYYY-MM-DD';
+export var DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'; // 表单通用格式
 
-exports.DATE_TIME_FORMAT = DATE_TIME_FORMAT;
-var formItemLayout = {
+export var formItemLayout = {
   labelCol: {
     xs: {
       span: 24
@@ -47,9 +28,7 @@ var formItemLayout = {
  * @param {*} value 判断该对象是否是空对象或空数组
  */
 
-exports.formItemLayout = formItemLayout;
-
-var isEmpty = function isEmpty(value) {
+export var isEmpty = function isEmpty(value) {
   return _typeof(value) === 'object' && Object.keys(value).length === 0;
 };
 /**
@@ -58,10 +37,7 @@ var isEmpty = function isEmpty(value) {
  * @param {*} enums 枚举数组
  */
 
-
-exports.isEmpty = isEmpty;
-
-var getEnumObject = function getEnumObject(enums, value) {
+export var getEnumObject = function getEnumObject(enums, value) {
   var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'value';
   var res = enums.filter(function (item) {
     return item[key] === value;
@@ -75,10 +51,7 @@ var getEnumObject = function getEnumObject(enums, value) {
  * @param {string} label label对应属性
  */
 
-
-exports.getEnumObject = getEnumObject;
-
-var toFormatEnums = function toFormatEnums() {
+export var toFormatEnums = function toFormatEnums() {
   var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var value = arguments.length > 1 ? arguments[1] : undefined;
   var label = arguments.length > 2 ? arguments[2] : undefined;
@@ -94,10 +67,7 @@ var toFormatEnums = function toFormatEnums() {
  * @param {Object} value  { id, name, address }
  */
 
-
-exports.toFormatEnums = toFormatEnums;
-
-var concatAddress = function concatAddress(value) {
+export var concatAddress = function concatAddress(value) {
   var _value$id = value.id,
       id = _value$id === void 0 ? '' : _value$id,
       name = value.name,
@@ -130,10 +100,7 @@ var concatAddress = function concatAddress(value) {
  * @return：返回值延迟执行的函数
  */
 
-
-exports.concatAddress = concatAddress;
-
-var throttle = function throttle(fun) {
+export var throttle = function throttle(fun) {
   var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 800;
   var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 300;
   var timeout;
@@ -159,10 +126,7 @@ var throttle = function throttle(fun) {
  * @param {*} code 要加密的字符串
  */
 
-
-exports.throttle = throttle;
-
-function compileParam() {
+export function compileParam() {
   var code = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   var c = String.fromCharCode(code.charCodeAt(0) + code.length);
 
@@ -172,8 +136,7 @@ function compileParam() {
 
   return c;
 }
-
-function unCompileParam() {
+export function unCompileParam() {
   var code = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   var c = String.fromCharCode(code.charCodeAt(0) - code.length);
 
@@ -191,8 +154,7 @@ function unCompileParam() {
  * 对于不包含掩码的，按国家规定格式校验。为真返回true
  */
 
-
-function idCodeValid(code, mask) {
+export function idCodeValid(code, mask) {
   var startNum = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4;
   var endNum = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 4;
 
@@ -244,7 +206,7 @@ function idCodeValid(code, mask) {
     checkBool = false;
   } else if (!city[code.substr(0, 2)]) {
     checkBool = false;
-  } else if ((0, _moment.default)("".concat(code.substring(6, 10), "-").concat(code.substring(10, 12), "-").concat(code.substring(12, 14))) > (0, _moment.default)()) {
+  } else if (moment("".concat(code.substring(6, 10), "-").concat(code.substring(10, 12), "-").concat(code.substring(12, 14))) > moment()) {
     checkBool = false;
   } else {
     var codeArr = code.split(''); // 加权因子
@@ -275,8 +237,7 @@ function idCodeValid(code, mask) {
  * @return String 合法返回0或1，0为男，1位女，不合法返回-1
  */
 
-
-function getSexById() {
+export function getSexById() {
   var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   var sex = '-1';
 
@@ -298,17 +259,16 @@ function getSexById() {
  * return Number 合法返回对应年龄，不合法返回-1
  */
 
-
-function getAgeById() {
+export function getAgeById() {
   var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   var age = -1;
 
   if (idCodeValid(id)) {
-    var birth = (0, _moment.default)("".concat(id.substring(6, 10), "-").concat(id.substring(10, 12), "-").concat(id.substring(12, 14)));
+    var birth = moment("".concat(id.substring(6, 10), "-").concat(id.substring(10, 12), "-").concat(id.substring(12, 14)));
     var birthYear = birth.year();
     var birthMonth = birth.month();
     var birthDate = birth.date();
-    var now = (0, _moment.default)();
+    var now = moment();
     var nowYear = now.year();
     var nowMonth = now.month();
     var nowDate = now.date();
@@ -327,8 +287,7 @@ function getAgeById() {
  * @param {*} pointCount 保留小数点的位数
  */
 
-
-function toDecimalNumber() {
+export function toDecimalNumber() {
   var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   var pointCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
   var withPoint = value.toFixed(pointCount);
@@ -341,8 +300,7 @@ function toDecimalNumber() {
  * @return：返回值是一个数组：[{name: 1, value: 2 }, { name: 2, value: 2 }]
  */
 
-
-function objectToList(values) {
+export function objectToList(values) {
   var regExp = /-\d$/;
   var indexObj = {}; // 筛选当前Form的'field-num'字符串到list数组中
 

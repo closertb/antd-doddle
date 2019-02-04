@@ -1,22 +1,12 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.combineTypes = void 0;
-
-var _moment = _interopRequireDefault(require("moment"));
-
-var _index = require("../index");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import moment from 'moment';
+import { getEnumObject, toDecimalNumber, DATE_FORMAT, DATE_TIME_FORMAT } from '../index';
 
 var isValid = function isValid(date) {
   return Boolean(date) && (typeof date === 'number' || typeof date === 'string');
 };
 
 var getParsedDate = function getParsedDate(date, format) {
-  return isValid(date) ? (0, _moment.default)(date).format(format) : '';
+  return isValid(date) ? moment(date).format(format) : '';
 };
 /*
  * column类型定义
@@ -28,27 +18,24 @@ var fieldTypes = {
     return value;
   },
   date: function date(value) {
-    return getParsedDate(value, _index.DATE_FORMAT);
+    return getParsedDate(value, DATE_FORMAT);
   },
   datetime: function datetime(value) {
-    return getParsedDate(value, _index.DATE_TIME_FORMAT);
+    return getParsedDate(value, DATE_TIME_FORMAT);
   },
   decimal: function decimal(value) {
-    return (0, _index.toDecimalNumber)(value);
+    return toDecimalNumber(value);
   },
   enum: function _enum(value, _ref) {
     var enums = _ref.enums;
-    return (0, _index.getEnumObject)(enums, value).label || '';
+    return getEnumObject(enums, value).label || '';
   }
 };
 /*
  * 扩展column类型定义
  */
 
-var combineTypes = function combineTypes(types) {
+export var combineTypes = function combineTypes(types) {
   return Object.assign(fieldTypes, types);
 };
-
-exports.combineTypes = combineTypes;
-var _default = fieldTypes;
-exports.default = _default;
+export default fieldTypes;

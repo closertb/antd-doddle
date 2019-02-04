@@ -9,7 +9,7 @@
     "build": "webpack --config webpack.config.js",
     "lib": "gulp",
     "es": "gulp esModule",
-    "prepublish": "gulp && gulp esModule && webpack --config webpack.config.js"
+    "prepublish": "gulp esModule && gulp && webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   "keywords": [],
   "author": "denzelt",
   "files": [
-    "src",
+    "es",
     "dist",
     "lib",
     "utils"
@@ -38,6 +38,7 @@
     "@babel/plugin-transform-classes": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.9",

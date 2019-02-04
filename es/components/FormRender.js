@@ -1,32 +1,17 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _moment = _interopRequireDefault(require("moment"));
-
-var _antd = require("antd");
-
-var _utils = require("../utils");
-
-var _OriginSearch = _interopRequireDefault(require("./OriginSearch"));
-
-var _FileUpload = _interopRequireDefault(require("./FileUpload"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-var FormItem = _antd.Form.Item;
-var Option = _antd.Select.Option;
-var RadioGroup = _antd.Radio.Group;
-var RangePicker = _antd.DatePicker.RangePicker;
-var TextArea = _antd.Input.TextArea;
-var CheckboxGroup = _antd.Checkbox.Group;
+import React from 'react';
+import moment from 'moment';
+import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
+import { formItemLayout as layout, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
+import OriginSearch from './OriginSearch';
+import FileUpload from './FileUpload';
+var FormItem = Form.Item;
+var Option = Select.Option;
+var RadioGroup = Radio.Group;
+var RangePicker = DatePicker.RangePicker;
+var TextArea = Input.TextArea;
+var CheckboxGroup = Checkbox.Group;
 
 var defaultAction = function defaultAction() {};
 
@@ -35,7 +20,7 @@ var isUndefind = function isUndefind(value, defaultValue) {
 };
 
 var handleDisabledDate = function handleDisabledDate(currentDate) {
-  return currentDate && currentDate > (0, _moment.default)().endOf('day');
+  return currentDate && currentDate > moment().endOf('day');
 };
 /**
  * @param string formItemLayout         : 表单项整体样式定义
@@ -58,9 +43,9 @@ var handleDisabledDate = function handleDisabledDate(currentDate) {
 */
 
 
-function _default(_ref) {
+export default function (_ref) {
   var _ref$formItemLayout = _ref.formItemLayout,
-      formItemLayout = _ref$formItemLayout === void 0 ? _utils.formItemLayout : _ref$formItemLayout,
+      formItemLayout = _ref$formItemLayout === void 0 ? layout : _ref$formItemLayout,
       getFieldDecorator = _ref.getFieldDecorator,
       require = _ref.require;
   return function FormRender(props) {
@@ -101,7 +86,7 @@ function _default(_ref) {
           pattern: /^\S.*\S$|^\S$/,
           message: '首尾不能含有空字符'
         }].concat(rules);
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -109,7 +94,7 @@ function _default(_ref) {
         }), getFieldDecorator(key, {
           initialValue: data[key],
           rules: patternRules
-        })(_react.default.createElement(_antd.Input, {
+        })(React.createElement(Input, {
           type: "text",
           maxLength: maxLength,
           onChange: props.onChange || onChange,
@@ -128,7 +113,7 @@ function _default(_ref) {
             precision = _field$precision === void 0 ? 0 : _field$precision,
             _field$step = field.step,
             step = _field$step === void 0 ? 1 : _field$step;
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -139,7 +124,7 @@ function _default(_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(_react.default.createElement(_antd.InputNumber, {
+        })(React.createElement(InputNumber, {
           max: max,
           min: min,
           step: step,
@@ -160,7 +145,7 @@ function _default(_ref) {
             minRows = _field$minRows === void 0 ? 2 : _field$minRows,
             _field$maxRows = field.maxRows,
             maxRows = _field$maxRows === void 0 ? 6 : _field$maxRows;
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -171,7 +156,7 @@ function _default(_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(_react.default.createElement(TextArea, {
+        })(React.createElement(TextArea, {
           type: "text",
           maxLength: maxLength || 300,
           placeholder: placeholder || "\u8BF7\u8F93\u5165".concat(name),
@@ -190,7 +175,7 @@ function _default(_ref) {
         var service = field.service,
             searchKey = field.searchKey,
             onSelect = field.onSelect;
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -201,7 +186,7 @@ function _default(_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(_react.default.createElement(_OriginSearch.default, {
+        })(React.createElement(OriginSearch, {
           disabled: disable && disable(data),
           style: {
             width: '100%',
@@ -221,7 +206,7 @@ function _default(_ref) {
             relatedKey = field.relatedKey,
             _field$enums = field.enums,
             enums = _field$enums === void 0 ? [] : _field$enums;
-        content = (!related || typeof data[relatedKey] !== 'undefined') && _react.default.createElement(FormItem, _extends({
+        content = (!related || typeof data[relatedKey] !== 'undefined') && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -230,7 +215,7 @@ function _default(_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(_react.default.createElement(_antd.Select, {
+        })(React.createElement(Select, {
           style: {
             width: '100%'
           },
@@ -241,7 +226,7 @@ function _default(_ref) {
         }, (props.enums || enums).map(function (_ref2) {
           var value = _ref2.value,
               label = _ref2.label;
-          return _react.default.createElement(Option, {
+          return React.createElement(Option, {
             key: value,
             value: value
           }, label);
@@ -255,7 +240,7 @@ function _default(_ref) {
             options = _field$enums2 === void 0 ? [] : _field$enums2,
             _field$onChange2 = field.onChange,
             change = _field$onChange2 === void 0 ? function () {} : _field$onChange2;
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -264,7 +249,7 @@ function _default(_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(_react.default.createElement(RadioGroup, {
+        })(React.createElement(RadioGroup, {
           options: props.enums || options,
           disabled: disable && disable(data),
           onSelect: props.onChange || onChange
@@ -276,7 +261,7 @@ function _default(_ref) {
         // eslint-disable-next-line
         var _field$enums3 = field.enums,
             groups = _field$enums3 === void 0 ? [] : _field$enums3;
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -285,7 +270,7 @@ function _default(_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(_react.default.createElement(CheckboxGroup, {
+        })(React.createElement(CheckboxGroup, {
           options: props.enums || groups,
           disabled: disable && disable(data),
           onChange: props.onChange || onChange
@@ -293,18 +278,18 @@ function _default(_ref) {
         break;
 
       case 'datePicker':
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
-          initialValue: data[key] && (0, _moment.default)(data[key]),
+          initialValue: data[key] && moment(data[key]),
           rules: [{
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(_react.default.createElement(_antd.DatePicker, {
+        })(React.createElement(DatePicker, {
           showTime: field.showTime || false,
-          format: format || _utils.DATE_FORMAT,
+          format: format || DATE_FORMAT,
           placeholder: placeholder || '请选择',
           disabled: disable && disable(data)
         })));
@@ -325,8 +310,8 @@ function _default(_ref) {
 
         var endDate = data[endKey]; // eslint-disable-next-line
 
-        var rangeDate = beginDate && endDate ? [(0, _moment.default)(beginDate), (0, _moment.default)(endDate)] : [];
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        var rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(rangeKey, {
@@ -335,14 +320,14 @@ function _default(_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(_react.default.createElement(RangePicker, {
+        })(React.createElement(RangePicker, {
           style: {
             width: '100%'
           },
           allowClear: allowClear,
           showTime: showTime,
           className: "search-range-picker",
-          format: format || (showTime ? _utils.DATE_TIME_FORMAT : _utils.DATE_FORMAT),
+          format: format || (showTime ? DATE_TIME_FORMAT : DATE_FORMAT),
           disabledDate: disabledDate ? function (currentDate) {
             return handleDisabledDate(currentDate);
           } : undefined
@@ -351,7 +336,7 @@ function _default(_ref) {
 
       case 'image':
       case 'imageUpload':
-        content = (props.isEnable || isEnable) && _react.default.createElement(FormItem, _extends({
+        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
           className: "image-upload",
           key: key,
           label: name
@@ -361,7 +346,7 @@ function _default(_ref) {
             required: props.required || required,
             message: placeholder || "\u8BF7\u4E0A\u4F20".concat(name)
           }]
-        })(_react.default.createElement(_FileUpload.default, {
+        })(React.createElement(FileUpload, {
           info: field.info,
           simple: field.psimple,
           key: key,
