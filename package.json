@@ -7,8 +7,8 @@
   "module": "es/index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "lib": "gulp",
-    "es": "gulp esModule",
+    "lib": "gulp lib",
+    "es": "gulp es",
     "prepublish": "gulp esModule && gulp && webpack --config webpack.config.js"
   },
   "repository": {
