@@ -9,7 +9,7 @@
     "build": "webpack --config webpack.config.js",
     "lib": "gulp lib",
     "es": "gulp es",
-    "prepublish": "gulp esModule && gulp && webpack --config webpack.config.js"
+    "prepublish": "gulp && webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
