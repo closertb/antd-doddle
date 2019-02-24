@@ -315,6 +315,7 @@ export default class ExampleTable extends React.Component {
 | loading | 加载标示 | 否 | object | --： 其中含一个list属性的bool值
 | rowKey | 主键名 | 否 | string | id
 | footer | 总条数自定义显示 | 否 | fun | t => `共 ${t} 条`
+| pageName | 页码属性名 | 否 | string | pageNo: 除了pageNo，还对pageNum做了兼容
 | noPage | 是否显示分页 | 否 | bool | false
 | ... | table其他可设置属性 | 否 | -- | --
 ### RenderDetail：详情渲染组件 ###

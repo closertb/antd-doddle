@@ -25,7 +25,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 import React from 'react';
 import { Input, AutoComplete, Spin, Icon } from 'antd';
 import { throttle, isEmpty } from '../utils';
-import sty from './index.less';
+import './index.less';
 var Option = AutoComplete.Option;
 var DefaultOption = React.createElement(Option, {
   key: "empty",
@@ -222,7 +222,7 @@ function (_React$Component) {
         onClick: this.handleOpenSearch
       };
       return React.createElement("div", {
-        className: sty.OriginSearch,
+        className: "ffe-origin-search",
         style: style // eslint-disable-next-line
         ,
         ref: function ref(el) {

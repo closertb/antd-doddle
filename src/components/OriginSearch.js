@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, AutoComplete, Spin, Icon } from 'antd';
 import { throttle, isEmpty } from '../utils';
-import sty from './index.less';
+import './index.less';
 
 const { Option } = AutoComplete;
 const DefaultOption = <Option key="empty" disabled>暂无可匹配的搜索结果</Option>;
@@ -117,7 +117,7 @@ export default class HInputSearch extends React.Component {
     };
     return (
       <div
-        className={sty.OriginSearch}
+        className="ffe-origin-search"
         style={style}
         // eslint-disable-next-line
         ref={el => this.searchInputElement = el}
