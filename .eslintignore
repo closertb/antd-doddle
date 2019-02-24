@@ -1,3 +1,4 @@
 .eslintignore
 lib/*
+es/*
 dist/*

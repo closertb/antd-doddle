@@ -11,18 +11,18 @@
     "es": "gulp es",
     "prepublish": "gulp && webpack --config webpack.config.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/closertb/antd-doddle.git"
-  },
-  "keywords": [],
-  "author": "denzelt",
   "files": [
     "es",
     "dist",
     "lib",
     "utils"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/closertb/antd-doddle.git"
+  },
+  "keywords": [],
+  "author": "denzelt",
   "dependencies": {
     "antd": "^3.12.4",
     "bind-decorator": "^1.0.11",

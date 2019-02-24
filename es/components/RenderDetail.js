@@ -19,7 +19,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 import React from 'react';
 import moment from 'moment';
 import { getEnumObject, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
-import style from './index.less';
+import './index.less';
 /**
  * 作用: 详情信息表单的渲染
  * @params: fields 渲染表单的属性对象
@@ -74,6 +74,13 @@ export function renderBaseFields(fields) {
     }, value));
   });
 }
+/**
+ * 定义：详情显示组件；
+ * @params: fields       栏目字段定义
+ * @params: detail       栏目详情
+ * @params: fieldsName   栏目名称
+ * @params: children     自定义render
+ */
 
 var RecordDetail =
 /*#__PURE__*/
@@ -97,14 +104,15 @@ function (_React$Component) {
           fields = _this$props.fields,
           _this$props$detail = _this$props.detail,
           detail = _this$props$detail === void 0 ? {} : _this$props$detail,
-          fieldsName = _this$props.fieldsName;
+          fieldsName = _this$props.fieldsName,
+          children = _this$props.children;
       return React.createElement("div", {
-        className: style.RenderDetail
+        className: "ffe-render-detail"
       }, React.createElement("h3", {
         className: "title"
       }, fieldsName), React.createElement("div", {
         className: "showInfo-content"
-      }, renderBaseFields(fields, detail)));
+      }, children ? children(renderBaseFields) : renderBaseFields(fields, detail)));
     }
   }]);
 

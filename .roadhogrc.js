@@ -10,11 +10,6 @@ export default {
       commonjs2: 'react',
         amd: 'react',
     },
-    'react-dom': {
-      commonjs: 'react-dom',
-      commonjs2: 'react-dom',
-      amd: 'react-dom',
-    },
     antd: {
       commonjs: 'antd',
       commonjs2: 'antd',

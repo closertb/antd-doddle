@@ -30,6 +30,7 @@ var handleDisabledDate = function handleDisabledDate(currentDate) {
  * @param string type         : 表单项类型
  * @param string key          : 表单项主键
  * @param string name         : 表单项名称
+ * @param string style        : 表单项样式
  * @param string required     : 表单项是否必填
  * @param string allowClear   : 表单项是否允许清除
  * @param string placeholder  : 表单项说明文字
@@ -56,6 +57,10 @@ export default function (_ref) {
         type = _field$type === void 0 ? 'input' : _field$type,
         key = field.key,
         name = field.name,
+        _field$style = field.style,
+        style = _field$style === void 0 ? {
+      width: '100%'
+    } : _field$style,
         _field$required = field.required,
         required = _field$required === void 0 ? require || false : _field$required,
         _field$allowClear = field.allowClear,
@@ -86,7 +91,7 @@ export default function (_ref) {
           pattern: /^\S.*\S$|^\S$/,
           message: '首尾不能含有空字符'
         }].concat(rules);
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -96,6 +101,7 @@ export default function (_ref) {
           rules: patternRules
         })(React.createElement(Input, {
           type: "text",
+          style: style,
           maxLength: maxLength,
           onChange: props.onChange || onChange,
           placeholder: placeholder || "\u8BF7\u8F93\u5165".concat(name),
@@ -113,7 +119,7 @@ export default function (_ref) {
             precision = _field$precision === void 0 ? 0 : _field$precision,
             _field$step = field.step,
             step = _field$step === void 0 ? 1 : _field$step;
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -129,9 +135,7 @@ export default function (_ref) {
           min: min,
           step: step,
           precision: precision,
-          style: {
-            width: '100%'
-          },
+          style: style,
           placeholder: placeholder || "\u8BF7\u8F93\u5165".concat(name),
           onChange: props.onChange || onChange,
           disabled: disable && disable(data)
@@ -145,7 +149,7 @@ export default function (_ref) {
             minRows = _field$minRows === void 0 ? 2 : _field$minRows,
             _field$maxRows = field.maxRows,
             maxRows = _field$maxRows === void 0 ? 6 : _field$maxRows;
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -158,6 +162,7 @@ export default function (_ref) {
           }].concat(rules)
         })(React.createElement(TextArea, {
           type: "text",
+          style: style,
           maxLength: maxLength || 300,
           placeholder: placeholder || "\u8BF7\u8F93\u5165".concat(name),
           autosize: {
@@ -175,7 +180,7 @@ export default function (_ref) {
         var service = field.service,
             searchKey = field.searchKey,
             onSelect = field.onSelect;
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -193,7 +198,7 @@ export default function (_ref) {
             height: 32
           },
           searchKey: searchKey,
-          onSelect: props.onChange || onSelect,
+          onSelect: props.onSelect || onSelect,
           format: format,
           fetchData: service
         })));
@@ -216,9 +221,7 @@ export default function (_ref) {
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
         })(React.createElement(Select, {
-          style: {
-            width: '100%'
-          },
+          style: style,
           placeholder: placeholder || '不限',
           allowClear: allowClear,
           disabled: disable && disable(data),
@@ -240,7 +243,7 @@ export default function (_ref) {
             options = _field$enums2 === void 0 ? [] : _field$enums2,
             _field$onChange2 = field.onChange,
             change = _field$onChange2 === void 0 ? function () {} : _field$onChange2;
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -261,7 +264,7 @@ export default function (_ref) {
         // eslint-disable-next-line
         var _field$enums3 = field.enums,
             groups = _field$enums3 === void 0 ? [] : _field$enums3;
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -278,7 +281,7 @@ export default function (_ref) {
         break;
 
       case 'datePicker':
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -288,8 +291,10 @@ export default function (_ref) {
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
         })(React.createElement(DatePicker, {
+          style: style,
           showTime: field.showTime || false,
           format: format || DATE_FORMAT,
+          onChange: props.onChange || onChange,
           placeholder: placeholder || '请选择',
           disabled: disable && disable(data)
         })));
@@ -311,7 +316,7 @@ export default function (_ref) {
         var endDate = data[endKey]; // eslint-disable-next-line
 
         var rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(rangeKey, {
@@ -321,12 +326,11 @@ export default function (_ref) {
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
         })(React.createElement(RangePicker, {
-          style: {
-            width: '100%'
-          },
+          style: style,
           allowClear: allowClear,
           showTime: showTime,
           className: "search-range-picker",
+          onChange: props.onChange || onChange,
           format: format || (showTime ? DATE_TIME_FORMAT : DATE_FORMAT),
           disabledDate: disabledDate ? function (currentDate) {
             return handleDisabledDate(currentDate);
@@ -336,9 +340,9 @@ export default function (_ref) {
 
       case 'image':
       case 'imageUpload':
-        content = (props.isEnable || isEnable) && React.createElement(FormItem, _extends({
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           className: "image-upload",
-          key: key,
+          key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
           initialValue: data[key],
@@ -348,6 +352,8 @@ export default function (_ref) {
           }]
         })(React.createElement(FileUpload, {
           info: field.info,
+          url: props.url,
+          name: name,
           simple: field.psimple,
           key: key,
           listType: field.listType,
@@ -360,7 +366,10 @@ export default function (_ref) {
         break;
 
       case 'render':
-        content = field.rander(getFieldDecorator, data);
+        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+          key: specialKey || key,
+          label: name
+        }, formItemLayout), props.children);
         break;
 
       default:

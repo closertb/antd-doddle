@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Upload, Icon, Button } from 'antd';
-import style from './index.less';
+import './index.less';
 
 const kb = 1024 * 1024;
 function getBase64(img, callback) {
@@ -8,6 +8,8 @@ function getBase64(img, callback) {
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
 }
+const getNameFromUrl = imgUrl => imgUrl.match(/[0-9,a-z,.]{9,}(?=\?)/)[0];
+
 
 function showInfoModal(content) {
   Modal.info({
@@ -31,14 +33,39 @@ const uploadButton = (type = 'picture-card') => type === 'picture-card' ? (
 export default class FileUpload extends React.Component {
   constructor(props) {
     super(props);
+    const { url, name, value } = props;
     this.state = {
+      initUrl: url,
       imageUrl: '',
-      ids: [],
+      ids: url ? [value] : [],
       previewVisible: false,
-      fileList: []
+      fileList: url ? [{
+        uid: value,
+        name,
+        status: 'done',
+        specialId: value,
+        url,
+      }] : []
     };
   }
-
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // 用于组件初始化时没有接收到原始url，且下一周期原始url更新；
+    if (!prevState.initUrl && nextProps.url) {
+      const { url, name, value } = nextProps;
+      return {
+        initUrl: url,
+        ids: [value],
+        fileList: [{
+          uid: value,
+          name: name || getNameFromUrl(url),
+          status: 'done',
+          url,
+          specialId: value,
+        }]
+      };
+    }
+    return null;
+  }
   beforeUpload = (file) => {
     const { listType = 'picture-card', reg = /(jpe?g|JPE?G|png|PNG)$/,
       tips = '请选择jpg,png类型的图片格式', fileSize: size = 5 } = this.props;
@@ -108,12 +135,18 @@ export default class FileUpload extends React.Component {
   };
 
   handleRemove = (file) => {
-    if (!file.response || !file.response.content) {
-      return true;
-    }
     const { ids } = this.state;
-    const { storeId } = file.response.content;
-    const index = ids.indexOf(storeId);
+    let index;
+    // 回显的图片的删除逻辑
+    if (file.specialId) {
+      index = ids.indexOf(file.uid);
+    } else if (!file.response || !file.response.content) {
+      // 上传中图片的删除逻辑
+      return true;
+    } else {
+      const { storeId } = file.response.content;
+      index = ids.indexOf(storeId);
+    }
     if (index === -1) {
       return true;
     }
@@ -131,7 +164,7 @@ export default class FileUpload extends React.Component {
     const child = children || uploadButton(listType);
     const { imageUrl, fileList, previewVisible } = this.state;
     return (
-      <div className={style.ImageUpload}>
+      <div className="ffe-image-upload">
         <div className={fileList.length ? 'imgArea has-child' : 'imgArea'}>
           <Upload
             listType={listType}

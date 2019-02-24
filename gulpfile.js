@@ -23,11 +23,7 @@ gulp.task('lessToEs', () => {
   return gulp.src('./src/**/*.less')
     .pipe(gulp.dest('./es'));
 });
-// babel 打包es模块
-gulp.task('lib', gulp.series('clean', () => {
-  return gulp.src('./src/**/*.js')
-    .pipe(gulp.dest('./lib'));
-}, 'lessToLib'));
+
 
 // babel 打包成支持es6模块的语法
 // 配置modules: false，保留es6模块化语法

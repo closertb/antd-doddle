@@ -20,7 +20,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 import React from 'react';
 import { Modal, Upload, Icon, Button } from 'antd';
-import style from './index.less';
+import './index.less';
 var kb = 1024 * 1024;
 
 function getBase64(img, callback) {
@@ -30,6 +30,10 @@ function getBase64(img, callback) {
   });
   reader.readAsDataURL(img);
 }
+
+var getNameFromUrl = function getNameFromUrl(imgUrl) {
+  return imgUrl.match(/[0-9,a-z,.]{9,}(?=\?)/)[0];
+};
 
 function showInfoModal(content) {
   Modal.info({
@@ -173,13 +177,18 @@ function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleRemove", function (file) {
-      if (!file.response || !file.response.content) {
-        return true;
-      }
-
       var ids = _this.state.ids;
-      var storeId = file.response.content.storeId;
-      var index = ids.indexOf(storeId);
+      var index; // 回显的图片的删除逻辑
+
+      if (file.specialId) {
+        index = ids.indexOf(file.uid);
+      } else if (!file.response || !file.response.content) {
+        // 上传中图片的删除逻辑
+        return true;
+      } else {
+        var storeId = file.response.content.storeId;
+        index = ids.indexOf(storeId);
+      }
 
       if (index === -1) {
         return true;
@@ -196,11 +205,21 @@ function (_React$Component) {
       return true;
     });
 
+    var _url = props.url,
+        name = props.name,
+        value = props.value;
     _this.state = {
+      initUrl: _url,
       imageUrl: '',
-      ids: [],
+      ids: _url ? [value] : [],
       previewVisible: false,
-      fileList: []
+      fileList: _url ? [{
+        uid: value,
+        name: name,
+        status: 'done',
+        specialId: value,
+        url: _url
+      }] : []
     };
     return _this;
   }
@@ -223,7 +242,7 @@ function (_React$Component) {
           fileList = _this$state.fileList,
           previewVisible = _this$state.previewVisible;
       return React.createElement("div", {
-        className: style.ImageUpload
+        className: "ffe-image-upload"
       }, React.createElement("div", {
         className: fileList.length ? 'imgArea has-child' : 'imgArea'
       }, React.createElement(Upload, {
@@ -255,6 +274,29 @@ function (_React$Component) {
         },
         src: imageUrl
       })));
+    }
+  }], [{
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      // 用于组件初始化时没有接收到原始url，且下一周期原始url更新；
+      if (!prevState.initUrl && nextProps.url) {
+        var url = nextProps.url,
+            name = nextProps.name,
+            value = nextProps.value;
+        return {
+          initUrl: url,
+          ids: [value],
+          fileList: [{
+            uid: value,
+            name: name || getNameFromUrl(url),
+            status: 'done',
+            url: url,
+            specialId: value
+          }]
+        };
+      }
+
+      return null;
     }
   }]);
 

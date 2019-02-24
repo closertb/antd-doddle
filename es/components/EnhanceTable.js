@@ -1,6 +1,12 @@
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -61,31 +67,38 @@ function (_React$Component) {
           actions = _this$props$actions === void 0 ? {} : _this$props$actions,
           _this$props$rowKey = _this$props.rowKey,
           rowKey = _this$props$rowKey === void 0 ? 'id' : _this$props$rowKey,
-          _this$props$scrollPro = _this$props.scrollProp,
-          scrollProp = _this$props$scrollPro === void 0 ? {} : _this$props$scrollPro,
+          footer = _this$props.footer,
           _this$props$noPage = _this$props.noPage,
-          noPage = _this$props$noPage === void 0 ? false : _this$props$noPage;
+          noPage = _this$props$noPage === void 0 ? false : _this$props$noPage,
+          _this$props$pageName = _this$props.pageName,
+          pageName = _this$props$pageName === void 0 ? 'pageNo' : _this$props$pageName,
+          others = _objectWithoutProperties(_this$props, ["fields", "search", "datas", "total", "loading", "actions", "rowKey", "footer", "noPage", "pageName"]);
+
       var columns = this.getInitalColumns(fields);
+      var page = search.pageNum ? 'pageNum' : pageName;
       var pagination = noPage ? false : {
         total: total,
-        current: search.pageNo || search.pageNum,
+        current: search[page],
         pageSize: search.pageCount || search.pageSize,
-        onChange: function onChange(page) {
-          return actions.onSearch(_defineProperty({}, search.pageNo ? 'pageNo' : 'pageNum', page));
+        onChange: function onChange(pn) {
+          return actions.onSearch(_defineProperty({}, page, pn));
         },
         showTotal: function showTotal(t) {
-          return "\u5171 ".concat(t, " \u6761");
+          return footer ? footer(_objectSpread({
+            total: total
+          }, search)) : "\u5171 ".concat(t, " \u6761");
         }
       };
-      var tableProps = {
+
+      var tableProps = _objectSpread({
         columns: columns,
         pagination: pagination,
         bordered: true,
         dataSource: datas,
         loading: loading.list,
-        rowKey: rowKey,
-        scroll: scrollProp
-      };
+        rowKey: rowKey
+      }, others);
+
       return React.createElement("div", {
         style: {
           marginTop: 20
