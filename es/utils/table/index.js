@@ -1,14 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _fieldTypes = _interopRequireWildcard(require("./fieldTypes"));
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -17,16 +6,19 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
+// 该文件来源于carno/addons
+import fieldTypes, { combineTypes } from './fieldTypes';
 /*
  * 获取column中显示的filedValue
  */
 
 /*eslint-disable*/
+
 function getFieldValue(value) {
   var field = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var type = field.type || field.enums && 'enum';
-  type = _fieldTypes.default.hasOwnProperty(type) ? type : 'normal';
-  return _fieldTypes.default[type](value, field);
+  type = fieldTypes.hasOwnProperty(type) ? type : 'normal';
+  return fieldTypes[type](value, field);
 }
 /*
  * 获取表格column数组
@@ -161,9 +153,8 @@ function createColumns(fields, fieldKeys, extraFields) {
   });
 }
 
-var _default = {
-  combineTypes: _fieldTypes.combineTypes,
+export default {
+  combineTypes: combineTypes,
   getFieldValue: getFieldValue,
   createColumns: createColumns
 };
-exports.default = _default;

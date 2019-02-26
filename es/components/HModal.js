@@ -1,16 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _antd = require("antd");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -33,6 +20,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+import React from 'react';
+import { Modal } from 'antd';
 /**
  * 模态框组件
  *
@@ -40,6 +29,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
  * @props form 如果配置了form属性，则onOk属性会传递values,且只有在form validate success之后，才触发cancel逻辑
  * @props {...modalProps} 参考antd 模态框组件
  */
+
 var HModal =
 /*#__PURE__*/
 function (_React$Component) {
@@ -156,11 +146,11 @@ function (_React$Component) {
         onCancel: this.handleCancel
       });
 
-      return _react.default.createElement("div", null, this.state.visible && _react.default.createElement(_antd.Modal, modalProps, this.props.children));
+      return React.createElement("div", null, this.state.visible && React.createElement(Modal, modalProps, this.props.children));
     }
   }]);
 
   return HModal;
-}(_react.default.Component);
+}(React.Component);
 
-exports.default = HModal;
+export { HModal as default };

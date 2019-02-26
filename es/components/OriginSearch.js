@@ -1,22 +1,32 @@
-import "antd/lib/spin/style";
-import _Spin from "antd/lib/spin";
-import "antd/lib/icon/style";
-import _Icon from "antd/lib/icon";
-import "antd/lib/input/style";
-import _Input from "antd/lib/input";
-import _objectSpread from "D:\\Company Progects\\ffe-basic\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\runtime/helpers/esm/objectSpread";
-import _classCallCheck from "D:\\Company Progects\\ffe-basic\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\runtime/helpers/esm/classCallCheck";
-import _createClass from "D:\\Company Progects\\ffe-basic\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\runtime/helpers/esm/createClass";
-import _possibleConstructorReturn from "D:\\Company Progects\\ffe-basic\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\runtime/helpers/esm/possibleConstructorReturn";
-import _getPrototypeOf from "D:\\Company Progects\\ffe-basic\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\runtime/helpers/esm/getPrototypeOf";
-import _inherits from "D:\\Company Progects\\ffe-basic\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\runtime/helpers/esm/inherits";
-import _assertThisInitialized from "D:\\Company Progects\\ffe-basic\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\runtime/helpers/esm/assertThisInitialized";
-import "antd/lib/auto-complete/style";
-import _AutoComplete from "antd/lib/auto-complete";
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 import React from 'react';
-import { throttle, isEmpty } from '../../utils';
+import { Input, AutoComplete, Spin, Icon } from 'antd';
+import { throttle, isEmpty } from '../utils';
 import './index.less';
-var Option = _AutoComplete.Option;
+var Option = AutoComplete.Option;
 var DefaultOption = React.createElement(Option, {
   key: "empty",
   disabled: true
@@ -75,22 +85,6 @@ function (_React$Component) {
       }
     }
   }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps, prevState) {
-      var isShowSearch = this.state.isShowSearch;
-      var bodyNode = document.querySelector('body');
-
-      if (isShowSearch !== prevState.isShowSearch) {
-        // 状态切换的时候才改变状态
-        if (isShowSearch) {
-          document.querySelector('.js-origin-search .ant-select-search__field').focus();
-          bodyNode.addEventListener('click', this.handleChangeVisible);
-        } else {
-          bodyNode.removeEventListener('click', this.handleChangeVisible);
-        }
-      }
-    }
-  }, {
     key: "handleChangeVisible",
     value: function handleChangeVisible(event) {
       var isShowSearch = this.state.isShowSearch; // eslint-disable-next-line
@@ -121,10 +115,7 @@ function (_React$Component) {
         options: null
       }); // 获取数据，并格式化数据
 
-      fetchData(params).then(function (_ref) {
-        var _ref$list = _ref.list,
-            list = _ref$list === void 0 ? [] : _ref$list;
-
+      fetchData(params).then(function (list) {
         if (fetchId !== _this2.lastFethId) {
           // 异步程序，保证回调是按顺序进行
           return;
@@ -136,9 +127,9 @@ function (_React$Component) {
           options = [DefaultOption];
         } else {
           // 用户自定义数据格式转换；
-          options = format(list).map(function (_ref2, key) {
-            var label = _ref2.label,
-                value = _ref2.value;
+          options = format(list).map(function (_ref, key) {
+            var label = _ref.label,
+                value = _ref.value;
             return React.createElement(Option, {
               key: key,
               value: String(value)
@@ -192,9 +183,8 @@ function (_React$Component) {
           searchKey = _this$props$searchKey === void 0 ? 'keyword' : _this$props$searchKey;
       var search = this.state.search;
 
-      var res = _objectSpread({}, search);
+      var res = _objectSpread({}, search, _defineProperty({}, searchKey, value));
 
-      res[searchKey] = value;
       value && this.lazyLoad(res);
     }
   }, {
@@ -232,14 +222,14 @@ function (_React$Component) {
         onClick: this.handleOpenSearch
       };
       return React.createElement("div", {
-        className: "originSearch",
+        className: "ffe-origin-search",
         style: style // eslint-disable-next-line
         ,
         ref: function ref(el) {
           return _this3.searchInputElement = el;
         }
-      }, React.createElement(_Input, Object.assign({
-        // eslint-disable-next-line
+      }, React.createElement(Input // eslint-disable-next-line
+      , _extends({
         disabled: disabled,
         ref: function ref(e) {
           return _this3.searchInput = e;
@@ -253,14 +243,16 @@ function (_React$Component) {
         size: size
       }, inputProps)), isShowSearch && React.createElement("div", {
         className: "js-origin-search origin-search"
-      }, React.createElement(_Icon, {
+      }, React.createElement(Icon, {
         type: "search",
         className: "origin-search-icon"
-      }), React.createElement(_AutoComplete, {
+      }), React.createElement(AutoComplete, {
+        autoFocus: true,
         className: "certain-category-search",
         dropdownClassName: "certain-category-search-dropdown",
         dropdownMatchSelectWidth: true,
         size: size,
+        onBlur: this.handleCloseSearch,
         onSearch: this.handleChange,
         onSelect: this.handleSelect,
         style: {
@@ -270,7 +262,7 @@ function (_React$Component) {
       }, loading ? [React.createElement(Option, {
         key: "loading",
         disabled: true
-      }, React.createElement(_Spin, {
+      }, React.createElement(Spin, {
         spinning: loading,
         style: {
           paddingLeft: '45%',

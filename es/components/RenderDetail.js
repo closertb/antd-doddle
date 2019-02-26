@@ -1,21 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.renderBaseFields = renderBaseFields;
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _moment = _interopRequireDefault(require("moment"));
-
-var _utils = require("../utils");
-
-require("./index.less");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34,13 +16,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+import React from 'react';
+import moment from 'moment';
+import { getEnumObject, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
+import './index.less';
 /**
  * 作用: 详情信息表单的渲染
  * @params: fields 渲染表单的属性对象
  * @params: props  渲染表单的值对象
  * @return：返回值是一个Dom树组
  */
-function renderBaseFields(fields) {
+
+export function renderBaseFields(fields) {
   var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return fields.map(function (_ref, index) {
     var name = _ref.name,
@@ -52,17 +39,17 @@ function renderBaseFields(fields) {
     var value = props[key];
 
     if (type === 'date') {
-      value = value && (0, _moment.default)(value).format(_utils.DATE_FORMAT);
+      value = value && moment(value).format(DATE_FORMAT);
     }
 
     if (type === 'datetime') {
-      value = value && (0, _moment.default)(value).format(_utils.DATE_TIME_FORMAT);
+      value = value && moment(value).format(DATE_TIME_FORMAT);
       !value && (value = '-:-:-');
     } // 处理枚举
 
 
     if (enums && enums.length > 0) {
-      value = (0, _utils.getEnumObject)(enums, props[key]).label;
+      value = getEnumObject(enums, props[key]).label;
     } // 处理render 函数
 
 
@@ -77,12 +64,12 @@ function renderBaseFields(fields) {
 
 
     (value === undefined || value === '') && (value = '--');
-    return _react.default.createElement("div", {
+    return React.createElement("div", {
       className: "showInfo-item",
       key: index
-    }, _react.default.createElement("span", {
+    }, React.createElement("span", {
       className: "showInfo-label"
-    }, name), _react.default.createElement("span", {
+    }, name), React.createElement("span", {
       className: "showInfo-value"
     }, value));
   });
@@ -94,7 +81,6 @@ function renderBaseFields(fields) {
  * @params: fieldsName   栏目名称
  * @params: children     自定义render
  */
-
 
 var RecordDetail =
 /*#__PURE__*/
@@ -120,17 +106,17 @@ function (_React$Component) {
           detail = _this$props$detail === void 0 ? {} : _this$props$detail,
           fieldsName = _this$props.fieldsName,
           children = _this$props.children;
-      return _react.default.createElement("div", {
+      return React.createElement("div", {
         className: "ffe-render-detail"
-      }, _react.default.createElement("h3", {
+      }, React.createElement("h3", {
         className: "title"
-      }, fieldsName), _react.default.createElement("div", {
+      }, fieldsName), React.createElement("div", {
         className: "showInfo-content"
       }, children ? children(renderBaseFields) : renderBaseFields(fields, detail)));
     }
   }]);
 
   return RecordDetail;
-}(_react.default.Component);
+}(React.Component);
 
-exports.default = RecordDetail;
+export { RecordDetail as default };

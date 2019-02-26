@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, AutoComplete, Spin, Icon } from 'antd';
 import { throttle, isEmpty } from '../utils';
-import sty from './index.less';
+import './index.less';
 
 const { Option } = AutoComplete;
 const DefaultOption = <Option key="empty" disabled>暂无可匹配的搜索结果</Option>;
@@ -43,18 +43,6 @@ export default class HInputSearch extends React.Component {
       this.setState({ value: nextProps.value });
     }
   }
-  componentDidUpdate(prevProps, prevState) {
-    const { isShowSearch } = this.state;
-    const bodyNode = document.querySelector('body');
-    if (isShowSearch !== prevState.isShowSearch) { // 状态切换的时候才改变状态
-      if (isShowSearch) {
-        document.querySelector('.js-origin-search .ant-select-search__field').focus();
-        bodyNode.addEventListener('click', this.handleChangeVisible);
-      } else {
-        bodyNode.removeEventListener('click', this.handleChangeVisible);
-      }
-    }
-  }
   handleChangeVisible(event) {
     const { isShowSearch } = this.state;
     // eslint-disable-next-line
@@ -76,7 +64,7 @@ export default class HInputSearch extends React.Component {
     // 设置loading状态，清空option
     this.setState({ loading: true, options: null });
     // 获取数据，并格式化数据
-    fetchData(params).then(({ list = [] }) => {
+    fetchData(params).then((list) => {
       if (fetchId !== this.lastFethId) { // 异步程序，保证回调是按顺序进行
         return;
       }
@@ -113,8 +101,7 @@ export default class HInputSearch extends React.Component {
   handleChange(value) {
     const { searchKey = 'keyword' } = this.props;
     const { search } = this.state;
-    const res = { ...search };
-    res[searchKey] = value;
+    const res = { ...search, [searchKey]: value };
     value && this.lazyLoad(res);
   }
   triggerChange(value) {
@@ -130,7 +117,7 @@ export default class HInputSearch extends React.Component {
     };
     return (
       <div
-        className={sty.OriginSearch}
+        className="ffe-origin-search"
         style={style}
         // eslint-disable-next-line
         ref={el => this.searchInputElement = el}
@@ -151,10 +138,12 @@ export default class HInputSearch extends React.Component {
           <div className="js-origin-search origin-search">
             <Icon type="search" className="origin-search-icon" />
             <AutoComplete
+              autoFocus
               className="certain-category-search"
               dropdownClassName="certain-category-search-dropdown"
               dropdownMatchSelectWidth
               size={size}
+              onBlur={this.handleCloseSearch}
               onSearch={this.handleChange}
               onSelect={this.handleSelect}
               style={{ width: '100%' }}

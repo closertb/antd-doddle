@@ -43,11 +43,10 @@ class WithSearch extends React.Component {
   render() {
     const { children, actions, form, search } = this.props;
     const childrenProps = {
-      getFormData: this.getFormData,
       search,
       form,
       formItemLayout,
-      getFieldDecorator: form.getFieldDecorator,
+      getFormData: this.getFormData,
       formRender: this.formRender,
       onSearch: this.handleSearch,
       actions,

@@ -74,7 +74,7 @@ export default class DaynamicForm extends React.Component {
   trigger(res) {
     const { onChange } = this.props;
     // 虽说Res的值已经用this.setState更新过，但方法是异步的，所以不能直接用this.state
-    onChange(res.filter(e => !e.deleteFlag));
+    onChange && onChange(res.filter(e => !e.deleteFlag));
   }
 
   render() {

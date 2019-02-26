@@ -14,14 +14,15 @@ export default class EnhanceTable extends React.Component {
   }
   render() {
     const { fields, search = {}, datas, total = 0, loading = {}, actions = {},
-      rowKey = 'id', scrollProp = {}, noPage = false } = this.props;
+      rowKey = 'id', footer, noPage = false, pageName = 'pageNo', ...others } = this.props;
     const columns = this.getInitalColumns(fields);
+    const page = search.pageNum ? 'pageNum' : pageName;
     const pagination = noPage ? false : {
       total,
-      current: search.pageNo || search.pageNum,
+      current: search[page],
       pageSize: search.pageCount || search.pageSize,
-      onChange: page => actions.onSearch({ [search.pageNo ? 'pageNo' : 'pageNum']: page }),
-      showTotal: t => `共 ${t} 条`
+      onChange: pn => actions.onSearch({ [page]: pn }),
+      showTotal: t => footer ? footer({ total, ...search }) : `共 ${t} 条`
     };
     const tableProps = {
       columns,
@@ -30,7 +31,7 @@ export default class EnhanceTable extends React.Component {
       dataSource: datas,
       loading: loading.list,
       rowKey,
-      scroll: scrollProp
+      ...others
     };
 
     return (

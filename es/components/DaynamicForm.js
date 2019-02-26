@@ -1,21 +1,4 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _bindDecorator = _interopRequireDefault(require("bind-decorator"));
-
-var _antd = require("antd");
-
-var _index = _interopRequireDefault(require("./index.less"));
-
 var _class, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -53,7 +36,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
 
-// 根据方向，找出指定索引的有效的上一或下一数据项
+import React from 'react';
+import bind from 'bind-decorator';
+import { Button } from 'antd';
+import styles from './index.less'; // 根据方向，找出指定索引的有效的上一或下一数据项
+
 function findValid(arr, index) {
   var dir = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
   var target = index + dir;
@@ -202,12 +189,12 @@ function (_React$Component) {
         return !rule.deleteFlag;
       });
       var length = validDatas.length - 1;
-      return _react.default.createElement("div", {
-        className: _index.default.FullReduction
+      return React.createElement("div", {
+        className: styles.FullReduction
       }, validDatas.map(function (rule, index) {
-        return _react.default.createElement("div", {
+        return React.createElement("div", {
           key: rule.key
-        }, children(rule, actions), index ? _react.default.createElement(_antd.Button, {
+        }, children(rule, actions), index ? React.createElement(Button, {
           style: {
             marginLeft: 10
           },
@@ -217,7 +204,7 @@ function (_React$Component) {
           onClick: function onClick() {
             return _this2.handlMinus(rule.key);
           }
-        }) : _react.default.createElement(_antd.Button, {
+        }) : React.createElement(Button, {
           style: {
             marginLeft: 10
           },
@@ -225,7 +212,7 @@ function (_React$Component) {
           type: "primary",
           shape: "circle",
           icon: "plus"
-        }), canMove && index > 0 && _react.default.createElement(_antd.Button, {
+        }), canMove && index > 0 && React.createElement(Button, {
           style: {
             marginLeft: 10
           },
@@ -233,7 +220,7 @@ function (_React$Component) {
           type: "primary",
           shape: "circle",
           icon: "up"
-        }), canMove && index < length && _react.default.createElement(_antd.Button, {
+        }), canMove && index < length && React.createElement(Button, {
           style: {
             marginLeft: 10
           },
@@ -247,5 +234,5 @@ function (_React$Component) {
   }]);
 
   return DaynamicForm;
-}(_react.default.Component), _temp), (_applyDecoratedDescriptor(_class.prototype, "handlMinus", [_bindDecorator.default], Object.getOwnPropertyDescriptor(_class.prototype, "handlMinus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handlAdd", [_bindDecorator.default], Object.getOwnPropertyDescriptor(_class.prototype, "handlAdd"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleChange", [_bindDecorator.default], Object.getOwnPropertyDescriptor(_class.prototype, "handleChange"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "trigger", [_bindDecorator.default], Object.getOwnPropertyDescriptor(_class.prototype, "trigger"), _class.prototype)), _class);
-exports.default = DaynamicForm;
+}(React.Component), _temp), (_applyDecoratedDescriptor(_class.prototype, "handlMinus", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handlMinus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handlAdd", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handlAdd"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleChange", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handleChange"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "trigger", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "trigger"), _class.prototype)), _class);
+export { DaynamicForm as default };

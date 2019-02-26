@@ -1,18 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _antd = require("antd");
-
-require("./index.less");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33,6 +18,9 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+import React from 'react';
+import { Modal, Upload, Icon, Button } from 'antd';
+import './index.less';
 var kb = 1024 * 1024;
 
 function getBase64(img, callback) {
@@ -48,7 +36,7 @@ var getNameFromUrl = function getNameFromUrl(imgUrl) {
 };
 
 function showInfoModal(content) {
-  _antd.Modal.info({
+  Modal.info({
     title: '提示',
     content: content
   });
@@ -56,11 +44,11 @@ function showInfoModal(content) {
 
 var uploadButton = function uploadButton() {
   var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'picture-card';
-  return type === 'picture-card' ? _react.default.createElement("div", null, _react.default.createElement(_antd.Icon, {
+  return type === 'picture-card' ? React.createElement("div", null, React.createElement(Icon, {
     type: "plus"
-  }), _react.default.createElement("div", {
+  }), React.createElement("div", {
     className: "ant-upload-text"
-  }, "\u4E0A\u4F20")) : _react.default.createElement(_antd.Button, null, _react.default.createElement(_antd.Icon, {
+  }, "\u4E0A\u4F20")) : React.createElement(Button, null, React.createElement(Icon, {
     type: "upload"
   }), "\u9009\u62E9\u6587\u4EF6");
 };
@@ -253,11 +241,11 @@ function (_React$Component) {
           imageUrl = _this$state.imageUrl,
           fileList = _this$state.fileList,
           previewVisible = _this$state.previewVisible;
-      return _react.default.createElement("div", {
+      return React.createElement("div", {
         className: "ffe-image-upload"
-      }, _react.default.createElement("div", {
+      }, React.createElement("div", {
         className: fileList.length ? 'imgArea has-child' : 'imgArea'
-      }, _react.default.createElement(_antd.Upload, {
+      }, React.createElement(Upload, {
         listType: listType,
         fileList: fileList,
         disabled: disabled,
@@ -268,18 +256,18 @@ function (_React$Component) {
         onRemove: this.handleRemove
       }, fileList.length >= maxSize ? null : child), simple && fileList.length === 0 &&
       /* eslint-disable-next-line */
-      _react.default.createElement("img", {
+      React.createElement("img", {
         src: simple,
         alt: "\u6837\u4F8B",
         onClick: this.handleSimplePreview(simple),
         className: "show-simple"
-      })), info && fileList.length === 0 && _react.default.createElement("div", {
+      })), info && fileList.length === 0 && React.createElement("div", {
         className: "show-info"
-      }, info), _react.default.createElement(_antd.Modal, {
+      }, info), React.createElement(Modal, {
         visible: previewVisible,
         footer: null,
         onCancel: this.handleCancel
-      }, _react.default.createElement("img", {
+      }, React.createElement("img", {
         alt: "",
         style: {
           width: '100%'
@@ -313,6 +301,6 @@ function (_React$Component) {
   }]);
 
   return FileUpload;
-}(_react.default.Component);
+}(React.Component);
 
-exports.default = FileUpload;
+export { FileUpload as default };
