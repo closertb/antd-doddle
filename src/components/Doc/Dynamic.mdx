@@ -1,0 +1,43 @@
+---
+name: DaynamicForm
+---
+
+import { Playground, PropsTable } from 'docz';
+import { InputNumber } from 'antd';
+import DaynamicForm from '../DaynamicForm.js';
+
+# DaynamicForm
+
+<PropsTable of={DaynamicForm} />
+
+## Basic usage
+
+<Playground>
+  <DaynamicForm key="fullRules">
+    {(rule, actions) => (
+      <span key={rule.key}>
+        <span>满</span>
+        <InputNumber
+          style={{ margin: '0 5px', width: 100 }}
+          value={rule.full}
+          min={0.01}
+          step={0.01}
+          precision={2}
+          placeholder=">0, 2位小数"
+          onChange={e => actions.handleChange(e, rule.key, 'full')}
+        />
+        元，减
+        <InputNumber
+          style={{ margin: '0 5px', width: 100 }}
+          value={rule.reduction}
+          min={0.01}
+          step={0.01}
+          precision={2}
+          placeholder=">0, 2位小数"
+          onChange={e => actions.handleChange(e, rule.key, 'reduction')}
+        />
+        元
+      </span>)
+  }
+  </DaynamicForm>
+</Playground>

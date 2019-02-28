@@ -1,0 +1,37 @@
+{
+  "config": {
+    "title": "Antd Doddle",
+    "description": "antd后台项目前端组件封装和方法库",
+    "menu": [],
+    "ordering": "descending",
+    "version": "0.0.11",
+    "repository": "https://github.com/closertb/antd-doddle",
+    "native": false,
+    "codeSandbox": true,
+    "themeConfig": {}
+  },
+  "entries": {
+    "src/components/Doc/Dynamic.mdx": {
+      "name": "DaynamicForm",
+      "id": "1b861b6b8c111731b64eaba7a5ee03bf",
+      "filepath": "src/components/Doc/Dynamic.mdx",
+      "link": "https://github.com/closertb/antd-doddle/edit/master/src/components/Doc/Dynamic.mdx",
+      "slug": "src-components-doc-dynamic",
+      "route": "/src-components-doc-dynamic",
+      "order": 0,
+      "menu": null,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "daynamicform",
+          "value": "DaynamicForm"
+        },
+        {
+          "depth": 2,
+          "slug": "basic-usage",
+          "value": "Basic usage"
+        }
+      ]
+    }
+  }
+}
