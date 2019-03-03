@@ -1,4 +1,4 @@
-export const SiteName = 'Denzel Site'; 
+export const SiteName = 'Denzel Site';
 export const SITE_CODE = 'CRWBase';
 
 export const PAGE_SIZE = 10;

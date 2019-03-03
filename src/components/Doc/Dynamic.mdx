@@ -41,3 +41,24 @@ import DaynamicForm from '../DaynamicForm.js';
   }
   </DaynamicForm>
 </Playground>
+
+
+#### 参数 ####  
+**输入**  
+
+| 参数名 | 作用 | 必传 | 类型 | 默认值  
+:--|:--:|---:|---:|:---:   
+| children | 动态渲染的内容节点 | 是 |  node | --
+| canMove | 是否可上移下移 | 否 |  bool |  false
+| value | 初始值 | 否 | array | [{ key: 0 }] 
+| onChange | 状态改变要触发的方法 | 否 |  fun | --  
+
+**输出**  
+
+| 参数名 | 作用
+:--|:--:
+| rule | 渲染节点要绑定的数据对象
+| acitons | 动作，包含三种，比较常用的一种就是handleChange，做数据绑定用  
+
+#### 特别说明 ####
+ - value：从上面看出，value是有一个默认值的，所以会初始化一行内容。下面自定义dom节点的值，来源也是value，所以在做数据绑定值务必要一一对应
