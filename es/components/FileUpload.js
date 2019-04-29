@@ -119,6 +119,8 @@ function (_React$Component) {
         onSuccess({
           content: content
         });
+      }).catch(function () {
+        console.log('some error');
       });
     });
 

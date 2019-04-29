@@ -1,7 +1,5 @@
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -23,8 +21,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 import React from 'react';
-import { Input, AutoComplete, Spin, Icon } from 'antd';
-import { throttle, isEmpty } from '../utils';
+import { Input, AutoComplete, Spin, Tooltip, Icon } from 'antd';
+import { throttle, isEmpty } from '../utils/index';
 import './index.less';
 var Option = AutoComplete.Option;
 var DefaultOption = React.createElement(Option, {
@@ -69,22 +67,12 @@ function (_React$Component) {
     _this.handleOpenSearch = _this.handleOpenSearch.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleCloseSearch = _this.handleCloseSearch.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleChangeVisible = _this.handleChangeVisible.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleRemove = _this.handleRemove.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.lazyLoad = throttle(_this.load);
     return _this;
   }
 
   _createClass(HInputSearch, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
-      var value = nextProps.value;
-
-      if (isEmpty(value) && value !== this.props.value) {
-        this.setState({
-          value: nextProps.value
-        });
-      }
-    }
-  }, {
     key: "handleChangeVisible",
     value: function handleChangeVisible(event) {
       var isShowSearch = this.state.isShowSearch; // eslint-disable-next-line
@@ -115,7 +103,7 @@ function (_React$Component) {
         options: null
       }); // 获取数据，并格式化数据
 
-      fetchData(params).then(function (list) {
+      fetchData(params).then(function (datas) {
         if (fetchId !== _this2.lastFethId) {
           // 异步程序，保证回调是按顺序进行
           return;
@@ -123,11 +111,11 @@ function (_React$Component) {
 
         var options;
 
-        if (isEmpty(list)) {
+        if (isEmpty(datas)) {
           options = [DefaultOption];
         } else {
           // 用户自定义数据格式转换；
-          options = format(list).map(function (_ref, key) {
+          options = format(datas).map(function (_ref, key) {
             var label = _ref.label,
                 value = _ref.value;
             return React.createElement(Option, {
@@ -143,7 +131,7 @@ function (_React$Component) {
         _this2.setState({
           options: options,
           loading: false,
-          seachRes: list
+          seachRes: datas
         });
       });
     }
@@ -188,6 +176,15 @@ function (_React$Component) {
       value && this.lazyLoad(res);
     }
   }, {
+    key: "handleRemove",
+    value: function handleRemove() {
+      var res = undefined;
+      this.setState({
+        value: res
+      });
+      this.triggerChange(res);
+    }
+  }, {
     key: "triggerChange",
     value: function triggerChange(value) {
       var onChange = this.props.onChange;
@@ -209,7 +206,11 @@ function (_React$Component) {
           _this$props2$disabled = _this$props2.disabled,
           disabled = _this$props2$disabled === void 0 ? false : _this$props2$disabled,
           _this$props2$placehol = _this$props2.placeholder,
-          placeholder = _this$props2$placehol === void 0 ? '请输入' : _this$props2$placehol;
+          placeholder = _this$props2$placehol === void 0 ? '请输入' : _this$props2$placehol,
+          _this$props2$allowCle = _this$props2.allowClear,
+          allowClear = _this$props2$allowCle === void 0 ? false : _this$props2$allowCle,
+          _this$props2$maxSize = _this$props2.maxSize,
+          maxSize = _this$props2$maxSize === void 0 ? 500 : _this$props2$maxSize;
       var _this$state = this.state,
           options = _this$state.options,
           isShowSearch = _this$state.isShowSearch,
@@ -221,6 +222,26 @@ function (_React$Component) {
       } : {
         onClick: this.handleOpenSearch
       };
+      var inputValue = valueFormat(value);
+      var withTips = inputValue && String(inputValue).length > maxSize;
+
+      var nodeProps = _objectSpread({
+        size: size,
+        disabled: disabled,
+        // disabled的时候，allowClear任然是可以点击的
+        allowClear: !disabled && allowClear,
+        placeholder: placeholder,
+        readOnly: true,
+        value: inputValue,
+        style: {
+          width: '100%'
+        },
+        onChange: this.handleRemove,
+        ref: function ref(e) {
+          return _this3.searchInput = e;
+        }
+      }, inputProps);
+
       return React.createElement("div", {
         className: "ffe-origin-search",
         style: style // eslint-disable-next-line
@@ -228,20 +249,10 @@ function (_React$Component) {
         ref: function ref(el) {
           return _this3.searchInputElement = el;
         }
-      }, React.createElement(Input // eslint-disable-next-line
-      , _extends({
-        disabled: disabled,
-        ref: function ref(e) {
-          return _this3.searchInput = e;
-        },
-        readOnly: true,
-        placeholder: placeholder,
-        value: valueFormat(value),
-        style: {
-          width: '100%'
-        },
-        size: size
-      }, inputProps)), isShowSearch && React.createElement("div", {
+      }, withTips ? React.createElement(Tooltip, {
+        className: "whatip",
+        title: inputValue
+      }, React.createElement(Input, nodeProps)) : React.createElement(Input, nodeProps), isShowSearch && React.createElement("div", {
         className: "js-origin-search origin-search"
       }, React.createElement(Icon, {
         type: "search",
@@ -269,6 +280,19 @@ function (_React$Component) {
           textAlign: 'center'
         }
       }))] : options)));
+    }
+  }], [{
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      var value = nextProps.value;
+
+      if (!prevState.value || prevState.value !== value) {
+        return {
+          value: nextProps.value
+        };
+      }
+
+      return null;
     }
   }]);
 

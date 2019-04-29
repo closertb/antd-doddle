@@ -1,5 +1,6 @@
 node_modules/
-*/dist/**
+*/dist/**/*
+.docz/
 .idea/
 .vscode/
 .idea/vcs.xml

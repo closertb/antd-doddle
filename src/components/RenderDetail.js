@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { getEnumObject, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
+import { getEnumObject, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils/index';
 import './index.less';
 
 /**
@@ -10,7 +10,7 @@ import './index.less';
  * @return：返回值是一个Dom树组
  */
 export function renderBaseFields(fields, props = {}) {
-  return fields.map(({ name, key, type, enums, render, isShow }, index) => {
+  return fields.map(({ name, key, type, enums, render, isShow, unit = '' }, index) => {
     let value = props[key];
 
     if (type === 'date') {
@@ -37,7 +37,7 @@ export function renderBaseFields(fields, props = {}) {
     return (
       <div className="showInfo-item" key={index}>
         <span className="showInfo-label">{name}</span>
-        <span className="showInfo-value">{value}</span>
+        <span className="showInfo-value">{`${value}${unit}`}</span>
       </div>
     );
   });

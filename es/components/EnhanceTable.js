@@ -65,6 +65,7 @@ function (_React$Component) {
           loading = _this$props$loading === void 0 ? {} : _this$props$loading,
           _this$props$actions = _this$props.actions,
           actions = _this$props$actions === void 0 ? {} : _this$props$actions,
+          onSearch = _this$props.onSearch,
           _this$props$rowKey = _this$props.rowKey,
           rowKey = _this$props$rowKey === void 0 ? 'id' : _this$props$rowKey,
           footer = _this$props.footer,
@@ -72,7 +73,7 @@ function (_React$Component) {
           noPage = _this$props$noPage === void 0 ? false : _this$props$noPage,
           _this$props$pageName = _this$props.pageName,
           pageName = _this$props$pageName === void 0 ? 'pageNo' : _this$props$pageName,
-          others = _objectWithoutProperties(_this$props, ["fields", "search", "datas", "total", "loading", "actions", "rowKey", "footer", "noPage", "pageName"]);
+          others = _objectWithoutProperties(_this$props, ["fields", "search", "datas", "total", "loading", "actions", "onSearch", "rowKey", "footer", "noPage", "pageName"]);
 
       var columns = this.getInitalColumns(fields);
       var page = search.pageNum ? 'pageNum' : pageName;
@@ -81,7 +82,7 @@ function (_React$Component) {
         current: search[page],
         pageSize: search.pageCount || search.pageSize,
         onChange: function onChange(pn) {
-          return actions.onSearch(_defineProperty({}, page, pn));
+          return (onSearch || actions.onSearch)(_defineProperty({}, page, pn));
         },
         showTotal: function showTotal(t) {
           return footer ? footer(_objectSpread({

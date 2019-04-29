@@ -39,7 +39,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 import React from 'react';
 import bind from 'bind-decorator';
 import { Button } from 'antd';
-import styles from './index.less'; // 根据方向，找出指定索引的有效的上一或下一数据项
+import './index.less'; // 根据方向，找出指定索引的有效的上一或下一数据项
 
 function findValid(arr, index) {
   var dir = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
@@ -130,16 +130,6 @@ function (_React$Component) {
   }
 
   _createClass(DaynamicForm, [{
-    key: "handlMinus",
-    value: function handlMinus(index) {
-      var rules = this.state.rules;
-      rules[index].deleteFlag = true;
-      this.setState({
-        rules: _toConsumableArray(rules)
-      });
-      this.trigger(rules);
-    }
-  }, {
     key: "handlAdd",
     value: function handlAdd() {
       var rules = this.state.rules;
@@ -147,6 +137,16 @@ function (_React$Component) {
         value: undefined,
         key: rules.length
       }]);
+      this.setState({
+        rules: _toConsumableArray(rules)
+      });
+      this.trigger(rules);
+    }
+  }, {
+    key: "handlMinus",
+    value: function handlMinus(index) {
+      var rules = this.state.rules;
+      rules[index].deleteFlag = true;
       this.setState({
         rules: _toConsumableArray(rules)
       });
@@ -190,7 +190,7 @@ function (_React$Component) {
       });
       var length = validDatas.length - 1;
       return React.createElement("div", {
-        className: styles.FullReduction
+        className: "ffe-daynamic-form"
       }, validDatas.map(function (rule, index) {
         return React.createElement("div", {
           key: rule.key
@@ -234,5 +234,5 @@ function (_React$Component) {
   }]);
 
   return DaynamicForm;
-}(React.Component), _temp), (_applyDecoratedDescriptor(_class.prototype, "handlMinus", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handlMinus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handlAdd", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handlAdd"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleChange", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handleChange"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "trigger", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "trigger"), _class.prototype)), _class);
+}(React.Component), _temp), (_applyDecoratedDescriptor(_class.prototype, "handlAdd", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handlAdd"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handlMinus", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handlMinus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleChange", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "handleChange"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "trigger", [bind], Object.getOwnPropertyDescriptor(_class.prototype, "trigger"), _class.prototype)), _class);
 export { DaynamicForm as default };

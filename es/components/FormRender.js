@@ -3,7 +3,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 import React from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
-import { formItemLayout as layout, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
+import { formItemLayout as layout, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils/index';
 import OriginSearch from './OriginSearch';
 import FileUpload from './FileUpload';
 var FormItem = Form.Item;
@@ -77,7 +77,9 @@ export default function (_ref) {
         specialKey = field.specialKey,
         _field$onChange = field.onChange,
         onChange = _field$onChange === void 0 ? defaultAction : _field$onChange,
-        format = field.format;
+        format = field.format,
+        _field$seldomProps = field.seldomProps,
+        seldomProps = _field$seldomProps === void 0 ? {} : _field$seldomProps;
     var content = null;
 
     switch (type) {
@@ -99,14 +101,14 @@ export default function (_ref) {
         }), getFieldDecorator(key, {
           initialValue: data[key],
           rules: patternRules
-        })(React.createElement(Input, {
+        })(React.createElement(Input, _extends({
           type: "text",
           style: style,
           maxLength: maxLength,
           onChange: props.onChange || onChange,
           placeholder: placeholder || "\u8BF7\u8F93\u5165".concat(name),
           disabled: disable && disable(data)
-        })));
+        }, seldomProps))));
         break;
       // eslint-disable-next-line
 
@@ -130,7 +132,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(React.createElement(InputNumber, {
+        })(React.createElement(InputNumber, _extends({
           max: max,
           min: min,
           step: step,
@@ -139,7 +141,7 @@ export default function (_ref) {
           placeholder: placeholder || "\u8BF7\u8F93\u5165".concat(name),
           onChange: props.onChange || onChange,
           disabled: disable && disable(data)
-        })));
+        }, seldomProps))));
         break;
       // eslint-disable-next-line
 
@@ -160,7 +162,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(React.createElement(TextArea, {
+        })(React.createElement(TextArea, _extends({
           type: "text",
           style: style,
           maxLength: maxLength || 300,
@@ -171,7 +173,7 @@ export default function (_ref) {
           },
           onChange: props.onChange || onChange,
           disabled: disable && disable(data)
-        })));
+        }, seldomProps))));
         break;
       // eslint-disable-next-line
 
@@ -179,7 +181,9 @@ export default function (_ref) {
         // eslint-disable-next-line
         var service = field.service,
             searchKey = field.searchKey,
-            onSelect = field.onSelect;
+            onSelect = field.onSelect,
+            valueFormat = field.valueFormat,
+            maxSize = field.maxSize;
         content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
@@ -191,7 +195,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(React.createElement(OriginSearch, {
+        })(React.createElement(OriginSearch, _extends({
           disabled: disable && disable(data),
           style: {
             width: '100%',
@@ -200,8 +204,12 @@ export default function (_ref) {
           searchKey: searchKey,
           onSelect: props.onSelect || onSelect,
           format: format,
+          placeholder: placeholder,
+          allowClear: allowClear,
+          maxSize: maxSize,
+          valueFormat: valueFormat,
           fetchData: service
-        })));
+        }, seldomProps))));
         break;
       // eslint-disable-next-line
 
@@ -220,13 +228,13 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(React.createElement(Select, {
+        })(React.createElement(Select, _extends({
           style: style,
           placeholder: placeholder || '不限',
           allowClear: allowClear,
           disabled: disable && disable(data),
           onChange: props.onChange || onChange
-        }, (props.enums || enums).map(function (_ref2) {
+        }, seldomProps), (props.enums || enums).map(function (_ref2) {
           var value = _ref2.value,
               label = _ref2.label;
           return React.createElement(Option, {
@@ -252,11 +260,11 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(React.createElement(RadioGroup, {
+        })(React.createElement(RadioGroup, _extends({
           options: props.enums || options,
           disabled: disable && disable(data),
-          onSelect: props.onChange || onChange
-        })));
+          onChange: props.onChange || onChange
+        }, seldomProps))));
         break;
       // eslint-disable-next-line
 
@@ -273,11 +281,11 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(React.createElement(CheckboxGroup, {
+        })(React.createElement(CheckboxGroup, _extends({
           options: props.enums || groups,
           disabled: disable && disable(data),
           onChange: props.onChange || onChange
-        })));
+        }, seldomProps))));
         break;
 
       case 'datePicker':
@@ -290,14 +298,14 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(React.createElement(DatePicker, {
+        })(React.createElement(DatePicker, _extends({
           style: style,
           showTime: field.showTime || false,
           format: format || DATE_FORMAT,
           onChange: props.onChange || onChange,
           placeholder: placeholder || '请选择',
           disabled: disable && disable(data)
-        })));
+        }, seldomProps))));
         break;
       // eslint-disable-next-line
 
@@ -325,7 +333,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(React.createElement(RangePicker, {
+        })(React.createElement(RangePicker, _extends({
           style: style,
           allowClear: allowClear,
           showTime: showTime,
@@ -335,7 +343,7 @@ export default function (_ref) {
           disabledDate: disabledDate ? function (currentDate) {
             return handleDisabledDate(currentDate);
           } : undefined
-        })));
+        }, seldomProps))));
         break;
 
       case 'image':
@@ -350,7 +358,7 @@ export default function (_ref) {
             required: props.required || required,
             message: placeholder || "\u8BF7\u4E0A\u4F20".concat(name)
           }]
-        })(React.createElement(FileUpload, {
+        })(React.createElement(FileUpload, _extends({
           info: field.info,
           url: props.url,
           name: name,
@@ -362,17 +370,11 @@ export default function (_ref) {
           tips: field.tips,
           upload: field.upload,
           maxSize: field.maxSize
-        })));
-        break;
-
-      case 'render':
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
-          key: specialKey || key,
-          label: name
-        }, formItemLayout), props.children);
+        }, seldomProps))));
         break;
 
       default:
+        console.error('type is not supported');
         break;
     }
 

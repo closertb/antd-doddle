@@ -13,7 +13,7 @@ export default class EnhanceTable extends React.Component {
     return createColumns(fields).enhance(extraFields).values();
   }
   render() {
-    const { fields, search = {}, datas, total = 0, loading = {}, actions = {},
+    const { fields, search = {}, datas, total = 0, loading = {}, actions = {}, onSearch,
       rowKey = 'id', footer, noPage = false, pageName = 'pageNo', ...others } = this.props;
     const columns = this.getInitalColumns(fields);
     const page = search.pageNum ? 'pageNum' : pageName;
@@ -21,7 +21,7 @@ export default class EnhanceTable extends React.Component {
       total,
       current: search[page],
       pageSize: search.pageCount || search.pageSize,
-      onChange: pn => actions.onSearch({ [page]: pn }),
+      onChange: pn => (onSearch || actions.onSearch)({ [page]: pn }),
       showTotal: t => footer ? footer({ total, ...search }) : `共 ${t} 条`
     };
     const tableProps = {

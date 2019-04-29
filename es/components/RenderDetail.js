@@ -18,7 +18,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import React from 'react';
 import moment from 'moment';
-import { getEnumObject, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
+import { getEnumObject, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils/index';
 import './index.less';
 /**
  * 作用: 详情信息表单的渲染
@@ -35,7 +35,9 @@ export function renderBaseFields(fields) {
         type = _ref.type,
         enums = _ref.enums,
         render = _ref.render,
-        isShow = _ref.isShow;
+        isShow = _ref.isShow,
+        _ref$unit = _ref.unit,
+        unit = _ref$unit === void 0 ? '' : _ref$unit;
     var value = props[key];
 
     if (type === 'date') {
@@ -71,7 +73,7 @@ export function renderBaseFields(fields) {
       className: "showInfo-label"
     }, name), React.createElement("span", {
       className: "showInfo-value"
-    }, value));
+    }, "".concat(value).concat(unit)));
   });
 }
 /**

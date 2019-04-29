@@ -45,7 +45,7 @@ export var getEnumObject = function getEnumObject(enums, value) {
   return res.length > 0 ? res[0] : {};
 };
 /**
- * 根据给定的数组,转化成标准的label, value数组；
+ * 根据给定的数组,转化成标准的label, value数组；如果给定的数组子集是字符串，那么value,label值都是该字符串
  * @param {array} arr 目标数组
  * @param {string} value value对应属性
  * @param {string} label label对应属性
@@ -56,7 +56,10 @@ export var toFormatEnums = function toFormatEnums() {
   var value = arguments.length > 1 ? arguments[1] : undefined;
   var label = arguments.length > 2 ? arguments[2] : undefined;
   return arr.map(function (target) {
-    return {
+    return typeof target === 'string' ? {
+      label: target,
+      value: target
+    } : {
       label: target[label],
       value: target[value]
     };
@@ -122,23 +125,25 @@ export var throttle = function throttle(fun) {
   };
 };
 /**
- * 功能：字符串的简单加解密
+ * 功能：字符串(数字和字母)的简单加解密
  * @param {*} code 要加密的字符串
  */
 
+var FixOffeset = 17;
 export function compileParam() {
   var code = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  var c = String.fromCharCode(code.charCodeAt(0) + code.length);
+  var c = String.fromCharCode(code.charCodeAt(0) + FixOffeset + code.length);
 
   for (var i = 1; i < code.length; i += 1) {
     c += String.fromCharCode(code.charCodeAt(i) + code.charCodeAt(i - 1));
   }
 
-  return c;
+  return c; // 增加特殊字符编码，防止'/', '&', '='等字符造成的影响
 }
 export function unCompileParam() {
   var code = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  var c = String.fromCharCode(code.charCodeAt(0) - code.length);
+  // const code = unescape(originCode); // 增加特殊字符的解码
+  var c = String.fromCharCode(code.charCodeAt(0) - FixOffeset - code.length);
 
   for (var i = 1; i < code.length; i += 1) {
     c += String.fromCharCode(code.charCodeAt(i) - c.charCodeAt(i - 1));

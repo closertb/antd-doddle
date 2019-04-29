@@ -10,7 +10,6 @@ function getBase64(img, callback) {
 }
 const getNameFromUrl = imgUrl => imgUrl.match(/[0-9,a-z,.]{9,}(?=\?)/)[0];
 
-
 function showInfoModal(content) {
   Modal.info({
     title: '提示',
@@ -102,6 +101,8 @@ export default class FileUpload extends React.Component {
     upload({ file }).then((res) => {
       const { content } = res;
       onSuccess({ content });
+    }).catch(() => {
+      console.log('some error');
     });
   };
 

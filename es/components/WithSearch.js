@@ -22,7 +22,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 import React from 'react';
 import { Form } from 'antd';
-import { formItemLayout } from '../utils';
+import { formItemLayout } from '../utils/index';
 import formRender from './FormRender';
 import './index.less';
 
@@ -74,13 +74,14 @@ function (_React$Component) {
       var _this$props2 = this.props,
           form = _this$props2.form,
           actions = _this$props2.actions,
+          onSearch = _this$props2.onSearch,
           paramFormat = _this$props2.paramFormat,
           _this$props2$pageName = _this$props2.pageName,
           pageName = _this$props2$pageName === void 0 ? 'pageNo' : _this$props2$pageName;
       form.validateFields(function (err, values) {
         if (err) return;
         var res = typeof paramFormat === 'function' ? paramFormat(values) : values;
-        actions.onSearch(_objectSpread({}, res, _defineProperty({}, pageName, 1)));
+        (onSearch || actions.onSearch)(_objectSpread({}, res, _defineProperty({}, pageName, 1)));
       });
     }
   }, {

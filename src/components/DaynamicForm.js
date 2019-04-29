@@ -1,7 +1,7 @@
 import React from 'react';
 import bind from 'bind-decorator';
 import { Button } from 'antd';
-import styles from './index.less';
+import './index.less';
 
 // 根据方向，找出指定索引的有效的上一或下一数据项
 function findValid(arr, index, dir = 1) {
@@ -23,6 +23,7 @@ export default class DaynamicForm extends React.Component {
       rules: value.map((ele, key) => ({ ...ele, key })),
     };
   }
+
   handlMoveUp = index => () => {
     const { rules } = this.state;
     const { key, ...temp } = rules[index];
@@ -46,19 +47,19 @@ export default class DaynamicForm extends React.Component {
     this.trigger(rules);
   }
   @bind
+  handlAdd() {
+    let { rules } = this.state;
+    rules = rules.concat([{ value: undefined, key: rules.length }]);
+    this.setState({ rules: [...rules] });
+    this.trigger(rules);
+  }
+  @bind
   handlMinus(index) {
     const { rules } = this.state;
     rules[index].deleteFlag = true;
     this.setState({
       rules: [...rules]
     });
-    this.trigger(rules);
-  }
-  @bind
-  handlAdd() {
-    let { rules } = this.state;
-    rules = rules.concat([{ value: undefined, key: rules.length }]);
-    this.setState({ rules: [...rules] });
     this.trigger(rules);
   }
   @bind
@@ -88,7 +89,7 @@ export default class DaynamicForm extends React.Component {
     const validDatas = rules.filter(rule => !rule.deleteFlag);
     const length = validDatas.length - 1;
     return (
-      <div className={styles.FullReduction}>
+      <div className="ffe-daynamic-form">
         {validDatas.map((rule, index) => (
           <div key={rule.key}>
             {children(rule, actions)}
