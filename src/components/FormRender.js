@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
-import { formItemLayout as layout, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
+import { formItemLayout as layout, DATE_FORMAT, DATE_TIME_FORMAT } from '../utils/index';
 import OriginSearch from './OriginSearch';
 import FileUpload from './FileUpload';
 
@@ -15,6 +15,7 @@ const CheckboxGroup = Checkbox.Group;
 const defaultAction = () => { };
 const isUndefind = (value, defaultValue) => typeof value === 'undefined' ? defaultValue : value;
 const handleDisabledDate = currentDate => currentDate && currentDate > moment().endOf('day');
+
 /**
  * @param string formItemLayout         : 表单项整体样式定义
  * @param string getFieldDecorator      : 表单项装饰器
@@ -54,6 +55,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
       specialKey,
       onChange = defaultAction,
       format,
+      seldomProps = {},
     } = field;
     let content = null;
     switch (type) {
@@ -75,6 +77,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 onChange={props.onChange || onChange}
                 placeholder={placeholder || `请输入${name}`}
                 disabled={disable && disable(data)}
+                {...seldomProps}
               />
             )}
           </FormItem>
@@ -100,6 +103,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 placeholder={placeholder || `请输入${name}`}
                 onChange={props.onChange || onChange}
                 disabled={disable && disable(data)}
+                {...seldomProps}
               />
             )}
           </FormItem>
@@ -123,6 +127,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 autosize={{ minRows, maxRows }}
                 onChange={props.onChange || onChange}
                 disabled={disable && disable(data)}
+                {...seldomProps}
               />
             )}
           </FormItem>
@@ -131,7 +136,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
       // eslint-disable-next-line
       case 'origin':
       // eslint-disable-next-line
-        const { service, searchKey, onSelect } = field;
+        const { service, searchKey, onSelect, valueFormat, maxSize } = field;
         content = isUndefind(props.isEnable, isEnable) && (
           <FormItem key={specialKey || key} label={name} {...formItemLayout} className="self-define-item">
             {getFieldDecorator(key, {
@@ -144,7 +149,12 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 searchKey={searchKey}
                 onSelect={props.onSelect || onSelect}
                 format={format}
+                placeholder={placeholder}
+                allowClear={allowClear}
+                maxSize={maxSize}
+                valueFormat={valueFormat}
                 fetchData={service}
+                {...seldomProps}
               />
             )}
           </FormItem>
@@ -166,6 +176,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 allowClear={allowClear}
                 disabled={disable && disable(data)}
                 onChange={props.onChange || onChange}
+                {...seldomProps}
               >
                 {(props.enums || enums).map(({ value, label }) => (
                   <Option key={value} value={value}>{label}</Option>
@@ -188,7 +199,8 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
               <RadioGroup
                 options={props.enums || options}
                 disabled={disable && disable(data)}
-                onSelect={props.onChange || onChange}
+                onChange={props.onChange || onChange}
+                {...seldomProps}
               />
             )}
           </FormItem>
@@ -208,6 +220,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 options={props.enums || groups}
                 disabled={disable && disable(data)}
                 onChange={props.onChange || onChange}
+                {...seldomProps}
               />
             )}
           </FormItem>
@@ -227,6 +240,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 onChange={props.onChange || onChange}
                 placeholder={placeholder || '请选择'}
                 disabled={disable && disable(data)}
+                {...seldomProps}
               />
             )}
           </FormItem>
@@ -256,6 +270,7 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 onChange={props.onChange || onChange}
                 format={format || (showTime ? DATE_TIME_FORMAT : DATE_FORMAT)}
                 disabledDate={disabledDate ? currentDate => handleDisabledDate(currentDate) : undefined}
+                {...seldomProps}
               />
             )}
           </FormItem>
@@ -281,19 +296,14 @@ export default function ({ formItemLayout = layout, getFieldDecorator, require }
                 tips={field.tips}
                 upload={field.upload}
                 maxSize={field.maxSize}
+                {...seldomProps}
               />
             )}
           </FormItem>
         );
         break;
-      case 'render':
-        content = isUndefind(props.isEnable, isEnable) && (
-          <FormItem key={specialKey || key} label={name} {...formItemLayout}>
-            {props.children}
-          </FormItem>
-        );
-        break;
       default:
+        console.error('type is not supported');
         break;
     }
     return content;

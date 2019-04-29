@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, AutoComplete, Spin, Icon } from 'antd';
-import { throttle, isEmpty } from '../utils';
+import { Input, AutoComplete, Spin, Tooltip, Icon } from 'antd';
+import { throttle, isEmpty } from '../utils/index';
 import './index.less';
 
 const { Option } = AutoComplete;
@@ -35,13 +35,15 @@ export default class HInputSearch extends React.Component {
     this.handleOpenSearch = this.handleOpenSearch.bind(this);
     this.handleCloseSearch = this.handleCloseSearch.bind(this);
     this.handleChangeVisible = this.handleChangeVisible.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.lazyLoad = throttle(this.load);
   }
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { value } = nextProps;
-    if (isEmpty(value) && value !== this.props.value) {
-      this.setState({ value: nextProps.value });
+    if (!prevState.value || prevState.value !== value) {
+      return { value: nextProps.value };
     }
+    return null;
   }
   handleChangeVisible(event) {
     const { isShowSearch } = this.state;
@@ -64,21 +66,21 @@ export default class HInputSearch extends React.Component {
     // 设置loading状态，清空option
     this.setState({ loading: true, options: null });
     // 获取数据，并格式化数据
-    fetchData(params).then((list) => {
+    fetchData(params).then((datas) => {
       if (fetchId !== this.lastFethId) { // 异步程序，保证回调是按顺序进行
         return;
       }
       let options;
-      if (isEmpty(list)) {
+      if (isEmpty(datas)) {
         options = [DefaultOption];
       } else {
         // 用户自定义数据格式转换；
-        options = format(list).map(({ label, value }, key) => (
+        options = format(datas).map(({ label, value }, key) => (
           <Option key={key} value={String(value)}>{label}</Option>));
       }
       // 如果options为空，则设置为暂无搜索结果
       !options.length && options.push(DefaultOption);
-      this.setState({ options, loading: false, seachRes: list });
+      this.setState({ options, loading: false, seachRes: datas });
     });
   }
   handleOpenSearch() {
@@ -104,16 +106,37 @@ export default class HInputSearch extends React.Component {
     const res = { ...search, [searchKey]: value };
     value && this.lazyLoad(res);
   }
+  handleRemove() {
+    const res = undefined;
+    this.setState({ value: res });
+    this.triggerChange(res);
+  }
   triggerChange(value) {
     const { onChange } = this.props;
     onChange && onChange(value);
   }
   render() {
-    const { style, valueFormat = value => value, size = 'default', disabled = false, placeholder = '请输入' } = this.props;
+    const { style, valueFormat = value => value, size = 'default', disabled = false,
+      placeholder = '请输入', allowClear = false, maxSize = 500 } = this.props;
     const { options, isShowSearch, value, loading } = this.state;
     // 有搜索框时就禁止输入，且没有点击事件。无搜索框时就可以点击
     const inputProps = isShowSearch ? { disabled: true } : {
       onClick: this.handleOpenSearch,
+    };
+    const inputValue = valueFormat(value);
+    const withTips = inputValue && String(inputValue).length > maxSize;
+    const nodeProps = {
+      size,
+      disabled,
+      // disabled的时候，allowClear任然是可以点击的
+      allowClear: !disabled && allowClear,
+      placeholder,
+      readOnly: true,
+      value: inputValue,
+      style: { width: '100%' },
+      onChange: this.handleRemove,
+      ref: e => this.searchInput = e,
+      ...inputProps
     };
     return (
       <div
@@ -122,17 +145,12 @@ export default class HInputSearch extends React.Component {
         // eslint-disable-next-line
         ref={el => this.searchInputElement = el}
       >
-        <Input
-          // eslint-disable-next-line
-          disabled={disabled}
-          ref={e => this.searchInput = e}
-          readOnly
-          placeholder={placeholder}
-          value={valueFormat(value)}
-          style={{ width: '100%' }}
-          size={size}
-          {...inputProps}
-        />
+        {withTips ?
+          <Tooltip className="whatip" title={inputValue}>
+            <Input {...nodeProps} />
+          </Tooltip> :
+          <Input {...nodeProps} />
+        }
         {
           isShowSearch &&
           <div className="js-origin-search origin-search">
@@ -159,7 +177,6 @@ export default class HInputSearch extends React.Component {
             </AutoComplete>
           </div>
         }
-      </div>
-    );
+      </div>);
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
-import { formItemLayout } from '../utils';
+import { formItemLayout } from '../utils/index';
 import formRender from './FormRender';
 import './index.less';
 
@@ -28,12 +28,12 @@ class WithSearch extends React.Component {
     return data;
   }
   handleSearch() {
-    const { form, actions, paramFormat, pageName = 'pageNo' } = this.props;
+    const { form, actions, onSearch, paramFormat, pageName = 'pageNo' } = this.props;
 
     form.validateFields((err, values) => {
       if (err) return;
       const res = typeof paramFormat === 'function' ? paramFormat(values) : values;
-      actions.onSearch({
+      (onSearch || actions.onSearch)({
         ...res,
         [pageName]: 1
       });
