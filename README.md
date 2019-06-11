@@ -3,7 +3,7 @@
 ## 组件 ##
 eg:  
 ```
-import { formRender } from 'ffe-basic';
+import { formRender } from 'antd-doddle';
 ```
 ### formRender: 包含装饰器的表单组件  ###
 说明： 写这个组件的目的是让写表单变为配置表单。使用时，分两个阶段，组件声明与组件调用
@@ -744,7 +744,7 @@ export default class Demo extends React.Component {
 
 eg:
 ``` 
-import utils from 'ffe-basic';
+import utils from 'antd-doddle';
 const { DATE_FORMAT, getEnumObject } = utils;
 ```
 DATE_FORMAT： 标准日期格式，YYYY-MM-DD  

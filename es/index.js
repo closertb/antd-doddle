@@ -1,8 +1,15 @@
-export { default as EnhanceTable } from './components/EnhanceTable';
-export { default as WithSearch } from './components/WithSearch';
-export { default as RenderDetail } from './components/RenderDetail';
-export { default as HModal } from './components/HModal';
-export { default as DaynamicForm } from './components/DaynamicForm';
-export { default as formRender } from './components/FormRender';
-export { default as FileUpload } from './components/FileUpload';
-export { default as OriginSearch } from './components/OriginSearch';
+export { default as WithSearch } from './WithSearch';
+export { default as OriginSearch } from './OriginSearch';
+export { default as DynamicForm } from './DynamicForm'; // 兼容历史性bug： 单词拼错
+
+export { default as DaynamicForm } from './DynamicForm';
+export { default as InputWithUnit } from './InputWithUnit';
+export { default as formRender } from './FormRender';
+export { default as RenderDetail } from './RenderDetail';
+export { default as EnhanceTable } from './EnhanceTable';
+export { default as HModal } from './HModal';
+export { default as FileUpload } from './FileUpload'; // 三个extends方法
+
+export { combineTypes } from './EnhanceTable/table/fieldTypes';
+export { extendRenderTypes } from './FormRender/renderType';
+export { extendDetailTypes } from './RenderDetail/detailType';

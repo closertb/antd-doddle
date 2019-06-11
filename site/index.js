@@ -1,19 +1,23 @@
-import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import { render } from 'react-dom';
-import 'antd/dist/antd.css';
-import Layout from './pages';
-import './style/index.less';
-
-function Root({ history }) {
-  return (
-    <Router history={history}>
-      <Switch>
-        <Route path="/" component={Layout} />
-      </Switch>
-    </Router>
-  );
-}
-render((
-  <Root />
-), document.getElementById('app'));
+module.exports = {
+  lazyLoad: false,
+  pick: {
+    posts(markdownData) {
+      return {
+        meta: markdownData.meta,
+        description: markdownData.description,
+      };
+    },
+  },
+  plugins: ['bisheng-plugin-description', 'bisheng-plugin-toc?maxDepth=2&keepElem',
+    'bisheng-plugin-antd?injectProvider', 'bisheng-plugin-react?lang=__react'],
+  routes: [{
+    path: '/',
+    component: './template/Main',
+  }, {
+    path: '/docs/:post',
+    component: './template/Main',
+  }, {
+    path: '/packages/:post',
+    component: './template/Main',
+  }],
+};

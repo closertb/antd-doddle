@@ -1,0 +1,72 @@
+.toc {
+  position: absolute;
+  font-size: 14Px;
+  top: 8px;
+  right: 20px;
+  display: none;
+}
+
+.toc > ul {
+  margin: 16px 0;
+  padding-left: 0;
+  font-size: 12px;
+  list-style: none;
+  border-left: 1px solid #ebedf0;
+}
+
+.toc > ul li {
+  margin-left: 0;
+  padding-left: 0;
+  line-height: 1.5;
+  list-style: none
+}
+
+.toc li > ul {
+  text-indent: 8Px;
+  font-size: 12Px;
+  display: none;
+}
+
+.toc a {
+  display: block;
+  width: 110px;
+  margin-left: -1px;
+  padding-left: 16px;
+  overflow: hidden;
+  color: #314659;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-left: 1px solid transparent;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease
+}
+
+.toc a:hover {
+  color: #1890ff
+}
+
+.toc a.current {
+  color: #1890ff;
+    border-color: #1890ff
+}
+
+.toc-affix {
+  position: absolute;
+  top: 8Px;
+  right: 20Px;
+}
+
+.demos-anchor {
+  color: #aaa;
+  background: #fff;
+  font-size: 12Px;
+  margin-top: 0;
+  a {
+    padding-left: 8Px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 90Px;
+  }
+}

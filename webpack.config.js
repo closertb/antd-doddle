@@ -5,8 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
-    index: './src/index.js',
-    utils: './src/utils/index.js'
+    index: './packages/index.js',
+    utils: './packages/index.js'
   },
   devtool: 'none',
   mode: 'production',
@@ -65,14 +65,7 @@ module.exports = {
       use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
     }, {
       test: /\.less$/,
-      use: [MiniCssExtractPlugin.loader, {
-        loader: 'css-loader',
-        options: {
-          // minimize: true,
-          modules: true,
-          localIdentName: '[local]_[hash:base64:5]',
-        }
-      }, 'less-loader']
+      use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader']
     }]
   },
   plugins: [

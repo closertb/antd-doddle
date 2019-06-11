@@ -14,21 +14,25 @@ gulp.task('cleanEs', () => {
 
 // 复制less模块到lib
 gulp.task('lessToLib', () => {  
-  return gulp.src('./src/**/*.less')
+  return gulp.src('./package/**/*.less')
     .pipe(gulp.dest('./lib'));
 });
 
 // 复制less模块到es
 gulp.task('lessToEs', () => {
-  return gulp.src('./src/**/*.less')
+  return gulp.src('./packages/**/*.less')
     .pipe(gulp.dest('./es'));
 });
-
+// babel 打包es模块
+gulp.task('lib', gulp.series('clean', () => {
+  return gulp.src('./packages/**/*.js')
+    .pipe(gulp.dest('./lib'));
+}, 'lessToLib'));
 
 // babel 打包成支持es6模块的语法
 // 配置modules: false，保留es6模块化语法
 gulp.task('es', gulp.series('cleanEs', () => {
-  return gulp.src('./src/**/*.js')
+  return gulp.src('./packages/**/*.js')
     .pipe(babel({
       babelrc: false,
       presets: [
@@ -47,7 +51,7 @@ gulp.task('es', gulp.series('cleanEs', () => {
 
 // 发布打包
 gulp.task('lib', gulp.series('clean', () => {
-  return gulp.src('./src/**/*.js')
+  return gulp.src('./packages/**/*.js')
     .pipe(babel())
     .pipe(gulp.dest('./lib'));
 }, 'lessToLib'));

@@ -1,0 +1,37 @@
+.doddle-render-detail {
+  margin-bottom: 20px;
+  .title {
+    padding-left: 10px;
+    color: #108ee9;
+    border-left: 3px solid #108ee9;
+    line-height: 25px;
+    font-weight: bold;
+  }
+  .showInfo-content {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    .showInfo-item {
+      display: flex;
+      width: 45%;
+      margin-left: 3%;
+      margin-top: 20px;
+    }
+    .showInfo-label {
+      position: relative;
+      display: inline-block;
+      width: 40%;
+      text-align: right;
+      &::before {
+        content: ':';
+        position: absolute;
+        right: -5px;
+      }
+    }
+    .showInfo-value {
+      padding-left: 20px;
+      width: 69%;
+      text-align: left;
+    }
+  }
+}
