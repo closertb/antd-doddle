@@ -8,19 +8,22 @@ const alertLessConfig = (rules) => {
     }
   });
 };
+const filePath = '/antd-doddle';
 
 module.exports = {
+  history: 'hash',
   port: 8090,
   source: {
-    docs: ['./docs'],
+    guide: ['./guide'],
     packages: './packages'
   },
-  output: './_site',
+  output: './docs',
   theme: './site',
   entiryName: 'index',
   themeConfig: {
     siteKey: 'antd-doddle',
-    home: '/docs/introduce',
+    home: '/guide/introduce',
+    root: filePath,
     combineChangelog: false,
     compSorterType: 'native',
     title: 'Frontend Component Library',
@@ -34,5 +37,5 @@ module.exports = {
     // resetTsConfig(config.module.rules);
     return config;
   },
-  root: '/docs/introduce'
+  root: `${filePath}/`
 };

@@ -51,10 +51,10 @@ export function normalizeData(data) {
 
   // Object.keys(componentDatas).forEach(key => combineChangelogPage(componentDatas[key]));
 
-  const _arr = Object.values(componentDatas);
+  const arr = Object.values(componentDatas);
 
-  for (let _i = 0; _i < _arr.length; _i += 1) {
-    const pageData = _arr[_i];
+  for (let i = 0; i < arr.length; i += 1) {
+    const pageData = arr[i];
     const realPageKey = getUniquePageKey(pageData);
     const realPageData = getUniquePageData(pageData);
     // const demoData = pageData.demo;

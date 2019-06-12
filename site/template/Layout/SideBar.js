@@ -75,7 +75,7 @@ export default function ComponentsMenu(props) {
   const { mode = 'inline', data = {}, selectedKey, defaultOpenKeys = ['component'], themeConfig } = props;
   const { compCategoryOrder, compSorterType } = themeConfig;
   const componentDatas = data.packages || data.components || data.src;
-  const { docs } = data;
+  const docs = data.docs || data.guide;
   return (
     // eslint-disable-next-line max-len
     <Menu mode={mode} inlineIndent={40} className="aside-container menu-site" selectedKeys={[selectedKey]} defaultOpenKeys={defaultOpenKeys}>

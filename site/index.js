@@ -14,7 +14,7 @@ module.exports = {
     path: '/',
     component: './template/Main',
   }, {
-    path: '/docs/:post',
+    path: '/guide/:post',
     component: './template/Main',
   }, {
     path: '/packages/:post',
