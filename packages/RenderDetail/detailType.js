@@ -10,4 +10,3 @@ const detailType = {
 export const extendDetailTypes = types => Object.assign(detailType, types);
 
 export default detailType;
-

@@ -66,36 +66,6 @@ export var toFormatEnums = function toFormatEnums() {
   });
 };
 /**
- * 作用：拼接区域和详细地址，处理一些特殊情况
- * @param {Object} value  { id, name, address }
- */
-
-export var concatAddress = function concatAddress(value) {
-  var _value$id = value.id,
-      id = _value$id === void 0 ? '' : _value$id,
-      name = value.name,
-      address = value.address;
-  var temp = name ? name.split('-') : [];
-  var regionName = ''; // 如果选择中包含了全四川，全成都这种字样，则只有一项有效;
-
-  if ("".concat(id).length < temp.length * 2) {
-    temp.pop();
-  } // 处理天津-天津，上海-上海, 处理几个直辖市
-
-
-  if (temp.length > 1 && temp[0] === temp[1]) {
-    regionName = "".concat(temp[1], "\u5E02");
-
-    if (temp.length > 2) {
-      regionName += temp[2];
-    }
-  } else {
-    regionName = temp.join('');
-  }
-
-  return "".concat(regionName).concat(address);
-};
-/**
  * 作用: 函数节流
  * @params: fun         需要节流执行的程序
  * @params: delay       延迟执行时间
@@ -150,51 +120,6 @@ export function unCompileParam() {
   }
 
   return c;
-}
-/**
- * 统一社会信用代码校验
- * @param String  code   合法的社会信用代码
-*/
-
-export function creditCodeValid(code) {
-  var patrn = /^[0-9A-Z]+$/;
-  var checkBool = true; // 18位校验及大写校验
-
-  if (code.length !== 18 || patrn.test(code) === false) {
-    checkBool = false;
-  } else {
-    // 加权因子
-    var weightedfactors = [1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28];
-    var str = '0123456789ABCDEFGHJKLMNPQRTUWXY';
-    var arr = str.split('');
-    var checkcode = code.substring(17, 18); // 统一社会信用代码的每一个值
-
-    var ancode; // 统一社会信用代码每一个值的权重
-
-    var ancodevalue;
-    var total = 0; // 不用I、O、S、V、Z
-
-    for (var i = 0; i < code.length - 1; i += 1) {
-      ancode = code.substring(i, i + 1);
-      ancodevalue = str.indexOf(ancode); // 权重与加权因子相乘之和
-
-      total += ancodevalue * weightedfactors[i];
-    }
-
-    var logiccheckcode = 31 - total % 31;
-
-    if (logiccheckcode === 31) {
-      logiccheckcode = 0;
-    }
-
-    logiccheckcode = arr[logiccheckcode];
-
-    if (logiccheckcode !== checkcode) {
-      checkBool = false;
-    }
-  }
-
-  return checkBool;
 }
 /**
  * 校验身份证号码是否合法
@@ -340,41 +265,7 @@ export function getAgeById() {
 export function toDecimalNumber() {
   var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   var pointCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
-  var withPoint = value.toFixed(pointCount);
+  var withPoint = (+value).toFixed(pointCount);
   var reg = /(\d{1,3})(?=(\d{3})+(\.|$))/g;
   return withPoint.replace(reg, '$1,');
-}
-/**
- * 从动态表单中提取list数据
- * @param: Object values 动态表单对象， like：{ name1: 1, value1: 1, name2: '2', value2: 2 }
- * @return：返回值是一个数组：[{name: 1, value: 2 }, { name: 2, value: 2 }]
- */
-
-export function objectToList(values) {
-  var regExp = /-\d$/;
-  var indexObj = {}; // 筛选当前Form的'field-num'字符串到list数组中
-
-  var list = Object.keys(values).filter(function (x) {
-    return regExp.test(x);
-  });
-  var arr = list.reduce(function (arr, x) {
-    var field = x.split('-')[0]; // 列名
-
-    var i = x.split('-')[1]; // arr index，index有可能能不是连贯的
-
-    var obj = arr[i] || {};
-    indexObj[i] = i; // 记录出现过的Index
-
-    obj[field] = values[x];
-    arr[i] = obj;
-    return arr;
-  }, []); // 因为index可能不是连贯的，所以可能某些数组是空的
-
-  return {
-    indexObj: indexObj,
-    // 出现过的index
-    list: arr.filter(function (obj) {
-      return Object.keys(obj).length;
-    })
-  };
 }
