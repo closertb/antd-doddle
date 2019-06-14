@@ -90,20 +90,33 @@
   margin-left: 3%;
   margin-top: 20px;
 }
-.doddle-render-detail .showInfo-content .showInfo-label {
+.doddle-render-detail .showInfo-content .showInfo-item .showInfo-label {
   position: relative;
   display: inline-block;
   width: 40%;
   text-align: right;
+  font-weight: 500;
 }
-.doddle-render-detail .showInfo-content .showInfo-label::before {
+.doddle-render-detail .showInfo-content .showInfo-item .showInfo-label::before {
   content: ':';
   position: absolute;
   right: -5px;
 }
-.doddle-render-detail .showInfo-content .showInfo-value {
+.doddle-render-detail .showInfo-content .showInfo-item .showInfo-value {
   padding-left: 20px;
-  width: 69%;
+  width: 55%;
   text-align: left;
+}
+.doddle-render-detail .showInfo-content .showInfo-item.one-item {
+  width: 90%;
+}
+.doddle-render-detail .showInfo-content .showInfo-item.two-item {
+  width: 45%;
+}
+.doddle-render-detail .showInfo-content .showInfo-item.three-item {
+  width: 30%;
+}
+.doddle-render-detail .showInfo-content .showInfo-item.four-item {
+  width: 22.5%;
 }
 

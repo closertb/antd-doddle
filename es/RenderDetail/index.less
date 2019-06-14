@@ -16,22 +16,35 @@
       width: 45%;
       margin-left: 3%;
       margin-top: 20px;
-    }
-    .showInfo-label {
-      position: relative;
-      display: inline-block;
-      width: 40%;
-      text-align: right;
-      &::before {
-        content: ':';
-        position: absolute;
-        right: -5px;
+      .showInfo-label {
+        position: relative;
+        display: inline-block;
+        width: 40%;
+        text-align: right;
+        font-weight: 500;
+        &::before {
+          content: ':';
+          position: absolute;
+          right: -5px;
+        }
       }
-    }
-    .showInfo-value {
-      padding-left: 20px;
-      width: 69%;
-      text-align: left;
+      .showInfo-value {
+        padding-left: 20px;
+        width: 55%;
+        text-align: left;
+      }
+      &.one-item {
+        width: 90%;
+      }
+      &.two-item {
+        width: 45%;
+      }
+      &.three-item {
+        width: 30%;
+      }
+      &.four-item {
+        width: 22.5%;
+      }
     }
   }
 }

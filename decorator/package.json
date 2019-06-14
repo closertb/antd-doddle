@@ -1,0 +1,6 @@
+{
+  "name": "ffe-basic/decorator",
+  "private": true,
+  "main": "../lib/Decorator/index.js",
+  "module": "../es/Decorator/index.js"
+}
