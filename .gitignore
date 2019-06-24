@@ -3,4 +3,5 @@ node_modules/
 .docz/
 .idea/
 .vscode/
+.DS_Store
 .idea/vcs.xml

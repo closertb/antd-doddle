@@ -17,7 +17,8 @@
     "es",
     "dist",
     "lib",
-    "utils"
+    "utils",
+    "decorator"
   ],
   "repository": {
     "type": "git",

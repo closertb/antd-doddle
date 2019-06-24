@@ -11,7 +11,7 @@ export default function Header(props) {
       </ul>
       <p className="copyright">
         powered by
-        <a href="http://closertb.site">MrDenzel</a>
+        <a style={{ paddingLeft: 10 }} href="http://closertb.site" target="_blank" rel="noopener noreferrer">MrDenzel</a>
       </p>
     </div>
   );

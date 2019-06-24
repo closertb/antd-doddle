@@ -28,7 +28,10 @@ module.exports = {
     compSorterType: 'native',
     title: 'Frontend Component Library',
     github: 'https://github.com/closertb',
-    friendLinks: [{ name: 'closertb', link: 'www.baidu.com' }, { name: 'Denzel', link: 'www.baidu.com' }]
+    friendLinks: [{ name: 'closertb', link: 'https://github.com/closertb' },
+      { name: 'antd', link: 'https://ant-design.gitee.io/index-cn' },
+      { name: 'react', link: 'https://react.docschina.org/tutorial/tutorial.html' },
+      { name: 'BiSheng', link: 'https://github.com/benjycui/bisheng' }]
   },
   devServerConfig: {},
   webpackConfig(config) {
