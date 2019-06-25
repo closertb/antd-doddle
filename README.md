@@ -27,4 +27,4 @@ import { getEnumObject } from 'antd-doddle/utils';
 请访问组件库[文档地址][1]
 
 
-[1]: https://closertb.github.io/antd-doddle
+[1]: http://doc.closertb.site
