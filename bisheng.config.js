@@ -8,7 +8,7 @@ const alertLessConfig = (rules) => {
     }
   });
 };
-const filePath = '/antd-doddle';
+const filePath = '';
 
 module.exports = {
   history: 'hash',
