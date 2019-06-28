@@ -1,9 +1,5 @@
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -20,10 +16,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 import React from 'react';
 import { Form, Row, Col, Button } from 'antd';
 import { formItemLayout } from '../utils';
-import formRender from '../FormRender';
+import formR from '../FormRender';
 import './index.less';
 
 function DefaultRender(props) {
@@ -33,15 +33,16 @@ function DefaultRender(props) {
       handleSearch = props.handleSearch,
       handleReset = props.handleReset,
       extraBtns = props.extraBtns,
-      onReset = props.onReset;
+      onReset = props.onReset,
+      dynamicParams = props.dynamicParams;
   return React.createElement(React.Fragment, null, React.createElement(Row, null, fields.map(function (field) {
     return React.createElement(Col, {
       span: 8,
       key: field.key
-    }, formRender({
+    }, formRender(_objectSpread({
       field: field,
       data: search
-    }));
+    }, dynamicParams)));
   })), React.createElement("div", {
     className: "btn-group"
   }, React.createElement(Button, {
@@ -67,7 +68,7 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(WithSearch).call(this, props));
     _this.state = {};
     var getFieldDecorator = props.form.getFieldDecorator;
-    _this.formRender = formRender({
+    _this.formRender = formR({
       getFieldDecorator: getFieldDecorator,
       containerName: 'search-form'
     });
@@ -122,7 +123,9 @@ function (_React$Component) {
           fields = _this$props3.fields,
           search = _this$props3.search,
           extraBtns = _this$props3.extraBtns,
-          onReset = _this$props3.onReset;
+          onReset = _this$props3.onReset,
+          _this$props3$dynamicP = _this$props3.dynamicParams,
+          dynamicParams = _this$props3$dynamicP === void 0 ? {} : _this$props3$dynamicP;
       var childrenProps = {
         search: search,
         form: form,
@@ -131,6 +134,7 @@ function (_React$Component) {
         onReset: onReset,
         extraBtns: extraBtns,
         formItemLayout: formItemLayout,
+        dynamicParams: dynamicParams,
         onSearch: this.handleSearch,
         getFormData: this.getFormData,
         formRender: this.formRender,

@@ -51,4 +51,41 @@ const { email } = Rules;
   percent: /^100$|^([1-9]|[1-9]\d)(\.\d{1,2})*$/, // 1-100百分比 最多两位小数
   thousandth: /(\d{1,3})(?=(\d{3})+$)/g, //整数千分位 '13456789'.replace(reg,'$1,')
   thousandthWithPoint: /(\d{1,3})(?=(\d{3})+(\.|$))/g, //小数加千分位  '1253456789.89'.replace(reg,'$1,')
-```
+```  
+
+## 类型扩展方法
+针对FormRender，RenderDetail，EnhanceTable分别提供了三个相应的类型(field -> type)扩展库，用于项目扩展自己所需的类型；
+EnhanceTable: extendTableTypes
+FormRender: extendRenderTypes
+RenderDetail: extendDetailTypes
+
+使用方法：
+``` 
+import { extendTableTypes, extendRenderTypes, extendDetailTypes } from 'antd-doddle';
+import ComplexUpload from '../components/ComplexUpload'; // 自己封装的一个上传图片组件
+
+extendRenderTypes({
+  speImg: ({ field }) => {
+    const { key, name, seldomProps = {} } = field;
+    return (<ComplexUpload
+      key={key}
+      name={name}
+      info={field.info}
+      simple={field.psimple}
+      listType={field.listType}
+      reg={field.reg}
+      fileSize={field.fileSize}
+      tips={field.tips}
+      upload={uploadImage}
+      maxSize={field.maxSize}
+      {...seldomProps}
+    />);
+  }
+});
+
+extendTableTypes({
+    showMoney: value => `${value}$`,
+});
+
+// extendDetailTypes使用同extendTableTypes
+``` 

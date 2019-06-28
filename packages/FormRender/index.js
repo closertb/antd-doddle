@@ -5,7 +5,7 @@ import { formItemLayout as layout, DATE_FORMAT, DATE_TIME_FORMAT } from '../util
 import renderType from './renderType';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
+const { Option } = Select;
 const RadioGroup = Radio.Group;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -14,8 +14,10 @@ const CheckboxGroup = Checkbox.Group;
 const defaultAction = () => { };
 const getContainer = className => () => className ? document.getElementsByClassName(className)[0] : document.body;
 const isUndefind = (value, defaultValue) => typeof value === 'undefined' ? defaultValue : value;
-const handleDisabledDate = currentDate =>
-  currentDate && currentDate > moment().endOf('day');
+const handleDisabledDate = currentDate => currentDate && currentDate > moment().endOf('day');
+
+// 用于接受一个从接口获取到的枚举数组
+const getParamFromProps = (key, props) => props[key] || [];
 
 const WrapperDefault = props => <Col span={props.span || 12}>{props.children}</Col>;
 /**
@@ -61,8 +63,11 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       onChange = defaultAction,
       format,
       withWrap,
+      enums = [],
       seldomProps = {},
+      isDynamic = false, // 是否获取动态枚举
     } = field;
+    const enumKey = field.enumKey || key;
     let content = null;
     switch (type) {
       // eslint-disable-next-line
@@ -142,7 +147,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       // eslint-disable-next-line
       case 'select':
       // eslint-disable-next-line
-        const { enums = [] } = field;
+      const selectEnums = isDynamic ? getParamFromProps(enumKey, props) : (props.enums || enums);
         content = isUndefind(props.isEnable, isEnable) && (
           <FormItem key={specialKey || key} label={name} {...formItemLayout}>
             {getFieldDecorator(key, {
@@ -158,7 +163,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
                 getPopupContainer={getContainer(containerName)}
                 {...seldomProps}
               >
-                {(props.enums || enums).map(({ value, label }) => (
+                {selectEnums.map(({ value, label }) => (
                   <Option key={value} value={value}>{label}</Option>
                 ))}
               </Select>
@@ -169,7 +174,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       // eslint-disable-next-line
       case 'radio':
       // eslint-disable-next-line
-        const { enums: options = [], onChange: change = () => { } } = field;
+      const radioEnums = isDynamic ? getParamFromProps(enumKey, props) : (props.enums || enums);
         content = isUndefind(props.isEnable, isEnable) && (
           <FormItem key={specialKey || key} label={name} {...formItemLayout}>
             {getFieldDecorator(key, {
@@ -177,7 +182,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
               rules: [{ required, message: placeholder || `请选择${name}` }].concat(rules)
             })(
               <RadioGroup
-                options={props.enums || options}
+                options={radioEnums}
                 disabled={disable && disable(data)}
                 onChange={props.onChange || onChange}
                 {...seldomProps}
@@ -189,7 +194,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       // eslint-disable-next-line
       case 'check':
       // eslint-disable-next-line
-        const { enums: groups = [] } = field;
+      const checkEnums = isDynamic ? getParamFromProps(enumKey, props) : (props.enums || enums);
         content = isUndefind(props.isEnable, isEnable) && (
           <FormItem key={specialKey || key} label={name} {...formItemLayout}>
             {getFieldDecorator(key, {
@@ -197,7 +202,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
               rules: [{ required, message: placeholder || `请选择${name}` }].concat(rules)
             })(
               <CheckboxGroup
-                options={props.enums || groups}
+                options={checkEnums}
                 disabled={disable && disable(data)}
                 onChange={props.onChange || onChange}
                 {...seldomProps}

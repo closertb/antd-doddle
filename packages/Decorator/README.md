@@ -10,7 +10,10 @@ import { log, form } from 'antd-doddle/decorator';
 ```  
 
 ## API
-bind：this绑定, 使用同autobind 
-throttle：节流函数, 支持time和delay设置
-form: antd Form.create()的高阶组件装饰器写法
+bind：this绑定, 使用同autobind  
+
+throttle：节流函数, 支持time和delay设置  
+
+form: antd Form.create()的高阶组件装饰器写法  
+
 log： 打印方法的输入输出

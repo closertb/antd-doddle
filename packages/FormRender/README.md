@@ -51,5 +51,13 @@ type属性一共包含： input， inputNumber， text， select, radio, check, 
 | enums| 枚举 | 否 | array | [] | 适用：select, radio, check  
 | seldomProps | 不常用配置属性对象 | 否 | object | {} | --
 | withWrap | 是否用包装组件包装 | 否  | boolean | false | --
+| enumKey | 接口枚举属性字段 | 否  | string | 同field key | --
+| isDynamic | 是否去获取动态字段  | boolean | false | --
 
-很多在field和props同时出现的属性，props中的权重大于field中的, field中的权重大于Render声明中的。除了上面所列，还有一些不常用的，后面慢慢补充    
+很多在field和props同时出现的属性，props中的权重大于field中的, field中的权重大于Render声明中的。除了上面所列，还有一些不常用的，后面慢慢补充  
+
+## Change Log
+
+### 2019-05-13
+
+ - feat: 新增isDynamic属性，用于获取从异步接口获取回来的动态枚举，需在props设置enums，对应的属性名为enumKey或key，主要用于WithSearch

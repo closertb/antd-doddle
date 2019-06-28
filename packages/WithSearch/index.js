@@ -1,17 +1,17 @@
 import React from 'react';
 import { Form, Row, Col, Button } from 'antd';
 import { formItemLayout } from '../utils';
-import formRender from '../FormRender';
+import formR from '../FormRender';
 import './index.less';
 
 function DefaultRender(props) {
-  const { fields, formRender, search, handleSearch, handleReset, extraBtns, onReset } = props;
+  const { fields, formRender, search, handleSearch, handleReset, extraBtns, onReset, dynamicParams } = props;
   return (
     <>
       <Row>
         {fields.map(field => (
           <Col span={8} key={field.key}>
-            {formRender({ field, data: search })}
+            {formRender({ field, data: search, ...dynamicParams })}
           </Col>
         ))}
       </Row>
@@ -28,7 +28,7 @@ class WithSearch extends React.Component {
     super(props);
     this.state = {};
     const { form: { getFieldDecorator } } = props;
-    this.formRender = formRender({ getFieldDecorator, containerName: 'search-form' });
+    this.formRender = formR({ getFieldDecorator, containerName: 'search-form' });
     this.handleSearch = this.handleSearch.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.getFormData = this.getFormData.bind(this);
@@ -60,7 +60,7 @@ class WithSearch extends React.Component {
   }
 
   render() {
-    const { children, actions, form, fields, search, extraBtns, onReset } = this.props;
+    const { children, actions, form, fields, search, extraBtns, onReset, dynamicParams = {} } = this.props;
     const childrenProps = {
       search,
       form,
@@ -69,6 +69,7 @@ class WithSearch extends React.Component {
       onReset,
       extraBtns,
       formItemLayout,
+      dynamicParams,
       onSearch: this.handleSearch,
       getFormData: this.getFormData,
       formRender: this.formRender,
