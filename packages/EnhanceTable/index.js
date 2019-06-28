@@ -4,6 +4,7 @@ import table from './table';
 
 const { createColumns } = table;
 export default class EnhanceTable extends React.Component {
+  static PN = 'pageNo'
   constructor(props) {
     super(props);
     this.state = {};
@@ -14,7 +15,7 @@ export default class EnhanceTable extends React.Component {
   }
   render() {
     const { fields, search = {}, datas, total = 0, loading = {}, actions = {}, onSearch,
-      rowKey = 'id', footer, noPage = false, pageName = 'pageNo', ...others } = this.props;
+      rowKey = 'id', footer, noPage = false, pageName = EnhanceTable.PN, ...others } = this.props;
     const columns = this.getInitalColumns(fields);
     const page = search.pageNum ? 'pageNum' : pageName;
     const pagination = noPage ? false : {
@@ -35,10 +36,9 @@ export default class EnhanceTable extends React.Component {
     };
 
     return (
-      <div style={{ marginTop: 20 }} >
+      <div style={{ marginTop: 20 }}>
         <Table {...tableProps} />
       </div>
     );
   }
 }
-

@@ -19,6 +19,7 @@ WithSearch组件主要是要解决中台业务每个页面都会出现搜索框�
 | pageName | 页码属性名 | string | pageNo
 | extraBtns | 额外按钮节点 | fun | --
 | formItemLayout | 表单项样式 | {} | { labelCol: { span: 6 }, wrapperCol: { span: 18 } }
+| dynamicParams | 搜索枚举值集合 | object | {}
 
 ### WithSearch 输出
 
@@ -29,3 +30,9 @@ WithSearch组件主要是要解决中台业务每个页面都会出现搜索框�
 | formItemLayout | 表单项样式  | 
 | handleSearch   | 表单提交操作 | 
 | handleReset    | 表单重置操作 | 
+
+## Change Log
+
+### 2019-05-13
+
+ - feat: 新增dynamicParams，配合field设置isDynamic属性，用于获取从异步接口获取回来的动态枚举，具体使用请参见Demo

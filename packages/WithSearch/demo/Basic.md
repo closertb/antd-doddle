@@ -3,7 +3,7 @@ title: 基本用法
 order: 0
 ---
 
-默认示例
+默认示例(设置isDynamic，动态获取接口返回枚举)
 
 ```jsx
 import React from "react";
@@ -19,6 +19,7 @@ export const searchFields = [{
   name: '是否达成',
   type: 'select',
   enums: [{ label: '是', value: 1 }, { label: '否', value: 0 }],
+  isDynamic: true,
   inputProps: { 
     allowClear: true,
   }
@@ -47,6 +48,9 @@ class Basic extends React.Component {
       search: { reach: 0 },
       onSearch: this.handleSearch,
       onReset: this.handleReset,
+      dynamicParams: { // 从请求获取到的动态枚举， 需配合fields设置isDynamic属性
+        reach: [{ label: '远处的是', value: 1 }, { label: '动态的否', value: 0 }],
+      },
       extraBtns // 添加自定义按钮操作
     };
     return (

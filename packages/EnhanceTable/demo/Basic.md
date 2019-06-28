@@ -53,7 +53,6 @@ const forkDatas = [{
   addtime: Date.now(),
   status: 1
 }];
-
 class Basic extends React.Component {
   constructor(props) {
     super(props);
@@ -69,8 +68,8 @@ class Basic extends React.Component {
         fixed: 'right',
         render: (text, detail) => (
           <div>
-            <a onClick={() => { this.handleOperate('update', detail); }}>修改</a>
-            <Popconfirm title="确认删除？" onConfirm={() => { this.handleOperate('delete', detail); }}>
+            <a onClick={() => { console.log('edit'); }}>修改</a>
+            <Popconfirm title="确认删除？" onConfirm={() => { console.log('delete', detail); }}>
               <a style={{ marginLeft: 10 }}>删除</a>
             </Popconfirm>
           </div>)

@@ -16,22 +16,25 @@ function findValid(arr, index, dir = 1) {
 export default class DynamicForm extends React.Component {
   constructor(props) {
     super(props);
-    const { value = [{ key: 0 }] } = props;
+    const { value, disableBtn = false } = props;
+    const isValid = !!value && value.length > 0;
+    const initValue = isValid ? value : [{ key: 0 }];
     this.state = {
-      rules: value.map((ele, key) => ({ ...ele, key })),
+      canReset: !isValid,
+      rules: initValue.map((ele, key) => ({ disableBtn, ...ele, key })),
     };
     this.handlMinus = this.handlMinus.bind(this);
     this.handlAdd = this.handlAdd.bind(this);
     this.bindChange = this.bindChange.bind(this);
     this.trigger = this.trigger.bind(this);
   }
-  handlMinus(index) {
-    const { rules } = this.state;
-    rules[index].deleteFlag = true;
-    this.setState({
-      rules: [...rules]
-    });
-    this.trigger(rules);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { canReset } = prevState;
+    const { value = [], disableBtn = false } = nextProps;
+    if (canReset && value.length > 0) {
+      return { rules: value.map((ele, key) => ({ disableBtn, ...ele, key })), canReset: false };
+    }
+    return null;
   }
   handlMoveUp = index => () => {
     const { rules } = this.state;
@@ -59,6 +62,14 @@ export default class DynamicForm extends React.Component {
     let { rules } = this.state;
     rules = rules.concat([{ value: undefined, key: rules.length }]);
     this.setState({ rules: [...rules] });
+    this.trigger(rules);
+  }
+  handlMinus(index) {
+    const { rules } = this.state;
+    rules[index].deleteFlag = true;
+    this.setState({
+      rules: [...rules]
+    });
     this.trigger(rules);
   }
   /**
@@ -91,14 +102,16 @@ export default class DynamicForm extends React.Component {
         {validDatas.map((rule, index) => (
           <div key={rule.key}>
             {children(rule, dataBind)}
-            {index ?
+            {!rule.disableBtn && index > 0 &&
               <Button
                 style={{ marginLeft: 10 }}
                 type="primary"
                 shape="circle"
                 icon="minus"
                 onClick={() => this.handlMinus(rule.key)}
-              /> :
+              />
+            }
+            {!rule.disableBtn && index === 0 &&
               <Button
                 style={{ marginLeft: 10 }}
                 onClick={this.handlAdd}
@@ -108,7 +121,7 @@ export default class DynamicForm extends React.Component {
               />
             }
             {/* 第一条只能下移 */}
-            {canMove && index > 0 &&
+            {!rule.disableBtn && canMove && index > 0 &&
               <Button
                 style={{ marginLeft: 10 }}
                 onClick={this.handlMoveUp(rule.key)}
@@ -118,7 +131,7 @@ export default class DynamicForm extends React.Component {
               />
             }
             {/* 最后一条只能上移 */}
-            {canMove && (index < length) &&
+            {!rule.disableBtn && canMove && (index < length) &&
               <Button
                 style={{ marginLeft: 10 }}
                 onClick={this.handlMoveDown(rule.key)}

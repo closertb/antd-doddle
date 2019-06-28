@@ -26,6 +26,11 @@ var isUndefind = function isUndefind(value, defaultValue) {
 
 var handleDisabledDate = function handleDisabledDate(currentDate) {
   return currentDate && currentDate > moment().endOf('day');
+}; // 用于接受一个从接口获取到的枚举数组
+
+
+var getParamFromProps = function getParamFromProps(key, props) {
+  return props[key] || [];
 };
 
 var WrapperDefault = function WrapperDefault(props) {
@@ -98,8 +103,13 @@ export default function (_ref) {
         onChange = _field$onChange === void 0 ? defaultAction : _field$onChange,
         format = field.format,
         withWrap = field.withWrap,
+        _field$enums = field.enums,
+        enums = _field$enums === void 0 ? [] : _field$enums,
         _field$seldomProps = field.seldomProps,
-        seldomProps = _field$seldomProps === void 0 ? {} : _field$seldomProps;
+        seldomProps = _field$seldomProps === void 0 ? {} : _field$seldomProps,
+        _field$isDynamic = field.isDynamic,
+        isDynamic = _field$isDynamic === void 0 ? false : _field$isDynamic;
+    var enumKey = field.enumKey || key;
     var content = null;
 
     switch (type) {
@@ -199,8 +209,7 @@ export default function (_ref) {
 
       case 'select':
         // eslint-disable-next-line
-        var _field$enums = field.enums,
-            enums = _field$enums === void 0 ? [] : _field$enums;
+        var selectEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
         content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
@@ -217,7 +226,7 @@ export default function (_ref) {
           disabled: disable && disable(data),
           onChange: props.onChange || onChange,
           getPopupContainer: getContainer(containerName)
-        }, seldomProps), (props.enums || enums).map(function (_ref2) {
+        }, seldomProps), selectEnums.map(function (_ref2) {
           var value = _ref2.value,
               label = _ref2.label;
           return React.createElement(Option, {
@@ -230,10 +239,7 @@ export default function (_ref) {
 
       case 'radio':
         // eslint-disable-next-line
-        var _field$enums2 = field.enums,
-            options = _field$enums2 === void 0 ? [] : _field$enums2,
-            _field$onChange2 = field.onChange,
-            change = _field$onChange2 === void 0 ? function () {} : _field$onChange2;
+        var radioEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
         content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
@@ -244,7 +250,7 @@ export default function (_ref) {
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
         })(React.createElement(RadioGroup, _extends({
-          options: props.enums || options,
+          options: radioEnums,
           disabled: disable && disable(data),
           onChange: props.onChange || onChange
         }, seldomProps))));
@@ -253,8 +259,7 @@ export default function (_ref) {
 
       case 'check':
         // eslint-disable-next-line
-        var _field$enums3 = field.enums,
-            groups = _field$enums3 === void 0 ? [] : _field$enums3;
+        var checkEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
         content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
@@ -265,7 +270,7 @@ export default function (_ref) {
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
         })(React.createElement(CheckboxGroup, _extends({
-          options: props.enums || groups,
+          options: checkEnums,
           disabled: disable && disable(data),
           onChange: props.onChange || onChange
         }, seldomProps))));

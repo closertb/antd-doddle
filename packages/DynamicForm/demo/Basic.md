@@ -14,6 +14,7 @@ import DynamicForm from "../index.js";
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const format = 'HH:mm';
+const NowTime = Date.now();
 // 表单通用格式
 export const formItemLayout = {
   labelCol: {
@@ -29,9 +30,15 @@ export const formItemLayout = {
 class Basic extends React.Component {
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = { reducRules: [] };
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ reducRules: [{ full: 80, reduction: 5 }, { full: 50, reduction: 3 }] });
+    }, 1000);
   }
   render() {
+    const { reducRules } = this.state;
     return (
       <Form>
         <Row>
@@ -73,7 +80,7 @@ class Basic extends React.Component {
           </Col>
           <Col span={9}>
             <FormItem {...formItemLayout} label="满减规则">
-              <DynamicForm key="fullRules">
+              <DynamicForm key="fullRules" value={reducRules} canMove >
                 {(rule, dataBind) => <span key={rule.key}>
                   <span>满</span>
                   <InputNumber
@@ -102,21 +109,23 @@ class Basic extends React.Component {
         </Row>
         <Row>
           <Col span={15}>
-            <FormItem {...formItemLayout} label="使用时间限制">
-              <DynamicForm key="suiteConsumeTimespanArr" canMove >
+            <FormItem {...formItemLayout} label="仅回显，禁用编辑">
+              <DynamicForm key="suiteConsumeTimespanArr" value={[{ start: NowTime, end: NowTime + 100 }, { start: NowTime + 100000, end: NowTime + 100 }]} disableBtn >
                 {(rule, dataBind) => <span key={rule.key}>
                   <TimePicker
                     format={format}
+                    disabled={rule.disableBtn}
                     style={{ width: 100 }}
                     placeholder="请选择"
-                    value={rule.start && moment(rule.start, format)}
+                    value={rule.start && moment(rule.start)}
                     onChange={value => dataBind(value, rule.key, 'start')}
                   />  到
                   <TimePicker
                     format={format}
+                    disabled={rule.disableBtn}
                     placeholder="请选择"
                     style={{ width: 100, marginLeft: 10 }}
-                    value={rule.end && moment(rule.end, format)}
+                    value={rule.end && moment(rule.end)}
                     onChange={value => dataBind(value, rule.key, 'end')}
                   />
                 </span>}
@@ -124,13 +133,13 @@ class Basic extends React.Component {
             </FormItem>
           </Col>     
           <Col span={9}>
-            <FormItem {...formItemLayout} label="禁用期规则">
-              <DynamicForm key="limitDateArr">
+            <FormItem {...formItemLayout} label="有效期规则" >
+              <DynamicForm key="limitDateArr" value={[{ time:[ NowTime, NowTime + 100000] }, { time:[ NowTime + 9000, NowTime + 900000] }]}>
                 {(rule, dataBind) => <span key={rule.key}>
                   <RangePicker
                     format={'YYYY-MM-DD'}
                     style={{ width: 228 }}
-                    value={rule.time || []}
+                    value={rule.time && [moment(rule.time[0]), moment(rule.time[1])] }
                     className="search-range-picker"
                     onChange={value => dataBind(value, rule.key, 'time')}
                   />

@@ -11,6 +11,6 @@ export { default as HModal } from './HModal';
 export { default as FileUpload } from './FileUpload';
 
 // 三个extends方法
-export { combineTypes } from './EnhanceTable/table/fieldTypes';
+export { combineTypes as extendTableTypes } from './EnhanceTable/table/fieldTypes';
 export { extendRenderTypes } from './FormRender/renderType';
 export { extendDetailTypes } from './RenderDetail/detailType';
