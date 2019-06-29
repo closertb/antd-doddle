@@ -8,6 +8,7 @@ order: 0
 ```jsx
 import React from 'react';
 import { Popconfirm } from 'antd';
+// import { EnhanceTable } from 'antd-doddle';
 import EnhanceTable from "../index.js";
 
 const userStatus = [{
@@ -52,7 +53,8 @@ const forkDatas = [{
   property: 123456,
   addtime: Date.now(),
   status: 1
-}];
+}];  
+
 class Basic extends React.Component {
   constructor(props) {
     super(props);

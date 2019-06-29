@@ -54,10 +54,28 @@ type属性一共包含： input， inputNumber， text， select, radio, check, 
 | enumKey | 接口枚举属性字段 | 否  | string | 同field key | --
 | isDynamic | 是否去获取动态字段  | boolean | false | --
 
-很多在field和props同时出现的属性，props中的权重大于field中的, field中的权重大于Render声明中的。除了上面所列，还有一些不常用的，后面慢慢补充  
+很多在field和props同时出现的属性，props中的权重大于field中的, field中的权重大于Render声明中的。除了上面所列，还有一些不常用的，后面慢慢补充 
+
+### RenderType 扩充
+由于业务的发展，除了上面提供的type以外，有可能你还有一些常用的表单组件，为此，我们提供了一个extendRenderTypes来扩充type
+
+```javascript
+import { extendRenderTypes } from 'antd-doddle';
+import ComplexUpload from '../components/ComplexUpload'; // 自己封装的一个上传图片组件
+
+extendRenderTypes({
+  speImg: ({ field }) => { // 入参为props
+    return (<ComplexUpload {...field} />);
+  }
+});
+```
 
 ## Change Log
 
 ### 2019-05-13
 
- - feat: 新增isDynamic属性，用于获取从异步接口获取回来的动态枚举，需在props设置enums，对应的属性名为enumKey或key，主要用于WithSearch
+ - feat: 新增isDynamic属性，用于获取从异步接口获取回来的动态枚举，需在props设置enums，对应的属性名为enumKey或key，主要用于WithSearch  
+
+ ### 2019-06-28
+
+ - feat: 新增extendRenderTypes使用说明文档

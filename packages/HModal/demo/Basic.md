@@ -8,6 +8,7 @@ order: 0
 ```jsx
 import React from 'react';
 import { Button } from 'antd';
+// import { HModal } from 'antd-doddle';
 import HModal from "../index.js";
 
 function DetailModal(props) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { getEnumObject } from '../utils';
-import detailType from './detailType';
+import fieldTypes from '../EnhanceTable/table/fieldTypes';
 import './index.less';
 
 /**
@@ -14,8 +14,8 @@ function renderBaseFields(fields, detail = {}) {
     let value = detail[key];
 
     // 处理格式化数据
-    if (type && value && detailType[type]) {
-      value = detailType[type](value);
+    if (type && value && fieldTypes[type]) {
+      value = fieldTypes[type](value, detail);
     }
     // 处理枚举
     if (enums && enums.length > 0) {
@@ -31,10 +31,12 @@ function renderBaseFields(fields, detail = {}) {
     }
     // 处理没有值时，统一显示为--,
     const final = (value === undefined || value === '') ? '--' : value;
-    return (<div className="showInfo-item" key={index} >
-      <span className="showInfo-label">{name}</span>
-      <span className="showInfo-value">{final}{final === value ? unit : ''}</span>
-    </div>);
+    return (
+      <div className="showInfo-item" key={index}>
+        <span className="showInfo-label">{name}</span>
+        <span className="showInfo-value">{final}{final === value ? unit : ''}</span>
+      </div>
+    );
   });
 }
 

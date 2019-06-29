@@ -296,7 +296,7 @@ export var Rules = {
   percent: /^100$|^([1-9]|[1-9]\d)(\.\d{1,2})*$/,
   // 1-100百分比 最多两位小数
   thousandth: /(\d{1,3})(?=(\d{3})+$)/g,
-  //整数千分位 '13456789'.replace(reg,'$1,')
-  thousandthWithPoint: /(\d{1,3})(?=(\d{3})+(\.|$))/g //小数加千分位  '1253456789.89'.replace(reg,'$1,')
+  // 整数千分位 '13456789'.replace(reg,'$1,')
+  thousandthWithPoint: /(\d{1,3})(?=(\d{3})+(\.|$))/g // 小数加千分位  '1253456789.89'.replace(reg,'$1,')
 
 };

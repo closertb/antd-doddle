@@ -10,18 +10,18 @@ RenderDetail解决中台常出现的详情展示问题。
 
 ### RenderDetail 输入
 | 参数名 | 作用 | 必传 | 类型 | 默认值  
-:--|:--:|:--:|:--:|:--  
+:--|:-------------------------:|:--:|:--:|:--  
 | fields | 渲染列表 | 是 | array | --
 | detail | 翻页查询操作 | 是 |  object | {} 
-| fieldsName | 栏目标题 | 是 |  string | --   
+| fieldsName | 栏目标题，为空时不渲染标题 | 是 |  string | --   
 
 field 参数  
 
 | 参数名 | 作用 | 必传 | 类型 | 默认值  
-:--|:--:|:--:|:--:|:--
+:--|:-------------------------:|:---:|:--:|:--
 | key | 渲染属性名 | 是 | string | --
 | name | 属性名称 | 是 |  string | -- 
-| type | 类型 | 否 |  string | 
+| type | 类型, 默认支持date, datetime, decimal, 和table共用fieldTypes | 否 |  string | 
 | isShow | 是否渲染 | 否 | fun: detail => !detail.name | --
 | enums | 枚举 | 否 |  [] | -- [{ label: '', value: '' }]
 | render | 自定义渲染 | 否 |  string |

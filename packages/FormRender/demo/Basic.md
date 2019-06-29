@@ -9,6 +9,7 @@ order: 0
 import React from 'react';
 import moment from 'moment';
 import { Form, Row, Col, Button, Switch } from 'antd';
+// import { formRender } from 'antd-doddle';
 import formRender from "../index.js";
 
 const FormItem = Form.Item;
