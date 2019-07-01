@@ -31,6 +31,7 @@ module.exports = {
     friendLinks: [{ name: 'closertb', link: 'https://github.com/closertb' },
       { name: 'antd', link: 'https://ant-design.gitee.io/index-cn' },
       { name: 'react', link: 'https://react.docschina.org/tutorial/tutorial.html' },
+      { name: 'segmentFault', link: 'https://segmentfault.com/u/denzel' },
       { name: 'BiSheng', link: 'https://github.com/benjycui/bisheng' }]
   },
   devServerConfig: {},

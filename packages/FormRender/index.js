@@ -75,7 +75,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       // eslint-disable-next-line
         const patternRules = [{ required, message: placeholder || `请输入${name}` },
           { pattern: /^\S.*\S$|^\S$/, message: '首尾不能含有空字符' }].concat(rules);
-        content = isUndefind(props.isEnable, isEnable) && (
+        content = (
           <FormItem key={specialKey || key} label={name} {...formItemLayout} className="self-define-item">
             {getFieldDecorator(key, {
               initialValue: data[key],
@@ -99,7 +99,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
         // min 设计了默认值的话，会导致表单为非必填时，会默认填上最小值；
         // eslint-disable-next-line
         const { max, min, precision = 0, step = 1 } = field;
-        content = isUndefind(props.isEnable, isEnable) && (
+        content = (
           <FormItem key={specialKey || key} label={name} {...formItemLayout} className="self-define-item">
             {getFieldDecorator(key, {
               initialValue: data[key],
@@ -124,7 +124,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       case 'text':
       // eslint-disable-next-line
         const { minRows = 2, maxRows = 6 } = field;
-        content = isUndefind(props.isEnable, isEnable) && (
+        content = (
           <FormItem key={specialKey || key} label={name} {...formItemLayout} className="self-define-item">
             {getFieldDecorator(key, {
               initialValue: data[key],
@@ -148,7 +148,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       case 'select':
       // eslint-disable-next-line
       const selectEnums = isDynamic ? getParamFromProps(enumKey, props) : (props.enums || enums);
-        content = isUndefind(props.isEnable, isEnable) && (
+        content = (
           <FormItem key={specialKey || key} label={name} {...formItemLayout}>
             {getFieldDecorator(key, {
               initialValue: isUndefind(data[key], defaultValue),
@@ -175,7 +175,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       case 'radio':
       // eslint-disable-next-line
       const radioEnums = isDynamic ? getParamFromProps(enumKey, props) : (props.enums || enums);
-        content = isUndefind(props.isEnable, isEnable) && (
+        content = (
           <FormItem key={specialKey || key} label={name} {...formItemLayout}>
             {getFieldDecorator(key, {
               initialValue: isUndefind(data[key], defaultValue),
@@ -195,7 +195,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       case 'check':
       // eslint-disable-next-line
       const checkEnums = isDynamic ? getParamFromProps(enumKey, props) : (props.enums || enums);
-        content = isUndefind(props.isEnable, isEnable) && (
+        content = (
           <FormItem key={specialKey || key} label={name} {...formItemLayout}>
             {getFieldDecorator(key, {
               initialValue: isUndefind(data[key], defaultValue),
@@ -212,7 +212,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
         );
         break;
       case 'datePicker':
-        content = isUndefind(props.isEnable, isEnable) && (
+        content = (
           <FormItem key={specialKey || key} label={name} {...formItemLayout}>
             {getFieldDecorator(key, {
               initialValue: data[key] && moment(data[key]),
@@ -242,7 +242,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
         const endDate = data[endKey];
         // eslint-disable-next-line
         const rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
-        content = isUndefind(props.isEnable, isEnable) && (
+        content = (
           <FormItem key={specialKey || key} label={name} {...formItemLayout}>
             {getFieldDecorator(rangeKey, {
               initialValue: rangeDate,
@@ -266,7 +266,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
       default:
         if (renderType[type]) {
           const render = renderType[type];
-          content = isUndefind(props.isEnable, isEnable) && (
+          content = (
             <FormItem key={specialKey || key} label={name} {...formItemLayout}>
               {getFieldDecorator(key, {
                 initialValue: data[key],
@@ -279,7 +279,8 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
 
         break;
     }
-    return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ?
+    const domNode = isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ?
       <Wrapper {...wrapProps}>{content}</Wrapper> : content;
+    return isUndefind(props.isEnable, isEnable) && domNode;
   };
 }

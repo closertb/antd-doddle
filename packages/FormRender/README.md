@@ -79,3 +79,7 @@ extendRenderTypes({
  ### 2019-06-28
 
  - feat: 新增extendRenderTypes使用说明文档
+
+### 2019-07-01
+
+ - fix: 解决节点为isEnable为false时，有wrapper包装时，表单不渲染，但wrapper还会渲染的bug

@@ -71,6 +71,12 @@ const editFields = [{
   type: 'selfDefine',
   child: ({ field }) => <Switch />
 }, {
+  key: 'notshow',
+  name: '不展示',
+  required: false,
+  isEnable: false,
+  type: 'text'
+}, {
   key: 'remark',
   name: '备注',
   required: false,
