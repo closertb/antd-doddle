@@ -69,6 +69,10 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
     } = field;
     const enumKey = field.enumKey || key;
     let content = null;
+    // 如果这个节点不需要渲染，那么就直接返回null
+    if (!isUndefind(props.isEnable, isEnable)) {
+      return content;
+    }
     switch (type) {
       // eslint-disable-next-line
       case 'input':
@@ -279,8 +283,7 @@ export default function ({ formItemLayout = layout, containerName, getFieldDecor
 
         break;
     }
-    const domNode = isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ?
+    return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ?
       <Wrapper {...wrapProps}>{content}</Wrapper> : content;
-    return isUndefind(props.isEnable, isEnable) && domNode;
   };
 }

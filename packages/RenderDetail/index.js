@@ -9,8 +9,10 @@ import './index.less';
  * @params: props  渲染表单的值对象
  * @return：返回值是一个Dom树组
  */
+const countEnums = ['one-item', 'two-item', 'three-item', 'four-item'];
+
 function renderBaseFields(fields, detail = {}) {
-  return fields.map(({ name, key, type, enums, render, isShow, unit = '' }, index) => {
+  return fields.map(({ name, key, type, enums, render, isShow, unit = '' }, itemCount = 2, index) => {
     let value = detail[key];
 
     // 处理格式化数据
@@ -29,12 +31,16 @@ function renderBaseFields(fields, detail = {}) {
     if (isShow && !isShow(detail)) {
       return null;
     }
+    const lineClass = countEnums[itemCount - 1];
     // 处理没有值时，统一显示为--,
     const final = (value === undefined || value === '') ? '--' : value;
     return (
-      <div className="showInfo-item" key={index}>
+      <div className={`showInfo-item ${lineClass}`} key={index}>
         <span className="showInfo-label">{name}</span>
-        <span className="showInfo-value">{final}{final === value ? unit : ''}</span>
+        <span className="showInfo-value">
+          {final}
+          {final === value ? unit : ''}
+        </span>
       </div>
     );
   });
@@ -56,7 +62,7 @@ export default class RenderDetail extends React.Component {
     const { fields, detail = {}, fieldsName, children } = this.props;
     return (
       <div className="doddle-render-detail">
-        <h3 className="title">{fieldsName}</h3>
+        {fieldsName && <h3 className="title">{fieldsName}</h3>}
         <div className="showInfo-content">
           {children ? children(renderBaseFields) : renderBaseFields(fields, detail)}
         </div>

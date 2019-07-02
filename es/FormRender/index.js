@@ -110,7 +110,11 @@ export default function (_ref) {
         _field$isDynamic = field.isDynamic,
         isDynamic = _field$isDynamic === void 0 ? false : _field$isDynamic;
     var enumKey = field.enumKey || key;
-    var content = null;
+    var content = null; // 如果这个节点不需要渲染，那么就直接返回null
+
+    if (!isUndefind(props.isEnable, isEnable)) {
+      return content;
+    }
 
     switch (type) {
       // eslint-disable-next-line
@@ -360,7 +364,6 @@ export default function (_ref) {
         break;
     }
 
-    var domNode = isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? React.createElement(Wrapper, wrapProps, content) : content;
-    return isUndefind(props.isEnable, isEnable) && domNode;
+    return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? React.createElement(Wrapper, wrapProps, content) : content;
   };
 }
