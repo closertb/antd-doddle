@@ -27,9 +27,11 @@ import './index.less';
  * @return：返回值是一个Dom树组
  */
 
+var countEnums = ['one-item', 'two-item', 'three-item', 'four-item'];
+
 function renderBaseFields(fields) {
   var detail = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return fields.map(function (_ref, index) {
+  return fields.map(function (_ref) {
     var name = _ref.name,
         key = _ref.key,
         type = _ref.type,
@@ -38,6 +40,8 @@ function renderBaseFields(fields) {
         isShow = _ref.isShow,
         _ref$unit = _ref.unit,
         unit = _ref$unit === void 0 ? '' : _ref$unit;
+    var itemCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+    var index = arguments.length > 2 ? arguments[2] : undefined;
     var value = detail[key]; // 处理格式化数据
 
     if (type && value && fieldTypes[type]) {
@@ -57,13 +61,14 @@ function renderBaseFields(fields) {
 
     if (isShow && !isShow(detail)) {
       return null;
-    } // 处理没有值时，统一显示为--,
+    }
 
+    var lineClass = countEnums[itemCount - 1]; // 处理没有值时，统一显示为--,
 
     var _final = value === undefined || value === '' ? '--' : value;
 
     return React.createElement("div", {
-      className: "showInfo-item",
+      className: "showInfo-item ".concat(lineClass),
       key: index
     }, React.createElement("span", {
       className: "showInfo-label"
@@ -107,7 +112,7 @@ function (_React$Component) {
           children = _this$props.children;
       return React.createElement("div", {
         className: "doddle-render-detail"
-      }, React.createElement("h3", {
+      }, fieldsName && React.createElement("h3", {
         className: "title"
       }, fieldsName), React.createElement("div", {
         className: "showInfo-content"

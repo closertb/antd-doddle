@@ -25,6 +25,7 @@ field 参数
 | isShow | 是否渲染 | 否 | fun: detail => !detail.name | --
 | enums | 枚举 | 否 |  [] | -- [{ label: '', value: '' }]
 | render | 自定义渲染 | 否 |  string |
+| itemCount | 单行显示数量 | 否 |  number | 2（1， 2， 3可选）
 | unit | 单位 | 否 |  string | ''
 
 **注**：如果对显示的样式不符合要求，可自己重定义样式。  
