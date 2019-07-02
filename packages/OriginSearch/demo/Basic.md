@@ -8,6 +8,7 @@ order: 0
 ```jsx
 import React from 'react';
 import { Form } from 'antd';
+// import { OriginSearch } from 'antd-doddle';
 import OriginSearch from '../index.js';
 
 const FormItem = Form.Item;

@@ -5,8 +5,8 @@ export default function Header(props) {
   return (
     <div className="footer">
       <ul className="friend-link">
-        {friendLink.map(({ name, href }) => (
-          <li key={name}><a href={href} target="_blank" rel="noopener noreferrer">{name}</a></li>))
+        {friendLink.map(({ name, link }) => (
+          <li key={name}><a href={link} target="_blank" rel="noopener noreferrer">{name}</a></li>))
         }
       </ul>
       <p className="copyright">

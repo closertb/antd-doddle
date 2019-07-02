@@ -9,6 +9,7 @@ order: 0
 import React from 'react';
 import moment from 'moment';
 import { Form, Row, Col, Button, Switch } from 'antd';
+// import { formRender } from 'antd-doddle';
 import formRender from "../index.js";
 
 const FormItem = Form.Item;
@@ -69,6 +70,12 @@ const editFields = [{
   required: false,
   type: 'selfDefine',
   child: ({ field }) => <Switch />
+}, {
+  key: 'notshow',
+  name: '不展示',
+  required: false,
+  isEnable: false,
+  type: 'text'
 }, {
   key: 'remark',
   name: '备注',

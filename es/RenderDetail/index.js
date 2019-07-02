@@ -18,7 +18,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import React from 'react';
 import { getEnumObject } from '../utils';
-import detailType from './detailType';
+import fieldTypes from '../EnhanceTable/table/fieldTypes';
 import './index.less';
 /**
  * 作用: 详情信息表单的渲染
@@ -40,8 +40,8 @@ function renderBaseFields(fields) {
         unit = _ref$unit === void 0 ? '' : _ref$unit;
     var value = detail[key]; // 处理格式化数据
 
-    if (type && value && detailType[type]) {
-      value = detailType[type](value);
+    if (type && value && fieldTypes[type]) {
+      value = fieldTypes[type](value, detail);
     } // 处理枚举
 
 

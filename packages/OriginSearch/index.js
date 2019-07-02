@@ -3,7 +3,7 @@ import { Input, AutoComplete, Spin, Tooltip, Icon } from 'antd';
 import { throttle, isEmpty } from '../utils';
 import './index.less';
 
-const Option = AutoComplete.Option;
+const { Option } = AutoComplete;
 const DefaultOption = (
   <Option key="empty" disabled>
     暂无可匹配的搜索结果

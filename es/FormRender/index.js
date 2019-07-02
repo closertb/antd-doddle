@@ -123,7 +123,7 @@ export default function (_ref) {
           pattern: /^\S.*\S$|^\S$/,
           message: '首尾不能含有空字符'
         }].concat(rules);
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -151,7 +151,7 @@ export default function (_ref) {
             precision = _field$precision === void 0 ? 0 : _field$precision,
             _field$step = field.step,
             step = _field$step === void 0 ? 1 : _field$step;
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -181,7 +181,7 @@ export default function (_ref) {
             minRows = _field$minRows === void 0 ? 2 : _field$minRows,
             _field$maxRows = field.maxRows,
             maxRows = _field$maxRows === void 0 ? 6 : _field$maxRows;
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -210,7 +210,7 @@ export default function (_ref) {
       case 'select':
         // eslint-disable-next-line
         var selectEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -240,7 +240,7 @@ export default function (_ref) {
       case 'radio':
         // eslint-disable-next-line
         var radioEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -260,7 +260,7 @@ export default function (_ref) {
       case 'check':
         // eslint-disable-next-line
         var checkEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -277,7 +277,7 @@ export default function (_ref) {
         break;
 
       case 'datePicker':
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -313,7 +313,7 @@ export default function (_ref) {
         var endDate = data[endKey]; // eslint-disable-next-line
 
         var rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
-        content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, _extends({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(rangeKey, {
@@ -339,7 +339,7 @@ export default function (_ref) {
       default:
         if (renderType[type]) {
           var render = renderType[type];
-          content = isUndefind(props.isEnable, isEnable) && React.createElement(FormItem, _extends({
+          content = React.createElement(FormItem, _extends({
             key: specialKey || key,
             label: name
           }, formItemLayout), getFieldDecorator(key, {
@@ -360,6 +360,7 @@ export default function (_ref) {
         break;
     }
 
-    return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? React.createElement(Wrapper, wrapProps, content) : content;
+    var domNode = isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? React.createElement(Wrapper, wrapProps, content) : content;
+    return isUndefind(props.isEnable, isEnable) && domNode;
   };
 }
