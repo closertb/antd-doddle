@@ -29,7 +29,7 @@ export var formItemLayout = {
  */
 
 export var isEmpty = function isEmpty(value) {
-  return _typeof(value) === 'object' && Object.keys(value).length === 0;
+  return value === null || _typeof(value) === 'object' && Object.keys(value).length === 0;
 };
 /**
  * 根据指定的枚举值和枚举数组，找出其枚举对应的标签；

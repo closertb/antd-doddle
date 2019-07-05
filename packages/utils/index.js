@@ -18,7 +18,7 @@ export const formItemLayout = {
 /**
  * @param {*} value 判断该对象是否是空对象或空数组
  */
-export const isEmpty = value => typeof value === 'object' && Object.keys(value).length === 0;
+export const isEmpty = value => value === null || (typeof value === 'object' && Object.keys(value).length === 0);
 
 /**
  * 根据指定的枚举值和枚举数组，找出其枚举对应的标签；
