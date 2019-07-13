@@ -1,8 +1,12 @@
 ---
-title: EnhanceTable 自定义动态表单组件
+title: EnhanceTable 加强版Table组件
 ---
 
-EnhanceTable组件主要是要解决中台业务每个表单页面都会使用antd的table，但相似度极高。所以用一个组件将table包起来，并加入了一些通用的处理逻辑
+EnhanceTable组件主要是要解决中台业务每个表单页面都会使用antd的table，但使用相似度极高。初衷有三：
+ - 表头定义更加简单，通用类型，时间，日期，枚举的展示少些render；
+ - 分页与查询逻辑加入
+ - 用规范来减少重复；  
+ 
 ## 代码演示
 
 ## API
