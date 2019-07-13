@@ -39,9 +39,9 @@ function renderBaseFields(fields) {
         render = _ref.render,
         isShow = _ref.isShow,
         _ref$unit = _ref.unit,
-        unit = _ref$unit === void 0 ? '' : _ref$unit;
-    var itemCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
-    var index = arguments.length > 2 ? arguments[2] : undefined;
+        unit = _ref$unit === void 0 ? '' : _ref$unit,
+        _ref$itemCount = _ref.itemCount,
+        itemCount = _ref$itemCount === void 0 ? 2 : _ref$itemCount;
     var value = detail[key]; // 处理格式化数据
 
     if (type && value && fieldTypes[type]) {
@@ -69,7 +69,7 @@ function renderBaseFields(fields) {
 
     return React.createElement("div", {
       className: "showInfo-item ".concat(lineClass),
-      key: index
+      key: key
     }, React.createElement("span", {
       className: "showInfo-label"
     }, name), React.createElement("span", {

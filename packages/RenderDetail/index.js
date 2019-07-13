@@ -12,7 +12,7 @@ import './index.less';
 const countEnums = ['one-item', 'two-item', 'three-item', 'four-item'];
 
 function renderBaseFields(fields, detail = {}) {
-  return fields.map(({ name, key, type, enums, render, isShow, unit = '' }, itemCount = 2, index) => {
+  return fields.map(({ name, key, type, enums, render, isShow, unit = '', itemCount = 2 }) => {
     let value = detail[key];
 
     // 处理格式化数据
@@ -35,7 +35,7 @@ function renderBaseFields(fields, detail = {}) {
     // 处理没有值时，统一显示为--,
     const final = (value === undefined || value === '') ? '--' : value;
     return (
-      <div className={`showInfo-item ${lineClass}`} key={index}>
+      <div className={`showInfo-item ${lineClass}`} key={key}>
         <span className="showInfo-label">{name}</span>
         <span className="showInfo-value">
           {final}
