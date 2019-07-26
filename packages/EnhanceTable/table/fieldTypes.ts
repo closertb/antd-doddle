@@ -11,7 +11,7 @@ const fieldTypes = {
   normal: value => value,
   date: value => getParsedDate(value, DATE_FORMAT),
   datetime: value => getParsedDate(value, DATE_TIME_FORMAT),
-  decimal: value => toDecimalNumber(value),
+  decimal: value => toDecimalNumber(value, 2),
   enum: (value, { enums }) => getEnumObject(enums, value).label || ''
 };
 

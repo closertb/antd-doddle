@@ -25,6 +25,7 @@ const WrapperDefault = props => <Col span={props.span || 12}>{props.children}</C
  * @param string getFieldDecorator      : 表单项装饰器
  * @param string require                : 表单项整体定义是否必填
  * @param string Wrapper                : 表单包裹组件
+ * @param string containerName          : 表单组件挂载的Dom节点ClassName
  * filed 参数说明
  * @param string type         : 表单项类型
  * @param string key          : 表单项主键
@@ -41,10 +42,35 @@ const WrapperDefault = props => <Col span={props.span || 12}>{props.children}</C
  * @param string specialKey   : 表单项FORMITEM专用key值，用于react diff时用
  * @param string format         : 表单项类型
 */
+interface FieldProps {
+  type?: string,         //  表单项类型
+  key: string,          //  表单项主键
+  name?: string,         //  表单项名称
+  style?: object,        //  表单项样式
+  required?: boolean,    //  表单项是否必填
+  allowClear?: boolean,   //  表单项是否允许清除
+  placeholder?: string,  //  表单项说明文字
+  defaultValue?: any, //  表单项默认值
+  disable?: Function,      //  表单项是否禁用
+  rules?: [],        //  表单项校验规则
+  maxLength: number,    //  表单项最大长度
+  isEnable?: boolean,     //  表单项是否启用，true时渲染，false时不渲染
+  specialKey?: string,   //  表单项FORMITEM专用key值，用于react diff时用
+  format?: string,       //  表单项类型
+  onChange?: Function,
+  isDynamic?: boolean,
+  [propName: string]: any
+}
+
+interface FormRenderProps {
+  field: FieldProps,
+  data?: any,
+  [propName: string]: any // 其他
+}
 
 export default function ({ formItemLayout = layout, containerName, getFieldDecorator,
   require, Wrapper = WrapperDefault, withWrap: defaultWrap = false }) {
-  return function FormRender(props) {
+  return function FormRender(props: FormRenderProps) {
     const { field, data = {}, wrapProps = {} } = props;
     const {
       type = 'input',

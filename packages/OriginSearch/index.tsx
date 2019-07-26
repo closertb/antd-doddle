@@ -22,7 +22,34 @@ const DefaultOption = (
  * @prop: { string }        searchKey    自定义搜索数据对象，关键词属性名，默认keyword
  * @prop: { number }        maxSize      文字长度超过maxSize时使用ToolTips进行字段扩展展示
  */
-export default class OriginSearch extends React.Component {
+interface OriginSearchProps {
+  fetchData: Function, // 带promise的数据获取接口
+  valueFormat?: Function, // 数据显示框自定义数据显示函数。默认为 value => value
+  format?: Function, // 下拉列表显示自定义规则函数，返回[{label: '',value: ''}]对象数组
+  onSelect?: Function,
+  onChange?: Function,
+  value?: string | object | number,
+  search?: object,
+  searchKey?: 'string',
+  maxSize?: number,
+  style: object,
+  disabled: boolean,
+  placeholder: 'string',
+  allowClear: boolean
+}
+
+interface searchState {
+  isShowSearch: boolean,
+  loading: boolean,
+  options: [],
+  seachRes: [],
+  value: string | object | number,
+  search: object,
+}
+export default class OriginSearch extends React.Component<OriginSearchProps> {
+  lastFethId = 0;
+  lazyLoad = throttle(this.load, 800);
+  state: searchState;
   constructor(props) {
     super(props);
     this.state = {
@@ -33,14 +60,12 @@ export default class OriginSearch extends React.Component {
       value: props.value,
       search: props.search || {},
     };
-    this.lastFethId = 0;
     this.load = this.load.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleOpenSearch = this.handleOpenSearch.bind(this);
     this.handleCloseSearch = this.handleCloseSearch.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.lazyLoad = throttle(this.load, 800);
   }
   static getDerivedStateFromProps(nextProps, prevState) {
     const { value } = nextProps;
@@ -115,7 +140,6 @@ export default class OriginSearch extends React.Component {
     const {
       style,
       valueFormat = value => value,
-      size = 'default',
       disabled = false,
       placeholder = '请输入',
       allowClear = false,
@@ -129,7 +153,6 @@ export default class OriginSearch extends React.Component {
     const inputValue = valueFormat(value);
     const withTips = inputValue && String(inputValue).length > maxSize;
     const nodeProps = {
-      size,
       disabled,
       // disabled的时候，allowClear任然是可以点击的
       allowClear: !disabled && allowClear,
@@ -138,7 +161,6 @@ export default class OriginSearch extends React.Component {
       value: inputValue,
       style: { width: '100%' },
       onChange: this.handleRemove,
-      ref: e => (this.searchInput = e),
       ...inputProps,
     };
     return (
@@ -158,7 +180,6 @@ export default class OriginSearch extends React.Component {
               className="certain-category-search"
               dropdownClassName="certain-category-search-dropdown"
               dropdownMatchSelectWidth
-              size={size}
               onBlur={this.handleCloseSearch}
               onSearch={this.handleChange}
               onSelect={this.handleSelect}

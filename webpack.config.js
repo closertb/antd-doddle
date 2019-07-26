@@ -43,9 +43,17 @@ module.exports = {
       amd: 'moment',
     },
   },
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: ['.ts']
+  },
   module: {
     rules: [{
-      test: /\.js?$/,
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      loader: 'ts-loader'
+    }, {
+      test: /\.jsx?$/,
       exclude: /(node_modules|bower_components)/,
       loader: 'babel-loader',
       query: {

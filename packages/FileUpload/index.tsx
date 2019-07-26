@@ -17,18 +17,50 @@ function showInfoModal(content) {
   });
 }
 
-const uploadButton = (type = 'picture-card') => type === 'picture-card' ? (
+const uploadButton = (type  = 'picture-card') => type === 'picture-card' ? (
   <div>
     <Icon type="plus" />
     <div className="ant-upload-text">上传</div>
   </div>
 ) : (
   <Button>
-    <Icon type="upload" /> 选择文件
+    <Icon type="upload" />
+    选择文件
   </Button>
 );
 
-export default class FileUpload extends React.Component {
+interface FileUploadProps {
+  onChange?: Function,
+  upload: Function,
+  listType?: any,
+  info?: string,
+  value?: any
+  fileSize?: number,
+  tips?: string,
+  reg?: RegExp,
+  simple?: string,
+  disabled?: boolean,
+  maxSize?: number
+}
+
+interface FileProps {
+  uid?: string,
+  name?: string,
+  status?: string,
+  specialId?: string,
+  url?: string,
+  [propName: string]: any
+}
+
+interface StateProps {
+  initUrl: string,
+  imageUrl: string,
+  ids: string [],
+  previewVisible: boolean,
+  fileList?: any
+}
+export default class FileUpload extends React.PureComponent<FileUploadProps> {
+  state: StateProps
   constructor(props) {
     super(props);
     const { url, name, value } = props;
@@ -94,9 +126,8 @@ export default class FileUpload extends React.Component {
   };
 
   customRequest = (option) => {
-    const { handleSetStart, upload } = this.props;
+    const { upload } = this.props;
     const { file, onSuccess } = option;
-    handleSetStart && handleSetStart();
     upload({ file }).then((res) => {
       const { content } = res;
       onSuccess({ content });
@@ -184,7 +215,7 @@ export default class FileUpload extends React.Component {
           }
         </div>
         {info && fileList.length === 0 &&
-          <div className={'show-info'}>{info}</div>
+          <div className="show-info">{info}</div>
         }
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="" style={{ width: '100%' }} src={imageUrl} />
@@ -193,4 +224,3 @@ export default class FileUpload extends React.Component {
     );
   }
 }
-

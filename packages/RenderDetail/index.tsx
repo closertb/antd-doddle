@@ -1,18 +1,18 @@
-import React from 'react';
-import { getEnumObject } from '../utils';
+import React, { DOMElement, Children } from 'react';
+import { getEnumObject, EnumField, FieldProps } from '../utils';
 import fieldTypes from '../EnhanceTable/table/fieldTypes';
 import './index.less';
 
 /**
  * 作用: 详情信息表单的渲染
  * @params: fields 渲染表单的属性对象
- * @params: props  渲染表单的值对象
+ * @params: detail  渲染表单的值对象
  * @return：返回值是一个Dom树组
  */
 const countEnums = ['one-item', 'two-item', 'three-item', 'four-item'];
 
-function renderBaseFields(fields, detail = {}) {
-  return fields.map(({ name, key, type, enums, render, isShow, unit = '' }, itemCount = 2, index) => {
+function renderBaseFields(fields: FieldProps [], detail = {}) {
+  return fields.map(({ name, key, type, enums, render, isShow, unit = '', itemCount = 2 }, index) => {
     let value = detail[key];
 
     // 处理格式化数据
@@ -53,12 +53,14 @@ function renderBaseFields(fields, detail = {}) {
  * @params: fieldsName   栏目名称
  * @params: children     自定义render
  */
-export default class RenderDetail extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  render() {
+interface RenderDetailProps {
+  fields: FieldProps [], // 栏目字段定义
+  detail: object, // 栏目详情
+  fieldName?: string, // 栏目名称
+  children?: Function  // 自定义render
+  [propName: string]: any
+}
+function RenderDetail(props: RenderDetailProps) {
     const { fields, detail = {}, fieldsName, children } = this.props;
     return (
       <div className="doddle-render-detail">
@@ -68,5 +70,6 @@ export default class RenderDetail extends React.Component {
         </div>
       </div>
     );
-  }
 }
+
+export default React.memo(RenderDetail)

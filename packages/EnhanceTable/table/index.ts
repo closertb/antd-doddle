@@ -1,11 +1,11 @@
 // 该文件来源于carno/addons
 import fieldTypes, { combineTypes } from './fieldTypes';
-
+import { FieldProps } from '../../utils';
 /*
  * 获取column中显示的filedValue
  */
 /*eslint-disable*/
-function getFieldValue(value, field = {}) {
+function getFieldValue(value, field?: FieldProps) {
   let type = field.type || (field.enums && 'enum');
   type = fieldTypes.hasOwnProperty(type) ? type : 'normal';
   return fieldTypes[type](value, field);
@@ -22,9 +22,17 @@ function getFieldValue(value, field = {}) {
  * @param extraFields 扩展的fields
  * @result 链式写法，返回链式对象(包含pick,excludes,enhance,values方法), 需要调用values返回最终的数据
  */
-function createColumns(fields, fieldKeys, extraFields) {
 
-  const chain = {};
+ interface OutProps {
+  pick?: Function,
+  excludes?: Function,
+  enhance?: Function,
+  values?: Function,
+ }
+
+function createColumns(fields: FieldProps [], fieldKeys?: [], extraFields?: FieldProps []) {
+
+  const chain: OutProps = {};
   let columns = [];
 
   const transform = (_fields) => {

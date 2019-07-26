@@ -1,0 +1,16 @@
+{
+  "include": ["packages/**/*.ts", "packages/**/*.tsx"],
+  "compilerOptions": {
+      "outDir": "tsDist",
+      "declarationDir": "tsDist",
+      "sourceMap": true,
+      "noImplicitAny": false, // 是否允许属性定义为any
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node",
+      "module": "es2015",
+      "target": "ES6",
+      "declaration": true,
+      "jsx": "react"
+  },
+  "exclude": ["node_modules", "lib", "guide","docs", "site","dist", "es"]
+}

@@ -15,6 +15,25 @@ export const formItemLayout = {
   },
 };
 
+export interface EnumField {
+  label: 'string', // option显示标签
+  value: 'string' // option值 这个类型只能定义为string，而不是string | number或any，是因为antd的option value属性只能为string
+  [propName: string]: any // 其他
+}
+
+// Field定义
+export interface FieldProps {
+  name: string | number,
+  key: string,
+  type?: string
+  render?: Function,
+  enums?: EnumField [],
+  isShow?: Function,
+  itemCount?: number,
+  unit?: string,
+  [propName: string]: any
+}
+
 /**
  * @param {*} value 判断该对象是否是空对象或空数组
  */
@@ -49,12 +68,12 @@ export const toFormatEnums = (arr = [], value, label) => arr
  * @params: time        最小触发间隔
  * @return：返回值延迟执行的函数
  */
-export const throttle = (fun, delay = 800, time = 300) => {
+export const throttle = (fun, delay: number = 800, time: number = 300) => {
   let timeout;
-  let startTime = new Date();
+  let startTime = Date.now();
 
   return function callback({ ...args }) {
-    const curTime = new Date();
+    const curTime = Date.now();
     clearTimeout(timeout);
     if (curTime - startTime >= time) {
       fun(args);
@@ -70,7 +89,7 @@ export const throttle = (fun, delay = 800, time = 300) => {
  * @param {*} code 要加密的字符串
  */
 const FixOffeset = 17;
-export function compileParam(code = '') {
+export function compileParam(code: string = ''): string {
   let c = String.fromCharCode(code.charCodeAt(0) + FixOffeset + code.length);
   for (let i = 1; i < code.length; i += 1) {
     c += String.fromCharCode(code.charCodeAt(i) + code.charCodeAt(i - 1));
@@ -78,7 +97,7 @@ export function compileParam(code = '') {
   return c; // 增加特殊字符编码，防止'/', '&', '='等字符造成的影响
 }
 
-export function unCompileParam(code = '') {
+export function unCompileParam(code: string = ''): string {
   // const code = unescape(originCode); // 增加特殊字符的解码
   let c = String.fromCharCode(code.charCodeAt(0) - FixOffeset - code.length);
   for (let i = 1; i < code.length; i += 1) {
@@ -95,7 +114,7 @@ export function unCompileParam(code = '') {
  * return Boolean 对于有掩码的身份证号码，只校验掩码格式是否正确，通用是前四位为最后四位为明码
  * 对于不包含掩码的，按国家规定格式校验。为真返回true
  */
-export function idCodeValid(code, mask, startNum = 4, endNum = 4) {
+export function idCodeValid(code: string, mask?: boolean, startNum: number = 4, endNum: number = 4): boolean {
   // 修改数据时加了掩码的, 直接返回true
   if (mask && code.indexOf('*') === startNum && code.lastIndexOf('*') === (code.length + 1) - endNum) {
     return true;
@@ -159,7 +178,7 @@ export function idCodeValid(code, mask, startNum = 4, endNum = 4) {
     let wi = 0;
 
     for (let i = 0; i < 17; i += 1) {
-      ai = codeArr[i];
+      ai = +codeArr[i];
       wi = factor[i];
       sum += ai * wi;
     }
@@ -177,7 +196,7 @@ export function idCodeValid(code, mask, startNum = 4, endNum = 4) {
  * @param  String id 合法的身份证编号
  * @return String 合法返回0或1，0为男，1位女，不合法返回-1
  */
-export function getSexById(id = '') {
+export function getSexById(id: string = ''): string {
   let sex = '-1';
 
   if (idCodeValid(id)) {
@@ -198,7 +217,7 @@ export function getSexById(id = '') {
  * @param String id 合法的身份证编号
  * return Number 合法返回对应年龄，不合法返回-1
  */
-export function getAgeById(id = '') {
+export function getAgeById(id: string = ''): number {
   let age = -1;
 
   if (idCodeValid(id)) {
@@ -226,7 +245,7 @@ export function getAgeById(id = '') {
  * @param {*} value 要格式化的数据
  * @param {*} pointCount 保留小数点的位数
  */
-export function toDecimalNumber(value = 0, pointCount = 2) {
+export function toDecimalNumber(value: number = 0, pointCount: number = 2):string {
   const withPoint = (+value).toFixed(pointCount);
   const reg = /(\d{1,3})(?=(\d{3})+(\.|$))/g;
   return withPoint.replace(reg, '$1,');

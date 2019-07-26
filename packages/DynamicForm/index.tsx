@@ -13,7 +13,36 @@ function findValid(arr, index, dir = 1) {
   return target;
 }
 
-export default class DynamicForm extends React.Component {
+// 规则接口定义
+interface RuleProp {
+  key: number,
+  disableBtn?: boolean,
+  [propName: string]: any
+}
+
+interface RenderFunc {
+  (rule: RuleProp, actons: object): Node;
+}
+
+// 输入类型定义
+interface DynamicFormProps {
+    children: RenderFunc; // 子元素
+    onChange?: Function; // Change事件回调函数
+    canMove?: boolean; // 是否可上下调整
+    value?: object []; // 组件初始值
+    disableBtn?: boolean, // 组件是否不可编辑
+}
+
+// 内部状态定义
+interface DynamicFormState {
+  canReset: boolean,
+  rules: RuleProp []
+}
+
+
+
+export default class DynamicForm extends React.PureComponent<DynamicFormProps> {
+  state: DynamicFormState
   constructor(props) {
     super(props);
     const { value, disableBtn = false } = props;

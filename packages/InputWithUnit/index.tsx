@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, Select } from 'antd';
+import { EnumField } from '../utils';
 
 const Option = Select.Option;
 const DefaultEnums = [{
@@ -9,8 +10,22 @@ const DefaultEnums = [{
 }, {
   value: 'D', label: '天',
 }];
+interface InputWithUnitProps {
+  value?: any, // 初始值
+  defaultUnit?: 'string', // 默认单位
+  enums?: EnumField [], // 
+  inputProps?: object,
+  selectProps?: object,
+  onChange?: Function
+}
 
-export default class InputWithUnit extends React.Component {
+interface InputWithUnitState {
+  number: number | string,
+  unit: 'string'
+}
+
+export default class InputWithUnit extends React.Component<InputWithUnitProps> {
+  state: InputWithUnitState
   constructor(props) {
     super(props);
     const { value = {}, defaultUnit } = this.props;

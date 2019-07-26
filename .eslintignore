@@ -3,3 +3,4 @@ lib/*
 es/*
 dist/*
 build/*
+tsconfig.json

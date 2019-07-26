@@ -1,6 +1,9 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const clean = require('del');
+const ts = require('gulp-typescript');
+
+const tsProject = ts.createProject('./tsconfig.json');
 
 /* eslint-disable */
 gulp.task('clean', () => {
@@ -23,6 +26,14 @@ gulp.task('lessToEs', () => {
   return gulp.src('./packages/**/*.less')
     .pipe(gulp.dest('./es'));
 });
+
+// gulp ts转js
+gulp.task('ts', function () {
+  return tsProject.src()
+      .pipe(tsProject())
+      .js.pipe(gulp.dest('dist'));
+});
+
 // babel 打包es模块
 gulp.task('lib', gulp.series('clean', () => {
   return gulp.src('./packages/**/*.js')
@@ -57,3 +68,9 @@ gulp.task('lib', gulp.series('clean', () => {
 }, 'lessToLib'));
 
 gulp.task('default', gulp.parallel(['lib', 'es']));
+
+gulp.task('ts', function() {
+  return tsProject.src()
+    .pipe(tsProject())
+    .pipe(gulp.dest('tsDist'));
+});
