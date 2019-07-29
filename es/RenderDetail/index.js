@@ -1,21 +1,3 @@
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 import React from 'react';
 import { getEnumObject } from '../utils';
 import fieldTypes from '../EnhanceTable/table/fieldTypes';
@@ -23,7 +5,7 @@ import './index.less';
 /**
  * 作用: 详情信息表单的渲染
  * @params: fields 渲染表单的属性对象
- * @params: props  渲染表单的值对象
+ * @params: detail  渲染表单的值对象
  * @return：返回值是一个Dom树组
  */
 
@@ -31,7 +13,7 @@ var countEnums = ['one-item', 'two-item', 'three-item', 'four-item'];
 
 function renderBaseFields(fields) {
   var detail = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return fields.map(function (_ref) {
+  return fields.map(function (_ref, index) {
     var name = _ref.name,
         key = _ref.key,
         type = _ref.type,
@@ -39,9 +21,9 @@ function renderBaseFields(fields) {
         render = _ref.render,
         isShow = _ref.isShow,
         _ref$unit = _ref.unit,
-        unit = _ref$unit === void 0 ? '' : _ref$unit;
-    var itemCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
-    var index = arguments.length > 2 ? arguments[2] : undefined;
+        unit = _ref$unit === void 0 ? '' : _ref$unit,
+        _ref$itemCount = _ref.itemCount,
+        itemCount = _ref$itemCount === void 0 ? 2 : _ref$itemCount;
     var value = detail[key]; // 处理格式化数据
 
     if (type && value && fieldTypes[type]) {
@@ -77,50 +59,21 @@ function renderBaseFields(fields) {
     }, _final, _final === value ? unit : ''));
   });
 }
-/**
- * 定义：详情显示组件；
- * @params: fields       栏目字段定义
- * @params: detail       栏目详情
- * @params: fieldsName   栏目名称
- * @params: children     自定义render
- */
 
+function RenderDetail(props) {
+  var _this$props = this.props,
+      fields = _this$props.fields,
+      _this$props$detail = _this$props.detail,
+      detail = _this$props$detail === void 0 ? {} : _this$props$detail,
+      fieldsName = _this$props.fieldsName,
+      children = _this$props.children;
+  return React.createElement("div", {
+    className: "doddle-render-detail"
+  }, fieldsName && React.createElement("h3", {
+    className: "title"
+  }, fieldsName), React.createElement("div", {
+    className: "showInfo-content"
+  }, children ? children(renderBaseFields) : renderBaseFields(fields, detail)));
+}
 
-var RenderDetail =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(RenderDetail, _React$Component);
-
-  function RenderDetail(props) {
-    var _this;
-
-    _classCallCheck(this, RenderDetail);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(RenderDetail).call(this, props));
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass(RenderDetail, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          fields = _this$props.fields,
-          _this$props$detail = _this$props.detail,
-          detail = _this$props$detail === void 0 ? {} : _this$props$detail,
-          fieldsName = _this$props.fieldsName,
-          children = _this$props.children;
-      return React.createElement("div", {
-        className: "doddle-render-detail"
-      }, fieldsName && React.createElement("h3", {
-        className: "title"
-      }, fieldsName), React.createElement("div", {
-        className: "showInfo-content"
-      }, children ? children(renderBaseFields) : renderBaseFields(fields, detail)));
-    }
-  }]);
-
-  return RenderDetail;
-}(React.Component);
-
-export { RenderDetail as default };
+export default React.memo(RenderDetail);

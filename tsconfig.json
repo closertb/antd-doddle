@@ -5,10 +5,11 @@
       "declarationDir": "tsDist",
       "sourceMap": true,
       "noImplicitAny": false, // 是否允许属性定义为any
+      "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
-      "moduleResolution": "node",
-      "module": "es2015",
-      "target": "ES6",
+      "moduleResolution": "node", // module === "AMD" or "System" or "ES6" ? "Classic" : "Node". Determine how modules get resolved
+      // "module": "es2015",
+      "target": "es2015",
       "declaration": true,
       "jsx": "react"
   },

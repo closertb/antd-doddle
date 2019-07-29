@@ -1,16 +1,10 @@
 import React from 'react';
 import { Table } from 'antd';
 import table from './table';
-import { FieldProps } from '../utils';
+import { FieldProps, SearchProps } from '../utils';
 
 const { createColumns } = table;
 
-interface SearchProps {
-  pageNo?: number,
-  pageNum?: number,
-  pageSize?: number,
-  pageCount?: number
-}
 // 输入类型定义
 interface EnhanceTableProps {
   fields: FieldProps [],

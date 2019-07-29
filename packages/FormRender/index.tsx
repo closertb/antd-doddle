@@ -68,8 +68,17 @@ interface FormRenderProps {
   [propName: string]: any // 其他
 }
 
-export default function ({ formItemLayout = layout, containerName, getFieldDecorator,
-  require, Wrapper = WrapperDefault, withWrap: defaultWrap = false }) {
+interface ConstuctorProps {
+  getFieldDecorator: Function,
+  formItemLayout?: object,
+  containerName?: string,
+  require?: boolean,
+  Wrapper?: Function,
+  withWrap?: boolean
+}
+export default function (constProps: ConstuctorProps) {
+  const { formItemLayout = layout, containerName, getFieldDecorator,
+    require, Wrapper = WrapperDefault, withWrap: defaultWrap = false } = constProps;
   return function FormRender(props: FormRenderProps) {
     const { field, data = {}, wrapProps = {} } = props;
     const {

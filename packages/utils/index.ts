@@ -34,6 +34,14 @@ export interface FieldProps {
   [propName: string]: any
 }
 
+export interface SearchProps {
+  pageNo?: number,
+  pageNum?: number,
+  pageSize?: number,
+  pageCount?: number,
+  [propName: string]: any
+}
+
 /**
  * @param {*} value 判断该对象是否是空对象或空数组
  */

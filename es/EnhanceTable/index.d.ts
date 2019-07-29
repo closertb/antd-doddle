@@ -1,11 +1,5 @@
 import React from 'react';
-import { FieldProps } from '../utils';
-interface SearchProps {
-    pageNo?: number;
-    pageNum?: number;
-    pageSize?: number;
-    pageCount?: number;
-}
+import { FieldProps, SearchProps } from '../utils';
 interface EnhanceTableProps {
     fields: FieldProps[];
     datas: [];

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form, Row, Col, Button } from 'antd';
-import { formItemLayout } from '../utils';
+import { formItemLayout, FieldProps, SearchProps } from '../utils';
 import formR from '../FormRender';
 import './index.less';
 
+ 
 function DefaultRender(props) {
   const { fields, formRender, search, handleSearch, handleReset, extraBtns, onReset, dynamicParams } = props;
   return (
@@ -23,7 +24,23 @@ function DefaultRender(props) {
     </>
   );
 }
-class WithSearch extends React.Component {
+
+interface WithSearchProps {
+  form: any,
+  onSearch: Function,
+  fields?: FieldProps [],
+  search?: SearchProps,
+  onReset?: Function,
+  paramFormat?: Function,
+  pageName?: string,
+  dynamicParams?: object,
+  children?: (props: WithSearchProps) => React.ReactElement,
+  extraBtns?: Function,
+  [propName: string]: any
+}
+
+class WithSearch extends React.PureComponent<WithSearchProps> {
+  formRender: React.ReactNode
   constructor(props) {
     super(props);
     this.state = {};
@@ -42,12 +59,12 @@ class WithSearch extends React.Component {
     return data;
   }
   handleSearch() {
-    const { form, actions, onSearch, paramFormat, pageName = 'pageNo' } = this.props;
+    const { form, onSearch, paramFormat, pageName = 'pageNo' } = this.props;
 
     form.validateFields((err, values) => {
       if (err) return;
       const res = typeof paramFormat === 'function' ? paramFormat(values) : values;
-      (onSearch || actions.onSearch)({
+      onSearch({
         ...res,
         [pageName]: 1
       });
@@ -60,12 +77,11 @@ class WithSearch extends React.Component {
   }
 
   render() {
-    const { children, actions, form, fields, search, extraBtns, onReset, dynamicParams = {} } = this.props;
+    const { children, form, fields, search, extraBtns, onReset, dynamicParams = {} } = this.props;
     const childrenProps = {
       search,
       form,
       fields,
-      actions,
       onReset,
       extraBtns,
       formItemLayout,
@@ -85,3 +101,4 @@ class WithSearch extends React.Component {
 }
 
 export default Form.create()(WithSearch);
+

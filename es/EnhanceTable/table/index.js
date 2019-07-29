@@ -1,12 +1,17 @@
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
 
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+}; // 该文件来源于carno/addons
 
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-// 该文件来源于carno/addons
 import fieldTypes, { combineTypes } from './fieldTypes';
 /*
  * 获取column中显示的filedValue
@@ -14,24 +19,11 @@ import fieldTypes, { combineTypes } from './fieldTypes';
 
 /*eslint-disable*/
 
-function getFieldValue(value) {
-  var field = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+function getFieldValue(value, field) {
   var type = field.type || field.enums && 'enum';
   type = fieldTypes.hasOwnProperty(type) ? type : 'normal';
   return fieldTypes[type](value, field);
 }
-/*
- * 获取表格column数组
- * 示例:
- * const columns = createColumns(fields,['name','author'],{ name: { render: ()=>{} }}).values();
- * const columns = createColumns(fields).excludes(['id','desc']).values();
- * const columns = createColumns(fields).pick(['name','author','openTime']).enhance({name:{ render: ()=>{} }}).values();
- * @param originField 原始fields
- * @param fieldKeys 需要包含的字段keys
- * @param extraFields 扩展的fields
- * @result 链式写法，返回链式对象(包含pick,excludes,enhance,values方法), 需要调用values返回最终的数据
- */
-
 
 function createColumns(fields, fieldKeys, extraFields) {
   var chain = {};
@@ -44,7 +36,7 @@ function createColumns(fields, fieldKeys, extraFields) {
           key = field.key,
           name = field.name,
           render = field.render,
-          others = _objectWithoutProperties(field, ["dataIndex", "title", "key", "name", "render"]);
+          others = __rest(field, ["dataIndex", "title", "key", "name", "render"]);
 
       if (!render) {
         render = function render(value) {
@@ -52,7 +44,7 @@ function createColumns(fields, fieldKeys, extraFields) {
         };
       }
 
-      return _objectSpread({
+      return Object.assign({
         dataIndex: key || dataIndex,
         title: name || title,
         render: render
@@ -106,9 +98,9 @@ function createColumns(fields, fieldKeys, extraFields) {
           title = _extraColumn.title,
           key = _extraColumn.key,
           name = _extraColumn.name,
-          others = _objectWithoutProperties(_extraColumn, ["dataIndex", "title", "key", "name"]);
+          others = __rest(extraColumn, ["dataIndex", "title", "key", "name"]);
 
-      extraColumn = _objectSpread({
+      extraColumn = Object.assign({
         dataIndex: key || dataIndex,
         title: name || title
       }, others); // 如果extraColumn.title为undefined，则删除title属性，防止assign时覆盖掉原来的title

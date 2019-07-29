@@ -1,4 +1,3 @@
-/// <reference types="react" />
 /**
  * @param string formItemLayout         : 表单项整体样式定义
  * @param string getFieldDecorator      : 表单项装饰器
@@ -45,29 +44,13 @@ interface FormRenderProps {
     data?: any;
     [propName: string]: any;
 }
-export default function ({ formItemLayout, containerName, getFieldDecorator, require, Wrapper, withWrap: defaultWrap }: {
-    formItemLayout?: {
-        labelCol: {
-            xs: {
-                span: number;
-            };
-            sm: {
-                span: number;
-            };
-        };
-        wrapperCol: {
-            xs: {
-                span: number;
-            };
-            sm: {
-                span: number;
-            };
-        };
-    };
-    containerName: any;
-    getFieldDecorator: any;
-    require: any;
-    Wrapper?: (props: any) => JSX.Element;
+interface ConstuctorProps {
+    getFieldDecorator: Function;
+    formItemLayout?: object;
+    containerName?: string;
+    require?: boolean;
+    Wrapper?: Function;
     withWrap?: boolean;
-}): (props: FormRenderProps) => any;
+}
+export default function (constProps: ConstuctorProps): (props: FormRenderProps) => any;
 export {};

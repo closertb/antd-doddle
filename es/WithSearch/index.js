@@ -1,5 +1,7 @@
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -15,10 +17,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 import React from 'react';
 import { Form, Row, Col, Button } from 'antd';
@@ -39,7 +37,7 @@ function DefaultRender(props) {
     return React.createElement(Col, {
       span: 8,
       key: field.key
-    }, formRender(_objectSpread({
+    }, formRender(Object.assign({
       field: field,
       data: search
     }, dynamicParams)));
@@ -57,8 +55,8 @@ function DefaultRender(props) {
 
 var WithSearch =
 /*#__PURE__*/
-function (_React$Component) {
-  _inherits(WithSearch, _React$Component);
+function (_React$PureComponent) {
+  _inherits(WithSearch, _React$PureComponent);
 
   function WithSearch(props) {
     var _this;
@@ -93,7 +91,6 @@ function (_React$Component) {
     value: function handleSearch() {
       var _this$props = this.props,
           form = _this$props.form,
-          actions = _this$props.actions,
           onSearch = _this$props.onSearch,
           paramFormat = _this$props.paramFormat,
           _this$props$pageName = _this$props.pageName,
@@ -101,7 +98,7 @@ function (_React$Component) {
       form.validateFields(function (err, values) {
         if (err) return;
         var res = typeof paramFormat === 'function' ? paramFormat(values) : values;
-        (onSearch || actions.onSearch)(_objectSpread({}, res, _defineProperty({}, pageName, 1)));
+        onSearch(Object.assign({}, res, _defineProperty({}, pageName, 1)));
       });
     }
   }, {
@@ -118,7 +115,6 @@ function (_React$Component) {
     value: function render() {
       var _this$props3 = this.props,
           children = _this$props3.children,
-          actions = _this$props3.actions,
           form = _this$props3.form,
           fields = _this$props3.fields,
           search = _this$props3.search,
@@ -130,7 +126,6 @@ function (_React$Component) {
         search: search,
         form: form,
         fields: fields,
-        actions: actions,
         onReset: onReset,
         extraBtns: extraBtns,
         formItemLayout: formItemLayout,
@@ -148,6 +143,6 @@ function (_React$Component) {
   }]);
 
   return WithSearch;
-}(React.Component);
+}(React.PureComponent);
 
 export default Form.create()(WithSearch);

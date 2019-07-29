@@ -1,6 +1,17 @@
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
 
 import moment from 'moment';
 export var DATE_FORMAT = 'YYYY-MM-DD';
@@ -77,11 +88,11 @@ export var throttle = function throttle(fun) {
   var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 800;
   var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 300;
   var timeout;
-  var startTime = new Date();
-  return function callback(_ref) {
-    var args = _extends({}, _ref);
+  var startTime = Date.now();
+  return function callback(_a) {
+    var args = __rest(_a, []);
 
-    var curTime = new Date();
+    var curTime = Date.now();
     clearTimeout(timeout);
 
     if (curTime - startTime >= time) {
@@ -194,7 +205,7 @@ export function idCodeValid(code, mask) {
     var wi = 0;
 
     for (var i = 0; i < 17; i += 1) {
-      ai = codeArr[i];
+      ai = +codeArr[i];
       wi = factor[i];
       sum += ai * wi;
     }
@@ -272,31 +283,17 @@ export function toDecimalNumber() {
 export var Rules = {
   chineseWord: /^([\u4e00-\u9fa5])+$/,
   normalWord: /^([\u4e00-\u9fa5-a-zA-Z0-9_-—])+$/,
-  // 常规字符输入
   email: /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(?:\.[0-9A-Za-z]+)+$/,
-  // 邮箱校验
   phone: /^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$/,
-  // 电话号码格式校验
   fix2: /^([1-9]\d*$)|([1-9]\d*\.(\d{1,2})$)|(0\.((0[1-9])|([1-9]\d?))$)/,
-  // 大于0，最多保留两位小数
   positive: /(^0\.0*[1-9]+[0-9]*$)|(^[1-9]\d*(\.\d+)?$)/,
-  // 正数
   positiveInteger: /^[1-9]\d*$/,
-  // 正整数
   notNegtive: /^\d*(\.\d+)?$/,
-  // 正数或0
   notNegtiveInteger: /^\d*$/,
-  // 正整数或0
   rate: /^0\.0[1-9]\d{0,3}$|^0\.10{0,4}$/,
-  // 输入0.01-0.1（含）之间，最多可输入五位小数
   rate2: /^0(\.0\d{0,4})?$|^0\.10{0,4}$/,
-  // 输入0-0.1（含）之间，最多可输入五位小数
   amount: /(^[1-9](\d+)?(\.\d{1,2})?$)|(^\d\.\d{1,2}$)/,
-  // 金额最多两位小数
   percent: /^100$|^([1-9]|[1-9]\d)(\.\d{1,2})*$/,
-  // 1-100百分比 最多两位小数
   thousandth: /(\d{1,3})(?=(\d{3})+$)/g,
-  // 整数千分位 '13456789'.replace(reg,'$1,')
-  thousandthWithPoint: /(\d{1,3})(?=(\d{3})+(\.|$))/g // 小数加千分位  '1253456789.89'.replace(reg,'$1,')
-
+  thousandthWithPoint: /(\d{1,3})(?=(\d{3})+(\.|$))/g
 };
