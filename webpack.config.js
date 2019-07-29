@@ -5,8 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
-    index: './packages/index.js',
-    utils: './packages/utils/index.js'
+    index: './packages/index',
+    utils: './packages/utils/index'
   },
   devtool: 'none',
   mode: 'production',
@@ -45,7 +45,7 @@ module.exports = {
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ['.ts', 'tsx']
+    extensions: ['.tsx', '.ts', '.js']
   },
   module: {
     rules: [{

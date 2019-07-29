@@ -1,8 +1,8 @@
 {
   "include": ["packages/**/*.ts", "packages/**/*.tsx"],
   "compilerOptions": {
-      "outDir": "tsDist",
-      "declarationDir": "tsDist",
+      // "outDir": "tsDist",
+      // "declarationDir": "tsDist",
       "sourceMap": true,
       "noImplicitAny": false, // 是否允许属性定义为any
       "esModuleInterop": true,

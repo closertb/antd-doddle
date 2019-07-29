@@ -62,4 +62,4 @@ gulp.task('lib', gulp.series('clean', () => {
   return merge(jsStream, tsdStream, cssStream);
 }));
 
-gulp.task('default', gulp.parallel(['lib', 'es']));
+gulp.task('default', gulp.series('lib', 'es'));
