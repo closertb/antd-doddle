@@ -61,7 +61,7 @@ interface RenderDetailProps {
   [propName: string]: any
 }
 function RenderDetail(props: RenderDetailProps) {
-    const { fields, detail = {}, fieldsName, children } = this.props;
+    const { fields, detail = {}, fieldsName, children } = props;
     return (
       <div className="doddle-render-detail">
         {fieldsName && <h3 className="title">{fieldsName}</h3>}
