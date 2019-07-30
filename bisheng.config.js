@@ -50,6 +50,26 @@ module.exports = {
   devServerConfig: {},
   webpackConfig(config) {
     config.devtool = 'source-map';
+    if (process.env.NODE_ENV === 'production') {
+      config.mode = 'production';
+      config.optimization = {
+        splitChunks: {
+          minSize: 30000,
+          cacheGroups: {
+            antd: {
+              test: /[\\/]node_modules[\\/]antd[\\/]/,
+              name: 'vendor-antd',
+              chunks: 'all'
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/](react|react-dom|moment|react-document-title|bind-decorator)[\\/]/,
+              name: 'vendor-common',
+              chunks: 'all'
+            },
+          }
+        }
+      };
+    }
     alertLessConfig(config.module.rules);
     resetTsConfig(config.module.rules);
     return config;

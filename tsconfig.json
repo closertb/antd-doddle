@@ -4,7 +4,7 @@
       // "outDir": "tsDist",
       "declaration": true,
       // "composite": true,
-      "declarationDir": "es",
+      // "declarationDir": "es",
       "sourceMap": true,
       "noImplicitAny": false, // 是否允许属性定义为any
       "esModuleInterop": true,
