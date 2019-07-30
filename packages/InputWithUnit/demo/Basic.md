@@ -9,7 +9,7 @@ order: 0
 import React from 'react';
 import moment from 'moment';
 import { Form, Row, Col } from 'antd';
-import InputWithUnit from "../index.js";
+import InputWithUnit from "../index";
 
 class Basic extends React.Component {
   constructor(props){

@@ -8,6 +8,19 @@ const alertLessConfig = (rules) => {
     }
   });
 };
+
+const resetTsConfig = (rules) => {
+  rules.forEach((rule) => {
+    if (rule.test && rule.test.toString() === /\.tsx?$/.toString()) {
+      rule.use.forEach((tsRule) => {
+        if (tsRule.loader && /ts-loader/.test(tsRule.loader)) {
+          tsRule.loader = require.resolve('ts-loader');
+        }
+      });
+    }
+  });
+};
+
 const filePath = '';
 
 module.exports = {
@@ -38,7 +51,7 @@ module.exports = {
   webpackConfig(config) {
     config.devtool = 'source-map';
     alertLessConfig(config.module.rules);
-    // resetTsConfig(config.module.rules);
+    resetTsConfig(config.module.rules);
     return config;
   },
   root: `${filePath}/`

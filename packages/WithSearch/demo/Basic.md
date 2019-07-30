@@ -8,7 +8,7 @@ order: 0
 ```jsx
 import React from "react";
 import { Button } from 'antd';
-import WithSearch from "../index.js";
+import WithSearch from "../index";
 // 是否达成
 
 export const searchFields = [{

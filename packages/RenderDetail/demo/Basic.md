@@ -8,7 +8,7 @@ order: 0
 ```jsx
 import React from 'react';
 import { Spin } from 'antd';
-import RenderDetail from "../index.js";
+import RenderDetail from "../index";
 
 const userStatus = [{
   value: 1,

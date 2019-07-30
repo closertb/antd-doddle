@@ -9,7 +9,7 @@ order: 0
 import React from 'react';
 import moment from 'moment';
 import { Form, Row, Col, DatePicker, TimePicker, InputNumber } from 'antd';
-import FileUpload from "../index.js";
+import FileUpload from "../index";
 
 // 表单通用格式
 export const formItemLayout = {

@@ -10,7 +10,7 @@ import React from 'react';
 import moment from 'moment';
 import { Form, Row, Col, Button, Switch } from 'antd';
 // import { formRender } from 'antd-doddle';
-import formRender from "../index.js";
+import formRender from "../index";
 
 const FormItem = Form.Item;
 // 表单通用格式

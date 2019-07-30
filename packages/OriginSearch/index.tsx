@@ -47,8 +47,8 @@ interface searchState {
   search: object,
 }
 export default class OriginSearch extends React.Component<OriginSearchProps> {
-  lastFethId = 0;
-  lazyLoad = throttle(this.load, 800);
+  lastFethId: number
+  lazyLoad: Function
   state: searchState;
   constructor(props) {
     super(props);
@@ -60,7 +60,9 @@ export default class OriginSearch extends React.Component<OriginSearchProps> {
       value: props.value,
       search: props.search || {},
     };
+    this.lastFethId = 0;
     this.load = this.load.bind(this);
+    this.lazyLoad= throttle(this.load, 800);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleOpenSearch = this.handleOpenSearch.bind(this);
