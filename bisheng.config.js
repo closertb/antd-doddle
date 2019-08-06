@@ -31,7 +31,7 @@ module.exports = {
     packages: './packages'
   },
   output: './docs',
-  theme: './site',
+  theme: '@doddle/doddle-bisheng-theme',
   entiryName: 'index',
   themeConfig: {
     siteKey: 'antd-doddle',
