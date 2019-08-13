@@ -60,6 +60,7 @@ interface RenderDetailProps {
   children?: Function  // 自定义render
   [propName: string]: any
 }
+
 function RenderDetail(props: RenderDetailProps) {
     const { fields, detail = {}, fieldsName, children } = props;
     return (
