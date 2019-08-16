@@ -19,8 +19,8 @@ export function boundMethod(target, key, descriptor) {
     configurable: true,
     get() {
       // eslint-disable-next-line no-prototype-builtins
-      if (definingProperty || this === target.prototype || this.hasOwnProperty(key) ||
-        typeof fn !== 'function') {
+      if (definingProperty || this === target.prototype || this.hasOwnProperty(key)
+      || typeof fn !== 'function') {
         return fn;
       }
 
