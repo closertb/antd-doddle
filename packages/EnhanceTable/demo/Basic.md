@@ -9,7 +9,7 @@ order: 0
 import React from 'react';
 import { Popconfirm } from 'antd';
 // import { EnhanceTable } from 'antd-doddle';
-import EnhanceTable from "../index.js";
+import EnhanceTable from "../index";
 
 const userStatus = [{
   value: 1,

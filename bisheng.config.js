@@ -8,6 +8,19 @@ const alertLessConfig = (rules) => {
     }
   });
 };
+
+const resetTsConfig = (rules) => {
+  rules.forEach((rule) => {
+    if (rule.test && rule.test.toString() === /\.tsx?$/.toString()) {
+      rule.use.forEach((tsRule) => {
+        if (tsRule.loader && /ts-loader/.test(tsRule.loader)) {
+          tsRule.loader = require.resolve('ts-loader');
+        }
+      });
+    }
+  });
+};
+
 const filePath = '';
 
 module.exports = {
@@ -18,7 +31,7 @@ module.exports = {
     packages: './packages'
   },
   output: './docs',
-  theme: './site',
+  theme: '@doddle/doddle-bisheng-theme',
   entiryName: 'index',
   themeConfig: {
     siteKey: 'antd-doddle',
@@ -37,8 +50,28 @@ module.exports = {
   devServerConfig: {},
   webpackConfig(config) {
     config.devtool = 'source-map';
+    if (process.env.NODE_ENV === 'production') {
+      config.mode = 'production';
+      config.optimization = {
+        splitChunks: {
+          minSize: 30000,
+          cacheGroups: {
+            antd: {
+              test: /[\\/]node_modules[\\/]antd[\\/]/,
+              name: 'vendor-antd',
+              chunks: 'all'
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/](react|react-dom|moment|react-document-title|bind-decorator)[\\/]/,
+              name: 'vendor-common',
+              chunks: 'all'
+            },
+          }
+        }
+      };
+    }
     alertLessConfig(config.module.rules);
-    // resetTsConfig(config.module.rules);
+    resetTsConfig(config.module.rules);
     return config;
   },
   root: `${filePath}/`

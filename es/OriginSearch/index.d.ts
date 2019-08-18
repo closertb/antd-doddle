@@ -37,9 +37,7 @@ interface searchState {
 }
 export default class OriginSearch extends React.Component<OriginSearchProps> {
     lastFethId: number;
-    lazyLoad: ({ ...args }: {
-        [x: string]: any;
-    }) => void;
+    lazyLoad: Function;
     state: searchState;
     constructor(props: any);
     static getDerivedStateFromProps(nextProps: any, prevState: any): {

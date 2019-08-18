@@ -2,7 +2,9 @@
   "include": ["packages/**/*.ts", "packages/**/*.tsx"],
   "compilerOptions": {
       // "outDir": "tsDist",
-      // "declarationDir": "tsDist",
+      "declaration": true,
+      // "composite": true,
+      // "declarationDir": "es",
       "sourceMap": true,
       "noImplicitAny": false, // 是否允许属性定义为any
       "esModuleInterop": true,
@@ -10,7 +12,6 @@
       "moduleResolution": "node", // module === "AMD" or "System" or "ES6" ? "Classic" : "Node". Determine how modules get resolved
       // "module": "es2015",
       "target": "es2015",
-      "declaration": true,
       "jsx": "react"
   },
   "exclude": ["node_modules", "lib", "guide","docs", "site","dist", "es"]
