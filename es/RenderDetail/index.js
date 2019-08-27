@@ -61,12 +61,11 @@ function renderBaseFields(fields) {
 }
 
 function RenderDetail(props) {
-  var _this$props = this.props,
-      fields = _this$props.fields,
-      _this$props$detail = _this$props.detail,
-      detail = _this$props$detail === void 0 ? {} : _this$props$detail,
-      fieldsName = _this$props.fieldsName,
-      children = _this$props.children;
+  var fields = props.fields,
+      _props$detail = props.detail,
+      detail = _props$detail === void 0 ? {} : _props$detail,
+      fieldsName = props.fieldsName,
+      children = props.children;
   return React.createElement("div", {
     className: "doddle-render-detail"
   }, fieldsName && React.createElement("h3", {

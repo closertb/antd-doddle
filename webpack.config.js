@@ -42,6 +42,11 @@ module.exports = {
       commonjs2: 'moment',
       amd: 'moment',
     },
+    dva: {
+      commonjs: 'dva',
+      commonjs2: 'dva',
+      amd: 'dva',
+    },
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.

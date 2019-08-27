@@ -39,8 +39,6 @@ function (_React$Component) {
     _classCallCheck(this, OriginSearch);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(OriginSearch).call(this, props));
-    _this.lastFethId = 0;
-    _this.lazyLoad = throttle(_this.load, 800);
     _this.state = {
       isShowSearch: false,
       loading: false,
@@ -49,7 +47,9 @@ function (_React$Component) {
       value: props.value,
       search: props.search || {}
     };
+    _this.lastFethId = 0;
     _this.load = _this.load.bind(_assertThisInitialized(_this));
+    _this.lazyLoad = throttle(_this.load, 800);
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSelect = _this.handleSelect.bind(_assertThisInitialized(_this));
     _this.handleOpenSearch = _this.handleOpenSearch.bind(_assertThisInitialized(_this));
