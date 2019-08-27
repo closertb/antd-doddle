@@ -1,5 +1,5 @@
 {
-  "name": "ffe-basic/decorator",
+  "name": "antd-doddle/decorator",
   "private": true,
   "main": "../lib/Decorator/index.js",
   "module": "../es/Decorator/index.js"
