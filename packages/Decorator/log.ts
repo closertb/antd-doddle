@@ -1,4 +1,4 @@
-export default function log(target, prop, descriptor) {
+export default function log(target?: any, prop?: any, descriptor?: any) {
   // const fun = target[prop];
   const fun = descriptor.value || (descriptor.get && descriptor.get());
   function logFun(...args) {
