@@ -117,6 +117,12 @@ var addPrefix = function addPrefix(curEffect, dispatch) {
     return next;
   }, {});
 };
+/**
+ * @description 依据effects生成指定的actions，前面加 ’_‘
+ * @param {*} effects
+ * @param {*} dispatch
+ */
+
 
 var getEffectsForActions = function getEffectsForActions(effects, dispatch) {
   var effectsKeys = Object.keys(effects);

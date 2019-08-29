@@ -99,6 +99,23 @@ export declare function getAgeById(id?: string): number;
  * @param {*} pointCount 保留小数点的位数
  */
 export declare function toDecimalNumber(value?: number, pointCount?: number): string;
+/**
+ * description: 类型检测工具对象
+ * isObject: 是否是对象
+ * isFunction: 是否是函数
+ * isArray: 是否是数组
+ * isString: 是否为字符串
+ * isNumber: 是否为数字
+ * isEmpty: 是否为空
+ * */
+export declare const Type: {
+    isObject(source: any): boolean;
+    isFunction(source: any): boolean;
+    isArray(source: any): boolean;
+    isString(source: any): boolean;
+    isNumber(source: any): boolean;
+    isEmpty(value: any): boolean;
+};
 export declare const Rules: {
     chineseWord: RegExp;
     normalWord: RegExp;
