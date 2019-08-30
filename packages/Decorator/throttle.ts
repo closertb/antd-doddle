@@ -2,7 +2,7 @@ import { throttle as base } from '../utils';
 
 export default function throttle(...args) {
   // const fun = target[prop];
-  function defaultBind(target, prop, descriptor) {
+  function defaultBind(target?: any, prop?: any, descriptor?: any) {
     const fun = descriptor.value || (descriptor.get && descriptor.get());
     const withThrottle = base(fun);
     return {
@@ -12,7 +12,7 @@ export default function throttle(...args) {
       }
     };
   }
-  function defineBind(...params) {
+  function defineBind(...params: any) {
     return function bind(target, prop, descriptor) {
       const fun = descriptor.value || (descriptor.get && descriptor.get());
       const withThrottle = base(fun, ...params);

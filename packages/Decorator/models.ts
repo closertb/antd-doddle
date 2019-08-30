@@ -85,6 +85,11 @@ const addPrefix = (curEffect, dispatch) => Object.keys(curEffect).reduce((next, 
   return next;
 }, {});
 
+/**
+ * @description 依据effects生成指定的actions，前面加 ’_‘
+ * @param {*} effects
+ * @param {*} dispatch
+ */
 const getEffectsForActions = (effects, dispatch) => {
   const effectsKeys = Object.keys(effects);
   return effectsKeys.reduce((next, key) => {
