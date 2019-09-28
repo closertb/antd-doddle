@@ -51,6 +51,7 @@ module.exports = {
   webpackConfig(config) {
     config.devtool = 'source-map';
     if (process.env.NODE_ENV === 'production') {
+      config.devtool = 'none';
       config.mode = 'production';
       config.optimization = {
         splitChunks: {
