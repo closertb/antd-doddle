@@ -1,0 +1,30 @@
+{
+	"name": "@doddle/http",
+	"version": "2.1.0",
+	"scripts": {
+		"postpublish": "shx rm -rf lib",
+		"prepublish": "babel ./src --out-dir ./lib"
+	},
+	"files": [
+		"lib",
+		"README.md"
+	],
+	"keywords": [],
+	"author": "DenzelT",
+	"license": "ISC",
+	"dependencies": {
+		"qs": "^6.6.0",
+		"js-cookie": "^2.2.1"
+	},
+	"main": "lib/index.js",
+	"devDependencies": {
+		"@babel/cli": "^7.2.0",
+		"@babel/core": "^7.2.0",
+		"@babel/plugin-proposal-class-properties": "^7.2.0",
+		"@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+		"@babel/plugin-transform-runtime": "^7.2.0",
+		"@babel/runtime": "^7.5.5",
+		"@babel/preset-env": "^7.2.0",
+		"shx": "^0.3.2"
+	}
+}
