@@ -1,10 +1,6 @@
 {
   "include": ["packages/**/*.ts", "packages/**/*.tsx"],
   "compilerOptions": {
-      // "outDir": "tsDist",
-      "declaration": true,
-      // "composite": true,
-      "declarationDir": "es",
       "sourceMap": true,
       "noImplicitAny": false, // 是否允许属性定义为any
       "esModuleInterop": true,
