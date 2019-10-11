@@ -10,7 +10,7 @@ import React from 'react';
 import moment from 'moment';
 import { Form, Row, Col, DatePicker, TimePicker, InputNumber } from 'antd';
 // import { DynamicForm } from 'antd-doddle';
-import DynamicForm from "../index.js";
+import DynamicForm from "../index";
 
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;

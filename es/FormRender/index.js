@@ -1,5 +1,3 @@
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 import React from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox, Col } from 'antd';
@@ -38,39 +36,17 @@ var WrapperDefault = function WrapperDefault(props) {
     span: props.span || 12
   }, props.children);
 };
-/**
- * @param string formItemLayout         : 表单项整体样式定义
- * @param string getFieldDecorator      : 表单项装饰器
- * @param string require                : 表单项整体定义是否必填
- * @param string Wrapper                : 表单包裹组件
- * filed 参数说明
- * @param string type         : 表单项类型
- * @param string key          : 表单项主键
- * @param string name         : 表单项名称
- * @param string style        : 表单项样式
- * @param string required     : 表单项是否必填
- * @param string allowClear   : 表单项是否允许清除
- * @param string placeholder  : 表单项说明文字
- * @param string defaultValue : 表单项默认值
- * @param string disable      : 表单项是否禁用
- * @param string rules        : 表单项校验规则
- * @param string maxLength    : 表单项最大长度
- * @param string isEnable     : 表单项是否启用，true时渲染，false时不渲染
- * @param string specialKey   : 表单项FORMITEM专用key值，用于react diff时用
- * @param string format         : 表单项类型
-*/
 
-
-export default function (_ref) {
-  var _ref$formItemLayout = _ref.formItemLayout,
-      formItemLayout = _ref$formItemLayout === void 0 ? layout : _ref$formItemLayout,
-      containerName = _ref.containerName,
-      getFieldDecorator = _ref.getFieldDecorator,
-      require = _ref.require,
-      _ref$Wrapper = _ref.Wrapper,
-      Wrapper = _ref$Wrapper === void 0 ? WrapperDefault : _ref$Wrapper,
-      _ref$withWrap = _ref.withWrap,
-      defaultWrap = _ref$withWrap === void 0 ? false : _ref$withWrap;
+export default function (constProps) {
+  var _constProps$formItemL = constProps.formItemLayout,
+      formItemLayout = _constProps$formItemL === void 0 ? layout : _constProps$formItemL,
+      containerName = constProps.containerName,
+      getFieldDecorator = constProps.getFieldDecorator,
+      require = constProps.require,
+      _constProps$Wrapper = constProps.Wrapper,
+      Wrapper = _constProps$Wrapper === void 0 ? WrapperDefault : _constProps$Wrapper,
+      _constProps$withWrap = constProps.withWrap,
+      defaultWrap = _constProps$withWrap === void 0 ? false : _constProps$withWrap;
   return function FormRender(props) {
     var field = props.field,
         _props$data = props.data,
@@ -127,7 +103,7 @@ export default function (_ref) {
           pattern: /^\S.*\S$|^\S$/,
           message: '首尾不能含有空字符'
         }].concat(rules);
-        content = React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -135,7 +111,7 @@ export default function (_ref) {
         }), getFieldDecorator(key, {
           initialValue: data[key],
           rules: patternRules
-        })(React.createElement(Input, _extends({
+        })(React.createElement(Input, Object.assign({
           type: "text",
           style: style,
           maxLength: maxLength,
@@ -155,7 +131,7 @@ export default function (_ref) {
             precision = _field$precision === void 0 ? 0 : _field$precision,
             _field$step = field.step,
             step = _field$step === void 0 ? 1 : _field$step;
-        content = React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -166,7 +142,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(React.createElement(InputNumber, _extends({
+        })(React.createElement(InputNumber, Object.assign({
           max: max,
           min: min,
           step: step,
@@ -185,7 +161,7 @@ export default function (_ref) {
             minRows = _field$minRows === void 0 ? 2 : _field$minRows,
             _field$maxRows = field.maxRows,
             maxRows = _field$maxRows === void 0 ? 6 : _field$maxRows;
-        content = React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
         }, formItemLayout, {
@@ -196,7 +172,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(React.createElement(TextArea, _extends({
+        })(React.createElement(TextArea, Object.assign({
           type: "text",
           style: style,
           maxLength: maxLength || 300,
@@ -214,7 +190,7 @@ export default function (_ref) {
       case 'select':
         // eslint-disable-next-line
         var selectEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
-        content = React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -223,16 +199,16 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(React.createElement(Select, _extends({
+        })(React.createElement(Select, Object.assign({
           style: style,
           placeholder: placeholder || '不限',
           allowClear: allowClear,
           disabled: disable && disable(data),
           onChange: props.onChange || onChange,
           getPopupContainer: getContainer(containerName)
-        }, seldomProps), selectEnums.map(function (_ref2) {
-          var value = _ref2.value,
-              label = _ref2.label;
+        }, seldomProps), selectEnums.map(function (_ref) {
+          var value = _ref.value,
+              label = _ref.label;
           return React.createElement(Option, {
             key: value,
             value: value
@@ -244,7 +220,7 @@ export default function (_ref) {
       case 'radio':
         // eslint-disable-next-line
         var radioEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
-        content = React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -253,7 +229,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(React.createElement(RadioGroup, _extends({
+        })(React.createElement(RadioGroup, Object.assign({
           options: radioEnums,
           disabled: disable && disable(data),
           onChange: props.onChange || onChange
@@ -264,7 +240,7 @@ export default function (_ref) {
       case 'check':
         // eslint-disable-next-line
         var checkEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
-        content = React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -273,7 +249,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(React.createElement(CheckboxGroup, _extends({
+        })(React.createElement(CheckboxGroup, Object.assign({
           options: checkEnums,
           disabled: disable && disable(data),
           onChange: props.onChange || onChange
@@ -281,7 +257,7 @@ export default function (_ref) {
         break;
 
       case 'datePicker':
-        content = React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(key, {
@@ -290,7 +266,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
           }].concat(rules)
-        })(React.createElement(DatePicker, _extends({
+        })(React.createElement(DatePicker, Object.assign({
           style: style,
           showTime: field.showTime || false,
           format: format || DATE_FORMAT,
@@ -317,7 +293,7 @@ export default function (_ref) {
         var endDate = data[endKey]; // eslint-disable-next-line
 
         var rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
-        content = React.createElement(FormItem, _extends({
+        content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
         }, formItemLayout), getFieldDecorator(rangeKey, {
@@ -326,7 +302,7 @@ export default function (_ref) {
             required: required,
             message: placeholder || "\u8BF7\u8F93\u5165".concat(name)
           }].concat(rules)
-        })(React.createElement(RangePicker, _extends({
+        })(React.createElement(RangePicker, Object.assign({
           style: style,
           allowClear: allowClear,
           showTime: showTime,
@@ -343,7 +319,7 @@ export default function (_ref) {
       default:
         if (renderType[type]) {
           var render = renderType[type];
-          content = React.createElement(FormItem, _extends({
+          content = React.createElement(FormItem, Object.assign({
             key: specialKey || key,
             label: name
           }, formItemLayout), getFieldDecorator(key, {
@@ -364,6 +340,6 @@ export default function (_ref) {
         break;
     }
 
-    return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? React.createElement(Wrapper, wrapProps, content) : content;
+    return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? React.createElement(Wrapper, Object.assign({}, wrapProps), content) : content;
   };
 }

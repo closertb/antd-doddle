@@ -24,7 +24,7 @@ var fieldTypes = {
     return getParsedDate(value, DATE_TIME_FORMAT);
   },
   decimal: function decimal(value) {
-    return toDecimalNumber(value);
+    return toDecimalNumber(value, 2);
   },
   "enum": function _enum(value, _ref) {
     var enums = _ref.enums;

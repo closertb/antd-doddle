@@ -1,11 +1,5 @@
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -67,7 +61,7 @@ function (_React$Component) {
     value: function handleChange(val, key) {
       var res = this.state;
       this.setState(_defineProperty({}, key, val));
-      this.trigger(_objectSpread({}, res, _defineProperty({}, key, val)));
+      this.trigger(Object.assign({}, res, _defineProperty({}, key, val)));
     }
   }, {
     key: "trigger",
@@ -89,7 +83,7 @@ function (_React$Component) {
           _this$props2$selectPr = _this$props2.selectProps,
           selectProps = _this$props2$selectPr === void 0 ? {} : _this$props2$selectPr;
       var time = this.state;
-      return React.createElement("span", null, React.createElement(Input, _extends({
+      return React.createElement("span", null, React.createElement(Input, Object.assign({
         value: time.number,
         onChange: function onChange(e) {
           return _this2.handleChange(e.target.value, 'number');
@@ -99,7 +93,7 @@ function (_React$Component) {
           marginRight: '3%'
         },
         placeholder: "\u8BF7\u8F93\u5165"
-      }, inputProps)), React.createElement(Select, _extends({
+      }, inputProps)), React.createElement(Select, Object.assign({
         value: time.unit,
         style: {
           width: '32%'
@@ -125,7 +119,7 @@ function (_React$Component) {
           value = _nextProps$value === void 0 ? {} : _nextProps$value;
 
       if ('number' in value && preState.number !== value.number) {
-        return _objectSpread({}, nextProps.value || {});
+        return Object.assign({}, nextProps.value || {});
       }
 
       return null;

@@ -5,8 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
-    index: './packages/index.js',
-    utils: './packages/utils/index.js'
+    index: './packages/index',
+    utils: './packages/utils/index'
   },
   devtool: 'none',
   mode: 'production',
@@ -42,10 +42,23 @@ module.exports = {
       commonjs2: 'moment',
       amd: 'moment',
     },
+    dva: {
+      commonjs: 'dva',
+      commonjs2: 'dva',
+      amd: 'dva',
+    },
+  },
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: ['.tsx', '.ts', '.js']
   },
   module: {
     rules: [{
-      test: /\.js?$/,
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      loader: 'ts-loader'
+    }, {
+      test: /\.jsx?$/,
       exclude: /(node_modules|bower_components)/,
       loader: 'babel-loader',
       query: {

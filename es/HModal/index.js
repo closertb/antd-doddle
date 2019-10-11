@@ -1,11 +1,5 @@
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -24,18 +18,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import React from 'react';
 import { Modal } from 'antd';
-/**
- * 模态框组件
- *
- * @props visible Symbol类型参数，每次visible改变的时候，都会显示模态框
- * @props form 如果配置了form属性，则onOk属性会传递values,且只有在form validate success之后，才触发cancel逻辑
- * @props {...modalProps} 参考antd 模态框组件
- */
 
 var HModal =
 /*#__PURE__*/
-function (_React$Component) {
-  _inherits(HModal, _React$Component);
+function (_React$PureComponent) {
+  _inherits(HModal, _React$PureComponent);
 
   function HModal(props) {
     var _this;
@@ -141,18 +128,17 @@ function (_React$Component) {
         confirmLoading = confirmLoading.valueOf();
       }
 
-      var modalProps = _objectSpread({}, this.props, {
+      var modalProps = Object.assign({}, this.props, {
         confirmLoading: confirmLoading,
         visible: true,
         onOk: this.handleOk,
         onCancel: this.handleCancel
       });
-
-      return React.createElement("div", null, this.state.visible && React.createElement(Modal, modalProps, this.props.children));
+      return React.createElement("div", null, this.state.visible && React.createElement(Modal, Object.assign({}, modalProps), this.props.children));
     }
   }]);
 
   return HModal;
-}(React.Component);
+}(React.PureComponent);
 
 export { HModal as default };

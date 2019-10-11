@@ -9,7 +9,7 @@ order: 0
 import React from 'react';
 import { Form } from 'antd';
 // import { OriginSearch } from 'antd-doddle';
-import OriginSearch from '../index.js';
+import OriginSearch from '../index';
 
 const FormItem = Form.Item;
 export const formItemLayout = {

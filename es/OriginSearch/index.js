@@ -1,9 +1,5 @@
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31,18 +27,6 @@ var DefaultOption = React.createElement(Option, {
   key: "empty",
   disabled: true
 }, "\u6682\u65E0\u53EF\u5339\u914D\u7684\u641C\u7D22\u7ED3\u679C");
-/**
- * 作用: 用户名远程搜索下拉列表选择框
- * @prop: { function }      onSelect     下拉列表选择后自定义动作
- * @prop: { function }      onChange     下拉列表选择后自定义动作，一般不使用，与handleSelect功能相似
- * @prop: { function }      format       下拉列表显示自定义规则函数，返回[{label: '',value: ''}]对象数组
- * @prop: { Promise func }  fetchData    带promise的数据获取接口
- * @prop: { string|object } value        初始值
- * @prop: { function }      valueFormat  数据显示框自定义数据显示函数。默认为 value => value
- * @prop: { object }        search       自定义搜索数据对象，不设置则采用默认itmp默认用户查询对象
- * @prop: { string }        searchKey    自定义搜索数据对象，关键词属性名，默认keyword
- * @prop: { number }        maxSize      文字长度超过maxSize时使用ToolTips进行字段扩展展示
- */
 
 var OriginSearch =
 /*#__PURE__*/
@@ -65,12 +49,12 @@ function (_React$Component) {
     };
     _this.lastFethId = 0;
     _this.load = _this.load.bind(_assertThisInitialized(_this));
+    _this.lazyLoad = throttle(_this.load, 800);
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSelect = _this.handleSelect.bind(_assertThisInitialized(_this));
     _this.handleOpenSearch = _this.handleOpenSearch.bind(_assertThisInitialized(_this));
     _this.handleCloseSearch = _this.handleCloseSearch.bind(_assertThisInitialized(_this));
     _this.handleRemove = _this.handleRemove.bind(_assertThisInitialized(_this));
-    _this.lazyLoad = throttle(_this.load, 800);
     return _this;
   }
 
@@ -158,9 +142,7 @@ function (_React$Component) {
       var _this$props$searchKey = this.props.searchKey,
           searchKey = _this$props$searchKey === void 0 ? 'keyword' : _this$props$searchKey;
       var search = this.state.search;
-
-      var res = _objectSpread({}, search, _defineProperty({}, searchKey, value));
-
+      var res = Object.assign({}, search, _defineProperty({}, searchKey, value));
       value && this.lazyLoad(res);
     } // 清除动作处理
 
@@ -182,16 +164,12 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
       var _this$props2 = this.props,
           style = _this$props2.style,
           _this$props2$valueFor = _this$props2.valueFormat,
           valueFormat = _this$props2$valueFor === void 0 ? function (value) {
         return value;
       } : _this$props2$valueFor,
-          _this$props2$size = _this$props2.size,
-          size = _this$props2$size === void 0 ? 'default' : _this$props2$size,
           _this$props2$disabled = _this$props2.disabled,
           disabled = _this$props2$disabled === void 0 ? false : _this$props2$disabled,
           _this$props2$placehol = _this$props2.placeholder,
@@ -213,9 +191,7 @@ function (_React$Component) {
       };
       var inputValue = valueFormat(value);
       var withTips = inputValue && String(inputValue).length > maxSize;
-
-      var nodeProps = _objectSpread({
-        size: size,
+      var nodeProps = Object.assign({
         disabled: disabled,
         // disabled的时候，allowClear任然是可以点击的
         allowClear: !disabled && allowClear,
@@ -225,19 +201,15 @@ function (_React$Component) {
         style: {
           width: '100%'
         },
-        onChange: this.handleRemove,
-        ref: function ref(e) {
-          return _this3.searchInput = e;
-        }
+        onChange: this.handleRemove
       }, inputProps);
-
       return React.createElement("div", {
         className: "doddle-input-search",
         style: style
       }, withTips ? React.createElement(Tooltip, {
         className: "whatip",
         title: inputValue
-      }, React.createElement(Input, nodeProps)) : React.createElement(Input, nodeProps), isShowSearch && React.createElement("div", {
+      }, React.createElement(Input, Object.assign({}, nodeProps))) : React.createElement(Input, Object.assign({}, nodeProps)), isShowSearch && React.createElement("div", {
         className: "js-origin-search origin-search"
       }, React.createElement(Icon, {
         type: "search",
@@ -247,7 +219,6 @@ function (_React$Component) {
         className: "certain-category-search",
         dropdownClassName: "certain-category-search-dropdown",
         dropdownMatchSelectWidth: true,
-        size: size,
         onBlur: this.handleCloseSearch,
         onSearch: this.handleChange,
         onSelect: this.handleSelect,

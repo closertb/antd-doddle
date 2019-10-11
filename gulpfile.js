@@ -1,6 +1,12 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const clean = require('del');
+const ts = require('gulp-typescript');
+const merge = require('merge2');
+
+const tsProject = ts.createProject('./tsconfig.json');
+const ESDIR = './es';
+const LIBDIR = './lib';
 
 /* eslint-disable */
 gulp.task('clean', () => {
@@ -12,48 +18,48 @@ gulp.task('cleanEs', () => {
   return clean(['es']);
 });
 
-// 复制less模块到lib
-gulp.task('lessToLib', () => {  
-  return gulp.src('./package/**/*.less')
-    .pipe(gulp.dest('./lib'));
-});
+function moveLess(dir) {
+  return gulp.src('./packages/**/*.less').pipe(gulp.dest(dir));
+}
 
-// 复制less模块到es
-gulp.task('lessToEs', () => {
-  return gulp.src('./packages/**/*.less')
-    .pipe(gulp.dest('./es'));
-});
-// babel 打包es模块
-gulp.task('lib', gulp.series('clean', () => {
-  return gulp.src('./packages/**/*.js')
-    .pipe(gulp.dest('./lib'));
-}, 'lessToLib'));
+function compileTs() {
+  return tsProject.src()
+    .pipe(tsProject());
+}
 
-// babel 打包成支持es6模块的语法
-// 配置modules: false，保留es6模块化语法
+function babelConfig(moduleType) {
+  return {
+    babelrc: false,
+    presets: [
+      ["@babel/preset-env", { "modules": moduleType }],
+      "@babel/preset-react",
+    ],
+    plugins: [
+      "@babel/plugin-proposal-object-rest-spread",
+      ["@babel/plugin-proposal-decorators", { "legacy": true }],
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-transform-classes"
+    ]
+  };
+}
+
 gulp.task('es', gulp.series('cleanEs', () => {
-  return gulp.src('./packages/**/*.js')
-    .pipe(babel({
-      babelrc: false,
-      presets: [
-        ["@babel/preset-env", { "modules": false }],
-        "@babel/preset-react",
-      ],
-      plugins: [
-        "@babel/plugin-proposal-object-rest-spread",
-        ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-transform-classes"
-      ]
-    }))
-    .pipe(gulp.dest('./es'));
-}, 'lessToEs'));
+  const tsSream =  compileTs();
+  const jsStream = tsSream.js.pipe(babel(babelConfig(false))).pipe(gulp.dest(ESDIR));
+  const tsdStream = tsSream.dts
+    .pipe(gulp.dest(ESDIR));
+  const cssStream = moveLess(ESDIR); // 处理css流
+  return merge(jsStream, tsdStream, cssStream);
+}));
 
 // 发布打包
 gulp.task('lib', gulp.series('clean', () => {
-  return gulp.src('./packages/**/*.js')
-    .pipe(babel())
-    .pipe(gulp.dest('./lib'));
-}, 'lessToLib'));
+  const tsSream =  compileTs();
+  const jsStream = tsSream.js.pipe(babel(babelConfig('commonjs'))).pipe(gulp.dest(LIBDIR));
+  const tsdStream = tsSream.dts
+    .pipe(gulp.dest(LIBDIR));
+  const cssStream = moveLess(LIBDIR); // 处理css流
+  return merge(jsStream, tsdStream, cssStream);
+}));
 
-gulp.task('default', gulp.parallel(['lib', 'es']));
+gulp.task('default', gulp.series('lib', 'es'));

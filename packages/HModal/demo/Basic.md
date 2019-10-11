@@ -9,7 +9,7 @@ order: 0
 import React from 'react';
 import { Button } from 'antd';
 // import { HModal } from 'antd-doddle';
-import HModal from "../index.js";
+import HModal from "../index";
 
 function DetailModal(props) {
     return (

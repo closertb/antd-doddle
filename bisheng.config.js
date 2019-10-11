@@ -8,7 +8,21 @@ const alertLessConfig = (rules) => {
     }
   });
 };
+
+const resetTsConfig = (rules) => {
+  rules.forEach((rule) => {
+    if (rule.test && rule.test.toString() === /\.tsx?$/.toString()) {
+      rule.use.forEach((tsRule) => {
+        if (tsRule.loader && /ts-loader/.test(tsRule.loader)) {
+          tsRule.loader = require.resolve('ts-loader');
+        }
+      });
+    }
+  });
+};
+
 const filePath = '';
+const publicPath = '//closertb.site/antd-doddle/'; // //doc.closertb.site/antd-doddle
 
 module.exports = {
   history: 'hash',
@@ -18,7 +32,7 @@ module.exports = {
     packages: './packages'
   },
   output: './docs',
-  theme: './site',
+  theme: '@doddle/doddle-bisheng-theme',
   entiryName: 'index',
   themeConfig: {
     siteKey: 'antd-doddle',
@@ -37,9 +51,13 @@ module.exports = {
   devServerConfig: {},
   webpackConfig(config) {
     config.devtool = 'source-map';
+    if (process.env.NODE_ENV === 'production') {
+      config.devtool = 'none';
+      config.mode = 'production';
+    }
     alertLessConfig(config.module.rules);
-    // resetTsConfig(config.module.rules);
+    resetTsConfig(config.module.rules);
     return config;
   },
-  root: `${filePath}/`
+  root: process.env.NODE_ENV === 'production' ? publicPath : `${filePath}/`
 };

@@ -1,49 +1,51 @@
-.doddle-render-detail {
-  margin-bottom: 20px;
-  .title {
-    padding-left: 10px;
-    color: #108ee9;
-    border-left: 3px solid #108ee9;
-    line-height: 25px;
-    font-weight: bold;
-  }
-  .showInfo-content {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    .showInfo-item {
+:global {
+  .doddle-render-detail {
+    margin-bottom: 20px;
+    .title {
+      padding-left: 10px;
+      color: #108ee9;
+      border-left: 3px solid #108ee9;
+      line-height: 25px;
+      font-weight: bold;
+    }
+    .showInfo-content {
+      position: relative;
       display: flex;
-      width: 45%;
-      margin-left: 3%;
-      margin-top: 20px;
-      .showInfo-label {
-        position: relative;
-        display: inline-block;
-        width: 40%;
-        text-align: right;
-        font-weight: 500;
-        &::before {
-          content: ':';
-          position: absolute;
-          right: -5px;
-        }
-      }
-      .showInfo-value {
-        padding-left: 20px;
-        width: 55%;
-        text-align: left;
-      }
-      &.one-item {
-        width: 90%;
-      }
-      &.two-item {
+      flex-wrap: wrap;
+      .showInfo-item {
+        display: flex;
         width: 45%;
-      }
-      &.three-item {
-        width: 30%;
-      }
-      &.four-item {
-        width: 22.5%;
+        margin-left: 3%;
+        margin-top: 20px;
+        .showInfo-label {
+          position: relative;
+          display: inline-block;
+          width: 40%;
+          text-align: right;
+          font-weight: 500;
+          &::before {
+            content: ':';
+            position: absolute;
+            right: -5px;
+          }
+        }
+        .showInfo-value {
+          padding-left: 20px;
+          width: 55%;
+          text-align: left;
+        }
+        &.one-item {
+          width: 90%;
+        }
+        &.two-item {
+          width: 45%;
+        }
+        &.three-item {
+          width: 30%;
+        }
+        &.four-item {
+          width: 22.5%;
+        }
       }
     }
   }

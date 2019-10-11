@@ -1,5 +1,3 @@
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 import React from 'react';
 import OriginSearch from '../OriginSearch';
 import FileUpload from '../FileUpload';
@@ -22,7 +20,7 @@ var OriginInput = function OriginInput(_ref) {
       maxSize = field.maxSize,
       seldomProps = field.seldomProps,
       disable = field.disable;
-  return React.createElement(OriginSearch, _extends({
+  return React.createElement(OriginSearch, Object.assign({
     disabled: disable && disable(data),
     style: {
       width: '100%',
@@ -46,7 +44,7 @@ var UploadFile = function UploadFile(_ref2) {
       name = field.name,
       _field$seldomProps = field.seldomProps,
       seldomProps = _field$seldomProps === void 0 ? {} : _field$seldomProps;
-  return React.createElement(FileUpload, _extends({
+  return React.createElement(FileUpload, Object.assign({
     info: field.info,
     url: props.url,
     name: name,
@@ -68,7 +66,7 @@ var WithUnit = function WithUnit(_ref3) {
       defaultUnit = field.defaultUnit,
       enums = field.enums,
       seldomProps = field.seldomProps;
-  return React.createElement(InputWithUnit, _extends({
+  return React.createElement(InputWithUnit, Object.assign({
     enums: enums,
     selectProps: selectProps,
     inputProps: inputProps,
