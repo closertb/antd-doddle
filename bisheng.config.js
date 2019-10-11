@@ -37,7 +37,7 @@ module.exports = {
   themeConfig: {
     siteKey: 'antd-doddle',
     home: '/guide/introduce',
-    root: filePath,
+    root: process.env.NODE_ENV === 'production' ? '/antd-doddle/' : filePath,
     combineChangelog: false,
     compSorterType: 'native',
     title: 'Frontend Component Library',
@@ -54,6 +54,23 @@ module.exports = {
     if (process.env.NODE_ENV === 'production') {
       config.devtool = 'none';
       config.mode = 'production';
+      config.optimization = {
+        splitChunks: {
+          minSize: 30000,
+          cacheGroups: {
+            antd: {
+              test: /[\\/]node_modules[\\/]antd[\\/]/,
+              name: 'vendor-antd',
+              chunks: 'all'
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/](react|react-dom|moment|react-document-title|bind-decorator)[\\/]/,
+              name: 'vendor-common',
+              chunks: 'all'
+            },
+          }
+        }
+      };
     }
     alertLessConfig(config.module.rules);
     resetTsConfig(config.module.rules);
