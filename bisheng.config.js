@@ -22,7 +22,7 @@ const resetTsConfig = (rules) => {
 };
 
 const filePath = '';
-const publicPath = '//closertb.site/antd-doddle/'; // //doc.closertb.site/antd-doddle
+const publicPath = ''; // //doc.closertb.site/antd-doddle
 
 module.exports = {
   history: 'hash',
@@ -37,7 +37,7 @@ module.exports = {
   themeConfig: {
     siteKey: 'antd-doddle',
     home: '/guide/introduce',
-    root: process.env.NODE_ENV === 'production' ? '/antd-doddle/' : filePath,
+    root: filePath,
     combineChangelog: false,
     compSorterType: 'native',
     title: 'Frontend Component Library',
@@ -54,27 +54,27 @@ module.exports = {
     if (process.env.NODE_ENV === 'production') {
       config.devtool = 'none';
       config.mode = 'production';
-      config.optimization = {
-        splitChunks: {
-          minSize: 30000,
-          cacheGroups: {
-            antd: {
-              test: /[\\/]node_modules[\\/]antd[\\/]/,
-              name: 'vendor-antd',
-              chunks: 'all'
-            },
-            vendor: {
-              test: /[\\/]node_modules[\\/](react|react-dom|moment|react-document-title|bind-decorator)[\\/]/,
-              name: 'vendor-common',
-              chunks: 'all'
-            },
-          }
-        }
-      };
+    //   config.optimization = {
+    //     splitChunks: {
+    //       minSize: 30000,
+    //       cacheGroups: {
+    //         antd: {
+    //           test: /[\\/]node_modules[\\/]antd[\\/]/,
+    //           name: 'vendor-antd',
+    //           chunks: 'all'
+    //         },
+    //         vendor: {
+    //           test: /[\\/]node_modules[\\/](react|react-dom|moment|react-document-title|bind-decorator)[\\/]/,
+    //           name: 'vendor-common',
+    //           chunks: 'all'
+    //         },
+    //       }
+    //     }
+    //   };
     }
     alertLessConfig(config.module.rules);
     resetTsConfig(config.module.rules);
     return config;
   },
-  root: process.env.NODE_ENV === 'production' ? publicPath : `${filePath}/`
+  root: `${filePath}/`
 };
