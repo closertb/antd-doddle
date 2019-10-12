@@ -9,6 +9,19 @@ const alertLessConfig = (rules) => {
   });
 };
 
+const alertCssConfig = (rules) => {
+  rules.forEach((rule) => {
+    if (rule.loader && rule.loader.includes('css-loader')) {
+      rule.options = Object.assign(rules.options || {}, {
+        modules: 'global'
+      });
+      // rule.options.javascriptEnabled = true;
+    } else if (rule.use) {
+      alertCssConfig(rule.use);
+    }
+  });
+};
+
 const resetTsConfig = (rules) => {
   rules.forEach((rule) => {
     if (rule.test && rule.test.toString() === /\.tsx?$/.toString()) {
@@ -22,7 +35,7 @@ const resetTsConfig = (rules) => {
 };
 
 const filePath = '';
-const publicPath = ''; // //doc.closertb.site/antd-doddle
+// const publicPath = ''; // //doc.closertb.site/antd-doddle
 
 module.exports = {
   history: 'hash',
@@ -54,25 +67,26 @@ module.exports = {
     if (process.env.NODE_ENV === 'production') {
       config.devtool = 'none';
       config.mode = 'production';
-    //   config.optimization = {
-    //     splitChunks: {
-    //       minSize: 30000,
-    //       cacheGroups: {
-    //         antd: {
-    //           test: /[\\/]node_modules[\\/]antd[\\/]/,
-    //           name: 'vendor-antd',
-    //           chunks: 'all'
-    //         },
-    //         vendor: {
-    //           test: /[\\/]node_modules[\\/](react|react-dom|moment|react-document-title|bind-decorator)[\\/]/,
-    //           name: 'vendor-common',
-    //           chunks: 'all'
-    //         },
-    //       }
-    //     }
-    //   };
+      config.optimization = {
+        splitChunks: {
+          minSize: 30000,
+          cacheGroups: {
+            antd: {
+              test: /[\\/]node_modules[\\/]antd[\\/]/,
+              name: 'vendor-antd',
+              chunks: 'all'
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/](react|react-dom|moment|react-document-title|bind-decorator)[\\/]/,
+              name: 'vendor-common',
+              chunks: 'all'
+            },
+          }
+        }
+      };
     }
     alertLessConfig(config.module.rules);
+    alertCssConfig(config.module.rules);
     resetTsConfig(config.module.rules);
     return config;
   },
