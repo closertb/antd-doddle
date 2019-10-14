@@ -28,3 +28,24 @@ import { getEnumObject } from 'antd-doddle/utils';
 
 
 [1]: http://doc.closertb.site
+
+## Change Log
+
+### 2019-05-13
+
+ - feat: 新增dynamicParams，配合field设置isDynamic属性，用于获取从异步接口获取回来的动态枚举，具体使用请参见Demo
+
+### 2019-06-28
+ - feat: 新增FormRender, RenderDetail, EnhanceTable三个组件的扩展方法
+ - feat: 新增extendFieldTypes使用说明文档
+
+ ### 2019-08-25
+
+ - feat: ts重写组件库
+ - feat: 新增model， throtle装饰器
+
+ ### 2019-10-07
+ - 组件库文档打包构建优化，将打包体积由3M缩小到2M
+
+ ### 2019-10-13
+ - 增加ImageLoad组件
