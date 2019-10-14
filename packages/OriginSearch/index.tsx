@@ -30,11 +30,11 @@ interface OriginSearchProps {
   onChange?: Function,
   value?: string | object | number,
   search?: object,
-  searchKey?: 'string',
+  searchKey?: string,
   maxSize?: number,
   style: object,
   disabled: boolean,
-  placeholder: 'string',
+  placeholder: string,
   allowClear: boolean
 }
 

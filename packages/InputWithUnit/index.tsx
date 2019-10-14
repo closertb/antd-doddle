@@ -12,7 +12,7 @@ const DefaultEnums = [{
 }];
 interface InputWithUnitProps {
   value?: any, // 初始值
-  defaultUnit?: 'string', // 默认单位
+  defaultUnit?: string, // 默认单位
   enums?: EnumField [], // 
   inputProps?: object,
   selectProps?: object,
@@ -21,7 +21,7 @@ interface InputWithUnitProps {
 
 interface InputWithUnitState {
   number: number | string,
-  unit: 'string'
+  unit: string
 }
 
 export default class InputWithUnit extends React.Component<InputWithUnitProps> {
