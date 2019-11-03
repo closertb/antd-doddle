@@ -3,7 +3,7 @@ name: Deploy static source to my server
 on: 
   push:
     branches:
-      - interview
+      - master
 
 jobs:
   build:
