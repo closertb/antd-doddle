@@ -11,7 +11,7 @@
     "build": "webpack --config webpack.config.js",
     "lib": "gulp lib",
     "es": "gulp es",
-    "prepublish": "gulp && webpack --config webpack.config.js"
+    "propublish": "gulp && webpack --config webpack.config.js"
   },
   "files": [
     "es",
