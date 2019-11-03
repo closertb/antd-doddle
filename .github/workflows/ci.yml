@@ -23,4 +23,4 @@ jobs:
         token: ${{ secrets.Deploy_Token }}
         requestUrl: 'http://114.55.38.249:8080/operate/deploy'
         dist: 'docs'
-        target: 'and-doddle'
+        target: 'antd-doddle'
