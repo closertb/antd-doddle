@@ -39,13 +39,16 @@ import { getEnumObject } from 'antd-doddle/utils';
  - feat: 新增FormRender, RenderDetail, EnhanceTable三个组件的扩展方法
  - feat: 新增extendFieldTypes使用说明文档
 
- ### 2019-08-25
+### 2019-08-25
 
  - feat: ts重写组件库
  - feat: 新增model， throtle装饰器
 
- ### 2019-10-07
+### 2019-10-07
  - 组件库文档打包构建优化，将打包体积由3M缩小到2M
 
- ### 2019-10-13
- - 增加ImageLoad组件
+### 2019-10-13
+ - 增加ImageLoad组件  
+
+### 2019-11-03
+ - 增加文档库自动化构建部署更新
