@@ -8,7 +8,8 @@ export { default as formRender } from './FormRender';
 export { default as RenderDetail } from './RenderDetail';
 export { default as EnhanceTable } from './EnhanceTable';
 export { default as HModal } from './HModal';
-export { default as FileUpload } from './FileUpload'; // 三个extends方法
+export { default as FileUpload } from './FileUpload';
+export { default as ImageLoad } from './ImageLoad'; // 三个extends方法
 
 export { combineTypes as extendFieldTypes } from './EnhanceTable/table/fieldTypes';
 export { extendRenderTypes } from './FormRender/renderType';

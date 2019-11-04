@@ -47,6 +47,11 @@ module.exports = {
       commonjs2: 'dva',
       amd: 'dva',
     },
+    'react-transition-group': {
+      commonjs: 'react-transition-group',
+      commonjs2: 'react-transition-group',
+      amd: 'react-transition-group',
+    },
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.

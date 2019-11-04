@@ -1,0 +1,26 @@
+name: Deploy static source to my server
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+      
+    - name: build
+      run: npm install && npm run site
+
+    - name: deploy
+      uses: closertb/deploy-static-action@master
+      with:
+        name: 'doddle'
+        token: ${{ secrets.Deploy_Token }}
+        requestUrl: 'http://114.55.38.249:8080/operate/deploy'
+        dist: 'docs'
+        target: 'antd-doddle'

@@ -120,3 +120,66 @@
   width: 22.5%;
 }
 
+.loadingWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+.loadingWrap .loadImg-enter,
+.loadingWrap .loadImg-appear {
+  opacity: 0;
+}
+.loadingWrap .loadImg-enter-active,
+.loadingWrap .loadImg-appear-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+.loadingWrap .loadImg-enter-done {
+  opacity: 1;
+}
+.loadingWrap .loadImg-exit {
+  opacity: 1;
+}
+.loadingWrap .loadImg-exit-active {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+.loadingWrap .loadImg-exit-done {
+  opacity: 0;
+}
+.loadingWrap .loading-animate,
+.loadingWrap .loading-error {
+  position: absolute;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-out;
+  opacity: 0;
+}
+.loadingWrap .loading-animate.enter-active,
+.loadingWrap .loading-error.enter-active {
+  opacity: 1;
+}
+.loadingWrap .loading-animate.exit-active,
+.loadingWrap .loading-error.exit-active {
+  opacity: 0;
+}
+.loadingWrap .loading-animate .icon,
+.loadingWrap .loading-error .icon {
+  fill: rgba(24, 144, 255, 0.7);
+}
+.loadingWrap .loading-animate .error,
+.loadingWrap .loading-error .error {
+  fill: rgba(255, 0, 0, 0.7);
+}
+.loadingWrap .loading-animate .error-wrap,
+.loadingWrap .loading-error .error-wrap {
+  text-align: center;
+}
+.loadingWrap .loading-animate .error-wrap p,
+.loadingWrap .loading-error .error-wrap p {
+  margin-top: 10px;
+}
+
