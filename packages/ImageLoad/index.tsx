@@ -10,6 +10,7 @@ interface ImageProps {
 }
 interface ImageLoadProps {
   imgProps: ImageProps,
+  children?: any, // 自定义渲染树
   waiting?: boolean, // 图片加载完是否等待再显示
   callback?: Function, // 图片加载完的回调
   wrapClassName?: string, // ImageLoad组件包裹样式名
@@ -19,7 +20,7 @@ interface ImageLoadProps {
 
 export default function ImageLoad(props: ImageLoadProps) {
   const { imgProps = { src: '', width: '100%' }, waiting = false, wrapClassName = '', callback,
-  transtionTime = 1000, transtionClassName = 'loadImg' } = props;
+  transtionTime = 1000, children, transtionClassName = 'loadImg' } = props;
   const imgSrc = imgProps.src;
   const loadRef = useRef(false);
   const [isReady, setReady] = useState(false);
@@ -44,18 +45,17 @@ export default function ImageLoad(props: ImageLoadProps) {
   }, [waiting, loadRef]);
   return (
     <div className={`loadingWrap ${wrapClassName}`}>
-      {!isReady &&
-        <div className="loading-animate">
-          <Loading />
-        </div>
-      }
+      <div className={`loading-animate ${isReady ? 'exit-active' : 'enter-active'}`}>
+        {/* add waiting status to avoid multi loading in one page */}
+        {!waiting && <Loading />}
+      </div>
       <CSSTransition
         in={isReady}
         timeout={transtionTime}
         classNames={transtionClassName}
         unmountOnExit
       >
-        <img {...imgProps} />
+        {children || <img {...imgProps} />}
       </CSSTransition>
     </div>
 

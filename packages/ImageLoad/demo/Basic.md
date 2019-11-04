@@ -27,8 +27,13 @@ class Root extends React.PureComponent {
 
     return (
       <div>
-        <ImageLoad imgProps={{ src: homeTop, alt: '主页第一张', width: '100%' }} callback={this.handleState} />
-        <ImageLoad imgProps={{ src: homeBtm, alt: '主页第二张', width: '100%' }} waiting={waiting} />
+        <ImageLoad imgProps={{ src: homeTop, alt: '主页第一张', width: '60%' }} callback={this.handleState} />
+        <ImageLoad waiting={waiting} imgProps={{ src: homeBtm }} >
+          <div>
+            <h3 style={{ margin: '30px 0', textAlign: 'center' }}>标题会一起延迟加载</h3>
+            <img src={homeBtm} alt="主页第二张"  width="100%" /> 
+          </div>
+        </ImageLoad>
       </div>
     );
   }

@@ -27,10 +27,19 @@
       opacity: 0;
     }
     .loading-animate , .loading-error {
+      position: absolute;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: all .3s ease-out;
+      opacity: 0;
+      &.enter-active {
+        opacity: 1;
+      }
+      &.exit-active {
+        opacity: 0;
+      }
       .icon {
         fill: rgba(24, 144, 255, .7);
       }
@@ -42,27 +51,6 @@
         p {
           margin-top: 10px;
         }
-      }
-    }
-  }
-}
-
-.Loading, .Error {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  :global {
-    .icon {
-      fill: rgba(24, 144, 255, .7);
-    }
-    .error {
-      fill: rgba(255, 0, 0, .7);
-    }
-    .error-wrap {
-      text-align: center;
-      p {
-        margin-top: 10px;
       }
     }
   }
