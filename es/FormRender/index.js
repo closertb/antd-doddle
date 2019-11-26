@@ -11,12 +11,14 @@ export default function (constProps) {
       _constProps$Wrapper = constProps.Wrapper,
       Wrapper = _constProps$Wrapper === void 0 ? WrapperDefault : _constProps$Wrapper,
       _constProps$withWrap = constProps.withWrap,
-      withWrap = _constProps$withWrap === void 0 ? false : _constProps$withWrap;
+      withWrap = _constProps$withWrap === void 0 ? false : _constProps$withWrap,
+      dynamicParams = constProps.dynamicParams;
   var extendProps = {
     extend: extendSymbol,
     formItemLayout: formItemLayout,
     containerName: containerName,
     getFieldDecorator: getFieldDecorator,
+    dynamicParams: dynamicParams,
     require: require,
     Wrapper: Wrapper,
     withWrap: withWrap

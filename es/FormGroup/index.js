@@ -3,22 +3,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 import { Children, cloneElement } from 'react';
 import { formItemLayout as layout } from '../utils';
 import FormRender from './FormRender';
-import { WrapperDefault } from './default'; // 遍历 react children, 识别FormRender
+import { extendSymbol, WrapperDefault } from './default'; // 遍历 react children, 识别FormRender
 
 function deepMap(children, extendProps) {
   return Children.map(children, function (child) {
     var isDefine = typeof child.type === 'function';
     var name = child.type.name; // 仅对FormRender 组件做属性扩展
+    // 仅对FormRender 组件做属性扩展
 
-    if (isDefine && name === 'FormRender') {
+    if (isDefine && child.type.$type === extendSymbol) {
       return cloneElement(child, {
         extendProps: extendProps
       });
-    } else if (isDefine && (name === 'Col' || name === 'Row') && child.props.children && _typeof(child.props.children) === 'object') {
+    }
+
+    if (child && child.props && child.props.children && _typeof(child.props.children) === 'object') {
       // Clone the child that has children and map them too
-      return cloneElement(child, Object.assign({}, child.props, {
+      return cloneElement(child, {
         children: deepMap(child.props.children, extendProps)
-      }));
+      });
     }
 
     return child;
@@ -35,10 +38,12 @@ export default function FormGroup(constProps) {
       Wrapper = _constProps$Wrapper === void 0 ? WrapperDefault : _constProps$Wrapper,
       _constProps$withWrap = constProps.withWrap,
       withWrap = _constProps$withWrap === void 0 ? false : _constProps$withWrap,
+      dynamicParams = constProps.dynamicParams,
       children = constProps.children;
   var extendProps = {
     formItemLayout: formItemLayout,
     containerName: containerName,
+    dynamicParams: dynamicParams,
     getFieldDecorator: getFieldDecorator,
     require: required,
     Wrapper: Wrapper,

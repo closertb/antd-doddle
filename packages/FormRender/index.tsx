@@ -6,13 +6,14 @@ import FormRender from '../FormGroup/FormRender';
 // 用于接受一个从接口获取到的枚举数组
 export default function (constProps: ConstuctorProps) {
   const { formItemLayout = layout, containerName, getFieldDecorator,
-    require, Wrapper = WrapperDefault, withWrap = false } = constProps;
+    require, Wrapper = WrapperDefault, withWrap = false, dynamicParams } = constProps;
 
   const extendProps = {
     extend: extendSymbol,
     formItemLayout,
     containerName,
     getFieldDecorator,
+    dynamicParams,
     require,
     Wrapper,
     withWrap

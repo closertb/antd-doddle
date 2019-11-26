@@ -41,15 +41,21 @@ class Basic extends React.Component {
   handleReset() {
     console.log('research');
   }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ enums: [{ label: '远处的是', value: 1 }, { label: '动态的否', value: 0 }] })
+    }, 1000)
+  }
   render() {
     const extraBtns = () => <Button>自定义按钮</Button>
+    const { enums } = this.state;
     const modalProps = {
       fields: searchFields,
       search: { reach: 0 },
       onSearch: this.handleSearch,
       onReset: this.handleReset,
       dynamicParams: { // 从请求获取到的动态枚举， 需配合fields设置isDynamic属性
-        reach: [{ label: '远处的是', value: 1 }, { label: '动态的否', value: 0 }],
+        reach: enums,
       },
       extraBtns // 添加自定义按钮操作
     };

@@ -32,31 +32,32 @@ var getParamFromProps = function getParamFromProps(key, props) {
   return props[key] || [];
 };
 
-export default function FormRender(props, rightProps) {
-  var secStepProps;
-  var firstStepProps; // have the special extend SYmbol, the function is call by old FormRender;
+export default function FormRender(unionProps, rightProps) {
+  var props;
+  var construtProps; // have the special extend SYmbol, the function is call by old FormRender;
 
-  if (props.extend === extendSymbol) {
-    firstStepProps = props;
-    secStepProps = rightProps;
+  if (unionProps.extend === extendSymbol) {
+    construtProps = unionProps;
+    props = rightProps;
   } else {
-    firstStepProps = props.extendProps;
-    secStepProps = props;
+    construtProps = unionProps.extendProps;
+    props = unionProps;
   }
 
-  var _secStepProps = secStepProps,
-      field = _secStepProps.field,
-      _secStepProps$data = _secStepProps.data,
-      data = _secStepProps$data === void 0 ? {} : _secStepProps$data,
-      _secStepProps$wrapPro = _secStepProps.wrapProps,
-      wrapProps = _secStepProps$wrapPro === void 0 ? {} : _secStepProps$wrapPro;
-  var _firstStepProps = firstStepProps,
-      require = _firstStepProps.require,
-      getFieldDecorator = _firstStepProps.getFieldDecorator,
-      formItemLayout = _firstStepProps.formItemLayout,
-      containerName = _firstStepProps.containerName,
-      defaultWrap = _firstStepProps.withWrap,
-      Wrapper = _firstStepProps.Wrapper;
+  var _props = props,
+      field = _props.field,
+      _props$data = _props.data,
+      data = _props$data === void 0 ? {} : _props$data,
+      _props$wrapProps = _props.wrapProps,
+      wrapProps = _props$wrapProps === void 0 ? {} : _props$wrapProps;
+  var _construtProps = construtProps,
+      require = _construtProps.require,
+      getFieldDecorator = _construtProps.getFieldDecorator,
+      formItemLayout = _construtProps.formItemLayout,
+      containerName = _construtProps.containerName,
+      defaultWrap = _construtProps.withWrap,
+      Wrapper = _construtProps.Wrapper,
+      dynamicParams = _construtProps.dynamicParams;
   var _field$type = field.type,
       type = _field$type === void 0 ? 'input' : _field$type,
       key = field.key,
@@ -77,7 +78,7 @@ export default function FormRender(props, rightProps) {
       rules = _field$rules === void 0 ? [] : _field$rules,
       maxLength = field.maxLength,
       _field$isEnable = field.isEnable,
-      isEnable = _field$isEnable === void 0 ? true : _field$isEnable,
+      enableTemp = _field$isEnable === void 0 ? true : _field$isEnable,
       specialKey = field.specialKey,
       _field$onChange = field.onChange,
       onChange = _field$onChange === void 0 ? defaultAction : _field$onChange,
@@ -87,10 +88,18 @@ export default function FormRender(props, rightProps) {
       enums = _field$enums === void 0 ? [] : _field$enums,
       _field$seldomProps = field.seldomProps,
       seldomProps = _field$seldomProps === void 0 ? {} : _field$seldomProps,
+      _field$decorProps = field.decorProps,
+      decorProps = _field$decorProps === void 0 ? {} : _field$decorProps,
       _field$isDynamic = field.isDynamic,
       isDynamic = _field$isDynamic === void 0 ? false : _field$isDynamic;
   var enumKey = field.enumKey || key;
-  var content = null; // 如果这个节点不需要渲染，那么就直接返回null
+  var content = null;
+  var isEnable = enableTemp; // 如果这个节点不需要渲染，那么就直接返回null
+
+  if (typeof enableTemp === 'function') {
+    isEnable = enableTemp(data);
+  } // 如果props.isEnable为false，或则isEnable 传值为false 或 enableTemp(data) 返回值为false；此节点不渲染
+
 
   if (!isUndefind(props.isEnable, isEnable)) {
     return content;
@@ -193,7 +202,7 @@ export default function FormRender(props, rightProps) {
 
     case 'select':
       // eslint-disable-next-line
-      var selectEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
+      var selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : props.enums || enums;
       content = React.createElement(FormItem, Object.assign({
         key: specialKey || key,
         label: name
@@ -223,7 +232,7 @@ export default function FormRender(props, rightProps) {
 
     case 'radio':
       // eslint-disable-next-line
-      var radioEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
+      var radioEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : props.enums || enums;
       content = React.createElement(FormItem, Object.assign({
         key: specialKey || key,
         label: name
@@ -243,7 +252,7 @@ export default function FormRender(props, rightProps) {
 
     case 'check':
       // eslint-disable-next-line
-      var checkEnums = isDynamic ? getParamFromProps(enumKey, props) : props.enums || enums;
+      var checkEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : props.enums || enums;
       content = React.createElement(FormItem, Object.assign({
         key: specialKey || key,
         label: name
@@ -326,13 +335,13 @@ export default function FormRender(props, rightProps) {
         content = React.createElement(FormItem, Object.assign({
           key: specialKey || key,
           label: name
-        }, formItemLayout), getFieldDecorator(key, {
+        }, formItemLayout), getFieldDecorator(key, Object.assign({
           initialValue: data[key],
           rules: [{
             required: props.required || required,
             message: placeholder
           }].concat(rules)
-        })(render({
+        }, decorProps))(render({
           field: field,
           props: props,
           data: data
@@ -341,8 +350,8 @@ export default function FormRender(props, rightProps) {
         console.error('type is not supported');
       }
 
-      break;
   }
 
   return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? React.createElement(Wrapper, Object.assign({}, wrapProps), content) : content;
 }
+FormRender.$type = extendSymbol;

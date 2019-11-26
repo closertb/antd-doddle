@@ -41,18 +41,16 @@ type属性一共包含： input， inputNumber， text， select, radio, check, 
 | required | 必填 | 否  | bool | false | 权重： props.required > required > require
 | placeholder | 说明 | 否  | string | 请输入/请选择 | --
 | defaultValue| 初始值 | 否 | 根据需要 | -- | --
-| disable| 是否禁用 | 否 | fun：data => { return } | -- | --
-| defaultValue| 初始值 | 否 | 根据需要 | --  | --
+| disable | 是否禁用 | 否 | fun：data => { return } | -- | --
 | rules| 校验规则 | 否 | array | -- |  必填的校验不在此定义
-| maxLength| 最大长度 | 否 | num | -- | 适用：input， text  
+| enums| 枚举 | 否 | array | [] | 适用：select, radio, check  
 | format| 日期格式化 | 否 | string | -- | 适用：日期类
 | showTime| 时间可选 | 否 | bool | -- | 适用：日期类
 | allowClear| 是否可清除 | 否 | bool | 适用：日期类， select | --
-| enums| 枚举 | 否 | array | [] | 适用：select, radio, check  
-| seldomProps | 不常用配置属性对象 | 否 | object | {} | --
 | withWrap | 是否用包装组件包装 | 否  | boolean | false | --
 | enumKey | 接口枚举属性字段 | 否  | string | 同field key | --
 | isDynamic | 是否去获取动态字段  | boolean | false | --
+| seldomProps | 不常用配置属性对象, 组件支持的，但上面又没有列出的，可在此对象中列举 | 否 | object | {} | --
 
 很多在field和props同时出现的属性，props中的权重大于field中的, field中的权重大于Render声明中的。除了上面所列，还有一些不常用的，后面慢慢补充 
 

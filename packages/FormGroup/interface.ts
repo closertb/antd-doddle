@@ -53,7 +53,8 @@ export interface ConstuctorProps {
   containerName?: string,
   require?: boolean,
   Wrapper?: Function,
-  withWrap?: boolean
+  withWrap?: boolean,
+  dynamicParams?: object, // 动态参数注入
 }
 
 export interface GropProps extends ConstuctorProps {
