@@ -39,6 +39,7 @@ const filePath = '';
 
 module.exports = {
   history: 'hash',
+  hash: true,
   port: 8090,
   source: {
     guide: ['./guide'],
