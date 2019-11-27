@@ -1,6 +1,7 @@
-import { Children, cloneElement } from 'react';
+import React, { Children, cloneElement } from 'react';
+import { Form } from 'antd';
 import { formItemLayout as layout } from '../utils';
-import { GropProps } from './interface';
+import { GroupProps } from './interface';
 import FormRender from './FormRender';
 import { extendSymbol, WrapperDefault } from './default';
 
@@ -9,8 +10,6 @@ function deepMap(children, extendProps) {
   return Children
     .map(children, (child) => {
       const isDefine = typeof child.type === 'function';
-      const name = child.type.name;
-      // 仅对FormRender 组件做属性扩展
       // 仅对FormRender 组件做属性扩展
       if (isDefine && child.type.$type === extendSymbol) {
         return cloneElement(child, { extendProps });
@@ -25,9 +24,9 @@ function deepMap(children, extendProps) {
     });
 }
 
-export default function FormGroup(constProps: GropProps) {
+export default function FormGroup(constProps: GroupProps) {
   const { formItemLayout = layout, containerName, getFieldDecorator, required,
-    Wrapper = WrapperDefault, withWrap = false, dynamicParams, children } = constProps;
+    Wrapper = WrapperDefault, withWrap = false, children, dynamicParams, ...others } = constProps;
   
   const extendProps = {
     formItemLayout,
@@ -39,7 +38,10 @@ export default function FormGroup(constProps: GropProps) {
     withWrap
   };
 
-  return deepMap(children, extendProps);
+  return (
+    <Form {...others}>
+      {deepMap(children, extendProps)}
+    </Form>);
 }
 
 FormGroup.FormRender = FormRender;

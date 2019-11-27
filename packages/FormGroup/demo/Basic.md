@@ -35,6 +35,7 @@ function Edit(props) {
   const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: true, interest: { number: 0.12, unit: 'month' }  }, form: { getFieldDecorator } } = props;
   // 组件声明，绑定getFieldDecorator
   const formProps = {
+    layout: 'horizontal',
     getFieldDecorator,
     required: true,
     formItemLayout,

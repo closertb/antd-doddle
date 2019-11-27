@@ -1,9 +1,4 @@
-/**
- * @param string formItemLayout         : 表单项整体样式定义
- * @param string getFieldDecorator      : 表单项装饰器
- * @param string require                : 表单项整体定义是否必填
- * @param string Wrapper                : 表单包裹组件
- * @param string containerName          : 表单组件挂载的Dom节点ClassName
+ /** 
  * filed 参数说明
  * @param string type         : 表单项类型
  * @param string key          : 表单项主键
@@ -18,7 +13,7 @@
  * @param string maxLength    : 表单项最大长度
  * @param string isEnable     : 表单项是否启用，true时渲染，false时不渲染
  * @param string specialKey   : 表单项FORMITEM专用key值，用于react diff时用
- * @param string format         : 表单项类型
+ * @param string format       : 表单项类型
 */
 export interface FieldProps {
   type?: string,         //  表单项类型
@@ -42,11 +37,17 @@ export interface FieldProps {
 
 export interface FormRenderProps {
   field: FieldProps,
-  extendProps?: GropProps,
+  extendProps?: GroupProps,
   data?: any,
   [propName: string]: any // 其他
 }
-
+/**
+ * @param string formItemLayout         : 表单项整体样式定义
+ * @param string getFieldDecorator      : 表单项装饰器
+ * @param string require                : 表单项整体定义是否必填
+ * @param string Wrapper                : 表单包裹组件
+ * @param string containerName          : 表单组件挂载的Dom节点ClassName
+ */
 export interface ConstuctorProps {
   getFieldDecorator: Function,
   formItemLayout?: object,
@@ -57,7 +58,8 @@ export interface ConstuctorProps {
   dynamicParams?: object, // 动态参数注入
 }
 
-export interface GropProps extends ConstuctorProps {
+export interface GroupProps extends ConstuctorProps {
   children: React.ReactNode, // React.ReactChildren
-  required?: boolean
+  required?: boolean,
+  [propName: string]: any // 其他
 }

@@ -28,7 +28,7 @@ extendRenderTypes({
 ``` 
 
 ### FormRender 输入
-组件声明：FormRender = formRender({ getFieldDecorator }) 声明时，接受三个参数，getFieldDecorator，formItemLayout， require   
+老的组件声明见FormRender组件 
 
 | 参数名 | 作用 | 必传 | 类型 | 默认值  
 :--|:--:|---:|:--  

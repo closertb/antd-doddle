@@ -1,4 +1,4 @@
-import React, { DOMElement, Children } from 'react';
+import React from 'react';
 import { getEnumObject, EnumField, FieldProps } from '../utils';
 import fieldTypes from '../EnhanceTable/table/fieldTypes';
 import './index.less';
