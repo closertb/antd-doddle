@@ -43,7 +43,6 @@ export default class EnhanceTable extends React.PureComponent<EnhanceTableProps>
       onChange: pn => onSearch({ [page]: pn }),
       showTotal: t => footer ? footer({ total, ...search }) : `共 ${t} 条`
     };
-    console.log(Pagination);
     const tableProps = {
       columns,
       pagination,
