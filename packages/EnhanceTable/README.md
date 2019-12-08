@@ -24,7 +24,7 @@ EnhanceTable组件主要是要解决中台业务每个表单页面都会使用an
 | loading | 加载标示 | 否 | object | --： 其中含一个list属性的bool值
 | rowKey | 主键名 | 否 | string | id
 | footer | 总条数自定义显示 | 否 | fun | t => `共 ${t} 条`
-| pageName | 页码属性名 | 否 | string | pageNo: 除了pageNo，还对pageNum做了兼容
+| pageName | 页码属性名 | 否 | string | 默认使用pageNo, 优先级高于setPaginationParam设置的
 | noPage | 是否显示分页 | 否 | bool | false
 | ... | table其他可设置属性 | 否 | -- | --  
 
@@ -51,8 +51,25 @@ extendFieldTypes({
 
 ```
 
+### Pagination 属性名修改
+由于后端接口的多样性，分页参数名一般存在多样化，但每个项目的名称基本一致。组件内我们默认提供pageSize（每页数量）与 pageNo(第几页)属性名，在table和withSearch也提供pageName这样的属性来动态指定第几页属性的修改。但这样不够简洁，所以提供了一个全局方法，在项目入口来指定全局的分页属性名；
+
+```javascript
+import { setPaginationParam } from 'antd-doddle';
+
+setPaginationParam({
+    PN: 'pn',
+    PS: 'ps'
+});
+
+```
+
 ## Change Log
 
 ### 2019-06-28
 
  - feat: 新增extendFieldTypes使用说明文档
+
+### 2019-12-06
+
+ - feat: 新增setPaginationParam方法设置全局分页变量名， 详见demo使用

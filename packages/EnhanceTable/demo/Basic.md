@@ -8,8 +8,13 @@ order: 0
 ```jsx
 import React from 'react';
 import { Popconfirm } from 'antd';
-// import { EnhanceTable } from 'antd-doddle';
+import setPaginationParam from '../../utils/common';
 import EnhanceTable from "../index";
+
+setPaginationParam({
+  PN: 'pn',
+  PS: 'ps'
+});
 
 const userStatus = [{
   value: 1,
@@ -53,6 +58,27 @@ const forkDatas = [{
   property: 123456,
   addtime: Date.now(),
   status: 1
+}, {
+  id: 3,
+  userName: 'Simon',
+  userId: 'simona',
+  property: 123456,
+  addtime: Date.now(),
+  status: 1
+}, {
+  id: 4,
+  userName: 'Simon',
+  userId: 'simona',
+  property: 123456,
+  addtime: Date.now(),
+  status: 1
+}, {
+  id: 5,
+  userName: 'Simon',
+  userId: 'simona',
+  property: 123456,
+  addtime: Date.now(),
+  status: 1
 }];  
 
 class Basic extends React.Component {
@@ -79,13 +105,14 @@ class Basic extends React.Component {
     ];
   }
   render() {
-    const { search, onSearch = (param) => { console.log('fork', param); } } = this.props;
+    const { onSearch = (param) => { console.log('fork', param); } } = this.props;
     const forkProps = {
       fields,
       onSearch,
-      search,
+      search: { pn: 1, ps: 3 },
       rowKey: 'id',
       datas: forkDatas,
+      total: forkDatas.length,
       extraFields: this.getExtraFields()
     };
 

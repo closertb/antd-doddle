@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'antd';
 import table from './table';
 import { FieldProps, SearchProps } from '../utils';
+import { Pagination } from '../utils/common';
 
 const { createColumns } = table;
 
@@ -22,8 +23,6 @@ interface EnhanceTableProps {
 }
 
 export default class EnhanceTable extends React.PureComponent<EnhanceTableProps> {
-  static PN: string = 'pageNo'
-  static PS: string = 'pageSize'
   constructor(props) {
     super(props);
     this.state = {};
@@ -34,16 +33,17 @@ export default class EnhanceTable extends React.PureComponent<EnhanceTableProps>
   }
   render() {
     const { fields, search = {}, datas, total = 0, loading = {}, onSearch,
-      rowKey = 'id', footer, noPage = false, pageName = EnhanceTable.PN, ...others } = this.props;
+      rowKey = 'id', footer, noPage = false, pageName = Pagination.PN, ...others } = this.props;
     const columns = this.getInitalColumns(fields);
     const page = search.pageNum ? 'pageNum' : pageName;
     const pagination = noPage ? null : {
       total,
       current: search[page],
-      pageSize: search.pageCount || search.pageSize,
+      pageSize: search[Pagination.PS],
       onChange: pn => onSearch({ [page]: pn }),
       showTotal: t => footer ? footer({ total, ...search }) : `共 ${t} 条`
     };
+    console.log(Pagination);
     const tableProps = {
       columns,
       pagination,

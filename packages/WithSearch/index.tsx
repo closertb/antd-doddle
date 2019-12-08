@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form, Row, Col, Button } from 'antd';
+import { Pagination } from '../utils/common';
 import { formItemLayout, FieldProps, SearchProps } from '../utils';
 import formR from '../FormRender';
 import './index.less';
-
  
 function DefaultRender(props) {
   const { fields, formRender, search, handleSearch, handleReset, extraBtns, onReset, dynamicParams } = props;
@@ -59,7 +59,7 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
     return data;
   }
   handleSearch() {
-    const { form, onSearch, paramFormat, pageName = 'pageNo' } = this.props;
+    const { form, onSearch, paramFormat, pageName = Pagination.PN } = this.props;
 
     form.validateFields((err, values) => {
       if (err) return;

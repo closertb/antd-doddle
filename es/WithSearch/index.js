@@ -20,6 +20,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import React from 'react';
 import { Form, Row, Col, Button } from 'antd';
+import { Pagination } from '../utils/common';
 import { formItemLayout } from '../utils';
 import formR from '../FormRender';
 import './index.less';
@@ -94,7 +95,7 @@ function (_React$PureComponent) {
           onSearch = _this$props.onSearch,
           paramFormat = _this$props.paramFormat,
           _this$props$pageName = _this$props.pageName,
-          pageName = _this$props$pageName === void 0 ? 'pageNo' : _this$props$pageName;
+          pageName = _this$props$pageName === void 0 ? Pagination.PN : _this$props$pageName;
       form.validateFields(function (err, values) {
         if (err) return;
         var res = typeof paramFormat === 'function' ? paramFormat(values) : values;

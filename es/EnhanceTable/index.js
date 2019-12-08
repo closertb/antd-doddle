@@ -34,6 +34,7 @@ var __rest = this && this.__rest || function (s, e) {
 import React from 'react';
 import { Table } from 'antd';
 import table from './table';
+import { Pagination } from '../utils/common';
 var createColumns = table.createColumns;
 
 var EnhanceTable =
@@ -77,7 +78,7 @@ function (_React$PureComponent) {
           _a$noPage = _a.noPage,
           noPage = _a$noPage === void 0 ? false : _a$noPage,
           _a$pageName = _a.pageName,
-          pageName = _a$pageName === void 0 ? EnhanceTable.PN : _a$pageName,
+          pageName = _a$pageName === void 0 ? Pagination.PN : _a$pageName,
           others = __rest(_a, ["fields", "search", "datas", "total", "loading", "onSearch", "rowKey", "footer", "noPage", "pageName"]);
 
       var columns = this.getInitalColumns(fields);
@@ -85,7 +86,7 @@ function (_React$PureComponent) {
       var pagination = noPage ? null : {
         total: total,
         current: search[page],
-        pageSize: search.pageCount || search.pageSize,
+        pageSize: search[Pagination.PS],
         onChange: function onChange(pn) {
           return onSearch(_defineProperty({}, page, pn));
         },
@@ -95,6 +96,7 @@ function (_React$PureComponent) {
           }, search)) : "\u5171 ".concat(t, " \u6761");
         }
       };
+      console.log(Pagination);
       var tableProps = Object.assign({
         columns: columns,
         pagination: pagination,
@@ -115,5 +117,3 @@ function (_React$PureComponent) {
 }(React.PureComponent);
 
 export { EnhanceTable as default };
-EnhanceTable.PN = 'pageNo';
-EnhanceTable.PS = 'pageSize';

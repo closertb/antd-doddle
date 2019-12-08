@@ -14,3 +14,4 @@ export { default as ImageLoad } from './ImageLoad'; // 三个extends方法
 
 export { combineTypes as extendFieldTypes } from './EnhanceTable/table/fieldTypes';
 export { extendRenderTypes } from './FormGroup/renderType';
+export { default as setPaginationParam } from './utils/common';

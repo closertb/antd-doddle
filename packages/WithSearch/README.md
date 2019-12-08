@@ -26,7 +26,7 @@ WithSearch组件主要是要解决中台业务每个页面都会出现搜索框�
 | 参数名 | 作用 | 
 :--|:--:
 | form           | 表单form属性 | 
-| search         | 表单form值 | 
+| search         | 表单form值, 关于search中的分页属性，见EnhanceTable | 
 | formItemLayout | 表单项样式  | 
 | handleSearch   | 表单提交操作 | 
 | handleReset    | 表单重置操作 | 
@@ -36,3 +36,7 @@ WithSearch组件主要是要解决中台业务每个页面都会出现搜索框�
 ### 2019-05-13
 
  - feat: 新增dynamicParams，配合field设置isDynamic属性，用于获取从异步接口获取回来的动态枚举，具体使用请参见Demo
+
+### 2019-12-06
+
+ - feat: 新增setPaginationParam方法设置全局分页变量名， 详见EnhanceTable demo使用
