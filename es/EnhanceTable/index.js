@@ -96,7 +96,6 @@ function (_React$PureComponent) {
           }, search)) : "\u5171 ".concat(t, " \u6761");
         }
       };
-      console.log(Pagination);
       var tableProps = Object.assign({
         columns: columns,
         pagination: pagination,
