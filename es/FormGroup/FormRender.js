@@ -1,3 +1,5 @@
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 import React from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
@@ -25,6 +27,20 @@ var isUndefind = function isUndefind(value, defaultValue) {
 
 var handleDisabledDate = function handleDisabledDate(currentDate) {
   return currentDate && currentDate > moment().endOf('day');
+};
+
+var generateOption = function generateOption(enums) {
+  if (!enums || _typeof(enums) !== 'object') {
+    console.error('enums is not an object or array');
+    return [];
+  }
+
+  return Array.isArray(enums) ? enums : Object.keys(enums).map(function (value) {
+    return {
+      value: value,
+      label: enums[value]
+    };
+  });
 }; // 用于接受一个从接口获取到的枚举数组
 
 
@@ -219,7 +235,7 @@ export default function FormRender(unionProps, rightProps) {
         disabled: disable && disable(data),
         onChange: props.onChange || onChange,
         getPopupContainer: getContainer(containerName)
-      }, seldomProps), selectEnums.map(function (_ref) {
+      }, seldomProps), generateOption(selectEnums).map(function (_ref) {
         var value = _ref.value,
             label = _ref.label;
         return React.createElement(Option, {
@@ -243,7 +259,7 @@ export default function FormRender(unionProps, rightProps) {
           message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
         }].concat(rules)
       })(React.createElement(RadioGroup, Object.assign({
-        options: radioEnums,
+        options: generateOption(radioEnums),
         disabled: disable && disable(data),
         onChange: props.onChange || onChange
       }, seldomProps))));
@@ -263,7 +279,7 @@ export default function FormRender(unionProps, rightProps) {
           message: placeholder || "\u8BF7\u9009\u62E9".concat(name)
         }].concat(rules)
       })(React.createElement(CheckboxGroup, Object.assign({
-        options: checkEnums,
+        options: generateOption(checkEnums),
         disabled: disable && disable(data),
         onChange: props.onChange || onChange
       }, seldomProps))));

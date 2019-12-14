@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getEnumObject, toDecimalNumber, DATE_FORMAT, DATE_TIME_FORMAT } from '../../utils';
+import { getValueFromEnums, toDecimalNumber, DATE_FORMAT, DATE_TIME_FORMAT } from '../../utils';
 
 const isValid = date => Boolean(date) && (typeof date === 'number' || typeof date === 'string');
 const getParsedDate = (date, format) => isValid(date) ? moment(date).format(format) : '';
@@ -12,7 +12,7 @@ const fieldTypes = {
   date: value => getParsedDate(value, DATE_FORMAT),
   datetime: value => getParsedDate(value, DATE_TIME_FORMAT),
   decimal: value => toDecimalNumber(value, 2),
-  enum: (value, { enums }) => getEnumObject(enums, value).label || ''
+  enum: (value, { enums }) => getValueFromEnums(enums, value)
 };
 
 /*

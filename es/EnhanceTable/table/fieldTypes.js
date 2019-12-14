@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getEnumObject, toDecimalNumber, DATE_FORMAT, DATE_TIME_FORMAT } from '../../utils';
+import { getValueFromEnums, toDecimalNumber, DATE_FORMAT, DATE_TIME_FORMAT } from '../../utils';
 
 var isValid = function isValid(date) {
   return Boolean(date) && (typeof date === 'number' || typeof date === 'string');
@@ -28,7 +28,7 @@ var fieldTypes = {
   },
   "enum": function _enum(value, _ref) {
     var enums = _ref.enums;
-    return getEnumObject(enums, value).label || '';
+    return getValueFromEnums(enums, value);
   }
 };
 /*

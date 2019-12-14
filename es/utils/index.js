@@ -50,10 +50,26 @@ export var isEmpty = function isEmpty(value) {
 
 export var getEnumObject = function getEnumObject(enums, value) {
   var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'value';
-  var res = enums.filter(function (item) {
-    return item[key] === value;
-  });
-  return res.length > 0 ? res[0] : {};
+
+  if (Array.isArray(enums)) {
+    var res = enums.filter(function (item) {
+      return item[key] === value;
+    });
+    return res.length > 0 ? res[0] : {};
+  }
+
+  return {
+    label: enums[value] || ''
+  };
+};
+/**
+ * 根据指定的枚举值和枚举数组，找出其枚举对应的标签值；
+ * @param {*} value 枚举值
+ * @param {*} enums 枚举数组
+ */
+
+export var getValueFromEnums = function getValueFromEnums(enums, value) {
+  return getEnumObject(enums, value).label;
 };
 /**
  * 根据给定的数组,转化成标准的label, value数组；如果给定的数组子集是字符串，那么value,label值都是该字符串

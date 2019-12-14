@@ -27,7 +27,7 @@ export interface FieldProps {
   key: string,
   type?: string
   render?: Function,
-  enums?: EnumField [],
+  enums?: object | EnumField [],
   isShow?: Function,
   itemCount?: number,
   unit?: string,
@@ -47,14 +47,29 @@ export interface SearchProps {
  */
 export const isEmpty = value => value === null || (typeof value === 'object' && Object.keys(value).length === 0);
 
+
 /**
  * 根据指定的枚举值和枚举数组，找出其枚举对应的标签；
  * @param {*} value 枚举值
  * @param {*} enums 枚举数组
  */
-export const getEnumObject = (enums, value, key = 'value') => {
-  const res = enums.filter(item => item[key] === value);
-  return res.length > 0 ? res[0] : {};
+export const getEnumObject = (enums: object | EnumField [], value, key = 'value') => {
+  if (Array.isArray(enums)) {
+    const res = enums.filter(item => item[key] === value);
+    return res.length > 0 ? res[0] : {};
+  }
+  return  {
+    label: enums[value] || ''
+  };
+};
+
+/**
+ * 根据指定的枚举值和枚举数组，找出其枚举对应的标签值；
+ * @param {*} value 枚举值
+ * @param {*} enums 枚举数组
+ */
+export const getValueFromEnums = (enums: object | EnumField [], value) => {
+  return getEnumObject(enums, value).label;
 };
 
 /**

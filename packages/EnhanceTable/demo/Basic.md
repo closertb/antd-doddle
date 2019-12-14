@@ -24,6 +24,11 @@ const userStatus = [{
   label: '禁用',
 }];
 
+const statusEnums = {
+  error: '错误',
+  normal: '正常'
+};
+
 const fields = [{
   key: 'userName',
   name: '真实姓名',
@@ -40,8 +45,12 @@ const fields = [{
   type: 'date',
 }, {
   key: 'status',
-  name: '状态',
+  name: '用户状态',
   enums: userStatus
+}, {
+  key: 'cardStatus',
+  name: '卡状态',
+  enums: statusEnums
 }];
 
 const forkDatas = [{
@@ -50,35 +59,40 @@ const forkDatas = [{
   userId: 'closertb',
   property: 4564384,
   addtime: Date.now(),
-  status: 0
+  status: 0,
+  cardStatus: 'normal'
 }, {
   id: 2,
   userName: 'Simon',
   userId: 'simona',
   property: 123456,
   addtime: Date.now(),
-  status: 1
+  status: 1,
+  cardStatus: 'error'
 }, {
   id: 3,
   userName: 'Simon',
   userId: 'simona',
   property: 123456,
   addtime: Date.now(),
-  status: 1
+  status: 1,
+  cardStatus: 'normal'
 }, {
   id: 4,
   userName: 'Simon',
   userId: 'simona',
   property: 123456,
   addtime: Date.now(),
-  status: 1
+  status: 1,
+  cardStatus: 'error'
 }, {
   id: 5,
   userName: 'Simon',
   userId: 'simona',
   property: 123456,
   addtime: Date.now(),
-  status: 1
+  status: 1,
+  cardStatus: 'error'
 }];  
 
 class Basic extends React.Component {

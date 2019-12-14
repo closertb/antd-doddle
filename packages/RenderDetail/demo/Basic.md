@@ -18,6 +18,11 @@ const userStatus = [{
   label: '禁用',
 }];
 
+const statusEnums = {
+  error: '冻结',
+  normal: '正常'
+};
+
 export const fields = [{
   key: 'userName',
   name: '真实姓名',
@@ -36,8 +41,11 @@ export const fields = [{
   key: 'private',
   name: '个人资产',
   type: 'decimal',
-  unit: '元'
-  
+  unit: '元' 
+}, {
+  key: 'cardStatus',
+  name: '卡状态',
+  enums: statusEnums
 }];
 
 export const privateFields = [{
@@ -76,7 +84,8 @@ const forkDatas = {
     userId: 'closertb',
     status: 0,
     applyTime: 1550973288220,
-    private: 999999
+    private: 999999,
+    cardStatus: 'error'
   }, 
   defineInfo: {
     address: 'china sichuan',

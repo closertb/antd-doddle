@@ -35,7 +35,7 @@ EnhanceTable组件主要是要解决中台业务每个表单页面都会使用an
 | key | 渲染属性名 | 是 | string | --
 | name | 属性名称 | 是 |  string | -- 
 | type | 类型, 默认支持date, datetime, decimal, 可extendFieldTypes扩充，详见下面的示例 | 否 |  string | 
-| enums | 枚举 | 否 |  [] | -- [{ label: '', value: '' }]
+| enums | 枚举 | 否 |  {} | [] | -- [{ label: '', value: '' }]或则对象，见上面示例
 | render | 自定义渲染，同table | 否 |  string |  
 
 ### FieldType 扩充
@@ -73,3 +73,7 @@ setPaginationParam({
 ### 2019-12-06
 
  - feat: 新增setPaginationParam方法设置全局分页变量名， 详见demo使用
+
+### 2019-12-14
+
+ - feat: enums新增object支持

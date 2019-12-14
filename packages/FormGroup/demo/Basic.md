@@ -81,6 +81,11 @@ const formItemLayout = {
   },
 };
 
+const statusEnums = {
+  error: '冻结',
+  normal: '正常'
+};
+
 const editFields = [{
   key: 'userName',
   name: '真实姓名',
@@ -131,6 +136,11 @@ const editFields = [{
   required: false,
   type: 'text',
   isEnable: ({ enable }) => enable
+}, {
+  key: 'cardStatus',
+  name: '卡状态',
+  type: 'radio',
+  enums: statusEnums
 }];
 
 const Basic = Form.create()(Edit)
