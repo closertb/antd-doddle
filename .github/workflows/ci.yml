@@ -21,6 +21,6 @@ jobs:
       with:
         name: 'doddle'
         token: ${{ secrets.Deploy_Token }}
-        requestUrl: 'http://114.55.38.249:8080/operate/deploy'
+        requestUrl: 'http://deploy.closertb.site/operate/deploy'
         dist: 'docs'
         target: 'antd-doddle'
