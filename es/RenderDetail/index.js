@@ -31,7 +31,7 @@ function renderBaseFields(fields) {
     } // 处理枚举
 
 
-    if (enums && enums.length > 0) {
+    if (enums) {
       value = getEnumObject(enums, detail[key]).label;
     } // 处理render 函数
 

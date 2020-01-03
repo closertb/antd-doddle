@@ -63,3 +63,10 @@ export interface GroupProps extends ConstuctorProps {
   required?: boolean,
   [propName: string]: any // 其他
 }
+
+
+export interface Enums {
+  value: any,
+  label: string | number,
+  [propName: string]: any
+}

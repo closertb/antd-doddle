@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox, Col } from 'antd';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
-import { FormRenderProps, ConstuctorProps } from './interface';
+import { FormRenderProps, ConstuctorProps, Enums } from './interface';
 import { extendSymbol } from './default';
 import renderType from './renderType';
 
@@ -17,6 +17,16 @@ const defaultAction = () => { };
 const getContainer = className => () => className ? document.getElementsByClassName(className)[0] : document.body;
 const isUndefind = (value, defaultValue) => typeof value === 'undefined' ? defaultValue : value;
 const handleDisabledDate = currentDate => currentDate && currentDate > moment().endOf('day');
+const generateOption = (enums: object | Enums []):Enums [] => {
+  if (!enums || typeof enums !== 'object') {
+    console.error('enums is not an object or array');
+    return [];
+  }
+  return Array.isArray(enums) ? enums : Object.keys(enums).map(value => ({
+    value: value,
+    label: enums[value]
+  }));
+}
 
 // 用于接受一个从接口获取到的枚举数组
 const getParamFromProps = (key, props) => props[key] || [];
@@ -165,7 +175,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
               getPopupContainer={getContainer(containerName)}
               {...seldomProps}
             >
-              {selectEnums.map(({ value, label }) => (
+              {generateOption(selectEnums).map(({ value, label }) => (
                 <Option key={value} value={value}>{label}</Option>
               ))}
             </Select>
@@ -184,7 +194,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
             rules: [{ required, message: placeholder || `请选择${name}` }].concat(rules)
           })(
             <RadioGroup
-              options={radioEnums}
+              options={generateOption(radioEnums)}
               disabled={disable && disable(data)}
               onChange={props.onChange || onChange}
               {...seldomProps}
@@ -204,7 +214,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
             rules: [{ required, message: placeholder || `请选择${name}` }].concat(rules)
           })(
             <CheckboxGroup
-              options={checkEnums}
+              options={generateOption(checkEnums)}
               disabled={disable && disable(data)}
               onChange={props.onChange || onChange}
               {...seldomProps}

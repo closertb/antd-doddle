@@ -7,7 +7,7 @@ antd-doddle是源于日常中后台系统开发不断的积累，如其名一样
 
 ## 安装
 
-antd-doddle是一个多包的项目，组件与方法分离。
+antd-doddle是一个多包的项目，组件与方法分离，依赖于react环境与antd组件库，支持treeShaking。
 
 安装包
 ```sh
@@ -50,3 +50,6 @@ import { getEnumObject } from 'antd-doddle/utils';
 
 ### 2019-11-03
  - 增加文档库自动化构建部署更新
+
+### 2019-11-03
+ - 修改依赖

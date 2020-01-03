@@ -20,7 +20,7 @@ function renderBaseFields(fields: FieldProps [], detail = {}) {
       value = fieldTypes[type](value, detail);
     }
     // 处理枚举
-    if (enums && enums.length > 0) {
+    if (enums) {
       value = getEnumObject(enums, detail[key]).label;
     }
     // 处理render 函数

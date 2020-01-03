@@ -68,7 +68,7 @@ type属性一共包含： input， inputNumber， text， select, radio, check, 
 | format| 日期格式化 | 否 | string | -- | 适用：日期类
 | showTime| 时间可选 | 否 | bool | -- | 适用：日期类
 | allowClear| 是否可清除 | 否 | bool | 适用：日期类， select | --
-| enums| 枚举 | 否 | array | [] | 适用：select, radio, check  
+| enums| 枚举 | 否 | array | {} | 适用：select, radio, check, 详见示例
 | seldomProps | 不常用配置属性对象 | 否 | object | {} | --
 | withWrap | 是否用包装组件包装 | 否  | boolean | false | --
 
@@ -79,3 +79,7 @@ type属性一共包含： input， inputNumber， text， select, radio, check, 
 ### 2019-11-26
 
  - feat: 新增FormGroup组件，优化FormRender使用体验 
+
+### 2019-12-14
+
+ - feat: enums新增object支持
