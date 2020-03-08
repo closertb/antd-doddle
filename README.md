@@ -1,5 +1,6 @@
-## 介绍(typescript)
+## 介绍
 antd-doddle是源于日常中后台系统开发不断的积累，如其名一样，让antd使用更加得心应手，实现业务的快速迭代。其中包含一部分的对antd组件深度封装，一些高频次自定义业务组件，和一些常用方法库的封装，支持按需打包。
+支持typescript
 
 ## 使用文档
 
@@ -53,3 +54,6 @@ import { getEnumObject } from 'antd-doddle/utils';
 
 ### 2019-11-03
  - 修改依赖
+
+### 2019-11-03
+ - 新增自定义Hooks
