@@ -57,9 +57,11 @@ function () {
 
       if (this.status > STATUS.fetch) {
         return;
-      }
+      } // 状态反转为请求中
+
 
       this.status = STATUS.fetch;
+      result.loading = true;
       this.request(url, body).then(function (data) {
         result.data = data;
         result.loading = false;
