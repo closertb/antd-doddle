@@ -26,6 +26,13 @@ export const searchFields = [{
 }, {
   key: 'mobile',
   name: '手机号',
+}, {
+  key: 'consumeTime',
+  startKey: 'consumeSt',
+  endKey: 'consumeEd',
+  name: '测试时间',
+  type: 'rangePicker',
+  showTime: true,
 }];
 
 class Basic extends React.Component {
@@ -54,6 +61,7 @@ class Basic extends React.Component {
       search: { reach: 0 },
       onSearch: this.handleSearch,
       onReset: this.handleReset,
+      timeFormat: 'YYYY-MM-DD HH:mm:ss',
       dynamicParams: { // 从请求获取到的动态枚举， 需配合fields设置isDynamic属性
         reach: enums,
       },
