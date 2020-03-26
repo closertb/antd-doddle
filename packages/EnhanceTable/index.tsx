@@ -6,6 +6,9 @@ import { Pagination } from '../utils/common';
 
 const { createColumns } = table;
 
+interface LoadingWrap  {
+  list?: boolean 
+}
 // 输入类型定义
 interface EnhanceTableProps {
   fields: FieldProps [],
@@ -17,7 +20,7 @@ interface EnhanceTableProps {
   footer?: Function,
   pageName?: string,
   noPage?: boolean,
-  loading?: { list?: boolean },
+  loading?: boolean | LoadingWrap,
   extraFields?: FieldProps []; // 组件初始值
   [propName: string]: any
 }
@@ -43,12 +46,19 @@ export default class EnhanceTable extends React.PureComponent<EnhanceTableProps>
       onChange: pn => onSearch({ [page]: pn }),
       showTotal: t => footer ? footer({ total, ...search }) : `共 ${t} 条`
     };
+    // loading 类型断言
+    let spinning;
+    if ((loading as LoadingWrap).list !== undefined) {
+      spinning = (loading as LoadingWrap).list
+    } else {
+      spinning = loading;
+    }
     const tableProps = {
       columns,
       pagination,
       bordered: true,
       dataSource: datas,
-      loading: loading.list,
+      loading: spinning,
       rowKey,
       ...others
     };

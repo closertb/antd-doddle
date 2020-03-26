@@ -1,0 +1,6 @@
+{
+  "name": "ffe-basic/hooks",
+  "private": true,
+  "main": "../lib/Hooks/index.js",
+  "module": "../es/Hooks/index.js"
+}
