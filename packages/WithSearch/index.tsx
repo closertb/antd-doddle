@@ -59,7 +59,8 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
     this.mapField = fields.length ? fields.reduce((pre, cur) => {
       pre[cur.key] = cur;
       // 判断是否需要做时间转换；
-      if (!pre._hasTimeRange && cur.startKey && cur.endKey) {
+      if (cur.startKey && cur.endKey) {
+        pre[cur.key].isRangePicker = true;
         pre._hasTimeRange = true;
       }
       return pre;
@@ -88,13 +89,14 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
 
   timeFormatFun(values) {
     const { timeFormat, paramFormat } = this.props;
-    // 如果没有时间选择项，直接返回
-    if (!this.mapField._hasTimeRange) {
-      return values;
-    }
 
     if (paramFormat) {
       return paramFormat(values);
+    }
+
+    // 如果没有时间选择项，直接返回
+    if (!this.mapField._hasTimeRange) {
+      return values;
     }
 
     // 如果没设置timeFormat，则不作格式化
@@ -109,13 +111,19 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
 
     return keys.reduce((pre, cur) => {
       const value = pre[cur];
+      const field = this.mapField[cur];
       // 搜索结果为数组，且数组的值为Moment对象
-      if (Array.isArray(value) && (value as MomentArr)[0] instanceof moment) {
-        const [start, end] = value;
-        const field = this.mapField[cur];
-        // 会根据showTIme 来判断是否需要自动去取一天的一头一尾
-        pre[field.startKey] = field.showTime ? transformFunc(start) : transformFunc(start.startOf('day'));
-        pre[field.endKey] = field.showTime ? transformFunc(end) : transformFunc(end.endOf('day'));
+      if (field.isRangePicker) {
+        if (Array.isArray(value) && (value as MomentArr)[0] instanceof moment) {
+          const [start, end] = value;
+          // 会根据showTIme 来判断是否需要自动去取一天的一头一尾
+          pre[field.startKey] = field.showTime ? transformFunc(start) : transformFunc(start.startOf('day'));
+          pre[field.endKey] = field.showTime ? transformFunc(end) : transformFunc(end.endOf('day'));
+        } else {
+          pre[field.startKey] = undefined;
+          pre[field.endKey] = undefined;
+        }
+
         delete pre[cur];
       }
       return pre;

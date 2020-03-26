@@ -91,7 +91,8 @@ function (_React$PureComponent) {
     _this.mapField = fields.length ? fields.reduce(function (pre, cur) {
       pre[cur.key] = cur; // 判断是否需要做时间转换；
 
-      if (!pre._hasTimeRange && cur.startKey && cur.endKey) {
+      if (cur.startKey && cur.endKey) {
+        pre[cur.key].isRangePicker = true;
         pre._hasTimeRange = true;
       }
 
@@ -139,14 +140,15 @@ function (_React$PureComponent) {
 
       var _this$props2 = this.props,
           timeFormat = _this$props2.timeFormat,
-          paramFormat = _this$props2.paramFormat; // 如果没有时间选择项，直接返回
-
-      if (!this.mapField._hasTimeRange) {
-        return values;
-      }
+          paramFormat = _this$props2.paramFormat;
 
       if (paramFormat) {
         return paramFormat(values);
+      } // 如果没有时间选择项，直接返回
+
+
+      if (!this.mapField._hasTimeRange) {
+        return values;
       } // 如果没设置timeFormat，则不作格式化
 
 
@@ -161,17 +163,23 @@ function (_React$PureComponent) {
         return time.valueOf();
       };
       return keys.reduce(function (pre, cur) {
-        var value = pre[cur]; // 搜索结果为数组，且数组的值为Moment对象
+        var value = pre[cur];
+        var field = _this3.mapField[cur]; // 搜索结果为数组，且数组的值为Moment对象
 
-        if (Array.isArray(value) && value[0] instanceof moment) {
-          var _value = _slicedToArray(value, 2),
-              start = _value[0],
-              end = _value[1];
+        if (field.isRangePicker) {
+          if (Array.isArray(value) && value[0] instanceof moment) {
+            var _value = _slicedToArray(value, 2),
+                start = _value[0],
+                end = _value[1]; // 会根据showTIme 来判断是否需要自动去取一天的一头一尾
 
-          var field = _this3.mapField[cur]; // 会根据showTIme 来判断是否需要自动去取一天的一头一尾
 
-          pre[field.startKey] = field.showTime ? transformFunc(start) : transformFunc(start.startOf('day'));
-          pre[field.endKey] = field.showTime ? transformFunc(end) : transformFunc(end.endOf('day'));
+            pre[field.startKey] = field.showTime ? transformFunc(start) : transformFunc(start.startOf('day'));
+            pre[field.endKey] = field.showTime ? transformFunc(end) : transformFunc(end.endOf('day'));
+          } else {
+            pre[field.startKey] = undefined;
+            pre[field.endKey] = undefined;
+          }
+
           delete pre[cur];
         }
 

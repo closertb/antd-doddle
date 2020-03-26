@@ -1,6 +1,6 @@
 {
   "name": "antd-doddle",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "license": "ISC",
   "description": "antd后台项目前端组件封装和方法库",
   "main": "lib/index.js",
