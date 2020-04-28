@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox, Col } from 'antd';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
@@ -28,6 +28,17 @@ const generateOption = (enums: object | Enums []):Enums [] => {
   }));
 }
 
+const setFieldValue = (value, type) => {
+  if (type === 'input') {
+    return value && value.target.value;
+  }
+
+  if (type === 'radio') {
+    return value && value.target.value;
+  }
+
+  return value;
+};
 // 用于接受一个从接口获取到的枚举数组
 const getParamFromProps = (key, props) => props[key] || [];
 
@@ -45,9 +56,9 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
     construtProps = unionProps.extendProps;
     props = unionProps;
   }
-  const { field, data = {}, wrapProps = {} } = props;
-
-  const { require, getFieldDecorator, formItemLayout, containerName, withWrap: defaultWrap, Wrapper, dynamicParams } = construtProps;
+  const { require, getFieldDecorator, formItemLayout, containerName, withWrap: defaultWrap, Wrapper,
+    dynamicParams, datas, _datas = {} } = construtProps;
+  const { field, data = datas, wrapProps = {} } = props;
   const {
     type = 'input',
     key,
@@ -60,7 +71,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
     disable = false,
     rules = [],
     maxLength,
-    isEnable: enableTemp = true,
+    isEnable = true,
     specialKey,
     onChange = defaultAction,
     format,
@@ -72,13 +83,25 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
   } = field;
   const enumKey = field.enumKey || key;
   let content = null;
-  let isEnable = enableTemp;
-  // 如果这个节点不需要渲染，那么就直接返回null
-  if (typeof enableTemp === 'function') {
-    isEnable = enableTemp(data);
+
+  const tempOnchange = props.onChange || onChange;
+
+  const finalChange = useCallback((value, ...args) => {
+    _datas[key] = setFieldValue(value, type);
+    tempOnchange(value, ...args);
+  }, []);
+
+  if (!field) {
+    console.error('field can not be undefined');
+    return content;
   }
   // 如果props.isEnable为false，或则isEnable 传值为false 或 enableTemp(data) 返回值为false；此节点不渲染
-  if (!isUndefind(props.isEnable, isEnable)) {
+  const checkEnable = props.isEnable || isEnable;
+  if (typeof checkEnable === 'function') {
+    if (!checkEnable(data, _datas)) {
+      return content;
+    }
+  } else if (!isUndefind(props.isEnable, isEnable)) {
     return content;
   }
   switch (type) {
@@ -97,7 +120,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
               type="text"
               style={style}
               maxLength={maxLength}
-              onChange={props.onChange || onChange}
+              onChange={finalChange}
               placeholder={placeholder || `请输入${name}`}
               disabled={disable && disable(data)}
               {...seldomProps}
@@ -124,7 +147,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
               precision={precision}
               style={style}
               placeholder={placeholder || `请输入${name}`}
-              onChange={props.onChange || onChange}
+              onChange={finalChange}
               disabled={disable && disable(data)}
               {...seldomProps}
             />
@@ -148,7 +171,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
               maxLength={maxLength || 300}
               placeholder={placeholder || `请输入${name}`}
               autosize={{ minRows, maxRows }}
-              onChange={props.onChange || onChange}
+              onChange={finalChange}
               disabled={disable && disable(data)}
               {...seldomProps}
             />
@@ -171,7 +194,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
               placeholder={placeholder || '不限'}
               allowClear={allowClear}
               disabled={disable && disable(data)}
-              onChange={props.onChange || onChange}
+              onChange={finalChange}
               getPopupContainer={getContainer(containerName)}
               {...seldomProps}
             >
@@ -196,7 +219,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
             <RadioGroup
               options={generateOption(radioEnums)}
               disabled={disable && disable(data)}
-              onChange={props.onChange || onChange}
+              onChange={finalChange}
               {...seldomProps}
             />
           )}
@@ -216,7 +239,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
             <CheckboxGroup
               options={generateOption(checkEnums)}
               disabled={disable && disable(data)}
-              onChange={props.onChange || onChange}
+              onChange={finalChange}
               {...seldomProps}
             />
           )}
@@ -234,7 +257,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
               style={style}
               showTime={field.showTime || false}
               format={format || DATE_FORMAT}
-              onChange={props.onChange || onChange}
+              onChange={finalChange}
               placeholder={placeholder || '请选择'}
               disabled={disable && disable(data)}
               getCalendarContainer={getContainer(containerName)}
@@ -265,7 +288,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
               allowClear={allowClear}
               showTime={showTime}
               className="search-range-picker"
-              onChange={props.onChange || onChange}
+              onChange={finalChange}
               format={format || (showTime ? DATE_TIME_FORMAT : DATE_FORMAT)}
               getCalendarContainer={getContainer(containerName)}
               disabledDate={disabledDate ? currentDate => handleDisabledDate(currentDate) : undefined}
@@ -284,7 +307,7 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
               initialValue: data[key],
               rules: [{ required: props.required || required, message: placeholder }].concat(rules),
               ...decorProps
-            })(render({ field, props, data }))}
+            })(render({ field, props, data, onChange: finalChange }))}
           </FormItem>);
       } else {
         console.error('type is not supported');

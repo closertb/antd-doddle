@@ -52,7 +52,7 @@ const WithUnit = ({ field }) => {
   />);
 };
 
-const selfDefine = ({ field, props, data }) => field.child({ field, props, data });
+const selfDefine = ({ field, props, data, onChange }) => field.child({ field, props, data, onChange });
 const renderType = {
   origin: OriginInput,
   image: UploadFile,

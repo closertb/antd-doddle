@@ -1,10 +1,10 @@
 ---
-title: 基本用法
-order: 1
+title: 单项列举用法
+order: 0
 ---
 
 默认示例(图片没有上传接口，所以暂时没法上传)
-
+ 
 ```jsx
 import React, { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
@@ -29,10 +29,9 @@ function Edit(props) {
   useEffect(() => {
     setTimeout(() => {
       setEnums([{value: 1,label: '远程启用'}, {value: 0,label: '远程禁用'}])
-    }, 500);
-  }, []);
-
-  const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: false, interest: { number: 0.12, unit: 'month' }  }, form: { getFieldDecorator } } = props;
+    })
+  }, [])
+  const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: true }, form: { getFieldDecorator } } = props;
   // 组件声明，绑定getFieldDecorator
   const formProps = {
     layout: 'horizontal',
@@ -40,15 +39,31 @@ function Edit(props) {
     required: true,
     formItemLayout,
     withWrap: true,
+    fields: editFields,
+    datas: {
+      userName: 'doddle'
+    },
     dynamicParams: {
       status: enums
     }
   };
   return (
     <div>
-      <FormGroup {...formProps}>
-        <Row>
-          {editFields.map(field=> <FormRender key={field.key} {...{ field, data }} />)}
+      <Row>
+        <FormGroup {...formProps}>
+          <Row>
+            <FormRender itemKey="userName" />
+            <FormRender itemKey="mail" />
+          </Row>
+          <Row>
+            <FormRender itemKey="cardStatus" />
+            <FormRender itemKey="corpLegalIdCardFrontStoreId" />
+          </Row>
+          <Row>  
+            <FormRender itemKey="enable" />
+            <FormRender itemKey="notshow" />
+          </Row>
+          <FormRender itemKey="remark" />
           <Col span={12}>
             <FormItem label="原生组件" {...formItemLayout} >
               {getFieldDecorator('self', {
@@ -60,8 +75,8 @@ function Edit(props) {
               )}
             </FormItem>
           </Col>
-        </Row>
-      </FormGroup>
+        </FormGroup>
+      </Row>
       <div style={{ textAlign: 'center' }}>
         <Button onClick={handleSubmit}>提交</Button>
       </div>
@@ -94,55 +109,46 @@ const editFields = [{
   key: 'mail',
   name: '邮箱',
 }, {
-  key: 'userId',
-  name: '用户ID',
-}, {
-  key: 'status',
-  name: '状态',
-  type: 'select',
-  isDynamic: true
-}, {
-  key: 'interest',
-  name: '利率',
-  type: 'withUnit',
-  enums: [{ value: 'month', label: '月' }, { value: 'year', label: '年' }],
-  defaultUnit: 'year',
-  inputProps: {
-    suffix: '%'
-  }
+  key: 'cardStatus',
+  name: '卡状态',
+  type: 'radio',
+  enums: statusEnums
 }, {
   key: 'corpLegalIdCardFrontStoreId',
   url: 'corpLegalIdCardFrontUrl',
   name: '正面',
   required: false,
   type: 'image',
-  psimple: 'https://cos.56qq.com/loan/loanuser/idcard_back.png'
+  psimple: 'https://cos.56qq.com/loan/loanuser/idcard_back.png',
+  isEnable: (_, data) => {
+    return data.cardStatus !== 'error';
+  },
 }, {
   key: 'enable',
-  name: '是否隐藏',
+  name: '是否激活',
   required: false,
   type: 'selfDefine',
   decorProps: { valuePropName: 'checked' },
-  child: ({ field }) => <Switch />
+  child: ({ field, onChange }) => <Switch onChange={onChange} />
 }, {
   key: 'notshow',
-  name: '不显示',
+  name: '激活时展示',
   required: false,
-  isEnable: false,
+  isEnable: (_, data) => {
+    console.log('data:', data);
+    return data.enable;
+  },
   type: 'text'
 }, {
   key: 'remark',
-  name: '联动表单',
+  name: '备注',
   required: false,
   type: 'text',
-  isEnable: ({ enable }) => enable
-}, {
-  key: 'cardStatus',
-  name: '卡状态',
-  type: 'radio',
-  enums: statusEnums
+  seldomProps: { // 使用seldomProps扩展原生支持的属性
+    autoSize: { minRows: 3, maxRows: 6 }
+  }
 }];
 
-const Basic = Form.create()(Edit)
-ReactDOM.render(<Basic />, mountNode);
+const Another = Form.create()(Edit)
+ReactDOM.render(<Another />, mountNode);
 ```
