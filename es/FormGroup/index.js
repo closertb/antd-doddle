@@ -13,15 +13,32 @@ var __rest = this && this.__rest || function (s, e) {
   return t;
 };
 
-import React, { Children, cloneElement } from 'react';
+import React, { Children, useMemo, cloneElement, useRef } from 'react';
 import { Form } from 'antd';
 import { formItemLayout as layout } from '../utils';
 import FormRender from './FormRender';
 import { extendSymbol, WrapperDefault } from './default'; // 遍历 react children, 识别FormRender
 
-function deepMap(children, extendProps) {
+function deepMap(children, extendProps, mapFields) {
   return Children.map(children, function (child) {
+    if (child === null || _typeof(child) !== 'object') {
+      return child;
+    }
+
+    var _child$props = child.props,
+        itemKey = _child$props.itemKey,
+        field = _child$props.field,
+        data = _child$props.data;
     var isDefine = typeof child.type === 'function'; // 仅对FormRender 组件做属性扩展
+
+    if (isDefine && child.type.$type === extendSymbol) {
+      return cloneElement(child, {
+        extendProps: extendProps,
+        field: field || mapFields[itemKey],
+        data: data || extendProps.datas
+      });
+    } // 仅对FormRender 组件做属性扩展
+
 
     if (isDefine && child.type.$type === extendSymbol) {
       return cloneElement(child, {
@@ -32,7 +49,7 @@ function deepMap(children, extendProps) {
     if (child && child.props && child.props.children && _typeof(child.props.children) === 'object') {
       // Clone the child that has children and map them too
       return cloneElement(child, {
-        children: deepMap(child.props.children, extendProps)
+        children: deepMap(child.props.children, extendProps, mapFields)
       });
     }
 
@@ -46,23 +63,43 @@ export default function FormGroup(constProps) {
       containerName = constProps.containerName,
       getFieldDecorator = constProps.getFieldDecorator,
       required = constProps.required,
+      _constProps$fields = constProps.fields,
+      fields = _constProps$fields === void 0 ? [] : _constProps$fields,
+      _constProps$datas = constProps.datas,
+      datas = _constProps$datas === void 0 ? {} : _constProps$datas,
       _constProps$Wrapper = constProps.Wrapper,
       Wrapper = _constProps$Wrapper === void 0 ? WrapperDefault : _constProps$Wrapper,
       _constProps$withWrap = constProps.withWrap,
       withWrap = _constProps$withWrap === void 0 ? false : _constProps$withWrap,
       children = constProps.children,
       dynamicParams = constProps.dynamicParams,
-      others = __rest(constProps, ["formItemLayout", "containerName", "getFieldDecorator", "required", "Wrapper", "withWrap", "children", "dynamicParams"]);
+      others = __rest(constProps, ["formItemLayout", "containerName", "getFieldDecorator", "required", "fields", "datas", "Wrapper", "withWrap", "children", "dynamicParams"]);
 
+  var dataRef = useRef(datas);
   var extendProps = {
     formItemLayout: formItemLayout,
     containerName: containerName,
     dynamicParams: dynamicParams,
     getFieldDecorator: getFieldDecorator,
     require: required,
+    _datas: dataRef.current,
+    datas: datas,
     Wrapper: Wrapper,
     withWrap: withWrap
   };
-  return React.createElement(Form, Object.assign({}, others), deepMap(children, extendProps));
+  var mapFields = useMemo(function () {
+    return fields.reduce(function (pre, cur) {
+      var key = cur.key;
+
+      if (!key) {
+        console.log('field key is requied');
+        return pre;
+      }
+
+      pre[key] = cur;
+      return pre;
+    }, {});
+  }, [fields]);
+  return React.createElement(Form, Object.assign({}, others), deepMap(children, extendProps, mapFields));
 }
 FormGroup.FormRender = FormRender;

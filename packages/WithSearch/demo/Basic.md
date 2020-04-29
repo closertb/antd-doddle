@@ -26,6 +26,7 @@ export const searchFields = [{
 }, {
   key: 'mobile',
   name: '手机号',
+  isEnable: (_, datas) => datas.reach !== 0
 }, {
   key: 'consumeTime',
   startKey: 'consumeSt',

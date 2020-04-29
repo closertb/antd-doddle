@@ -1,6 +1,6 @@
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
@@ -41,6 +41,18 @@ var generateOption = function generateOption(enums) {
       label: enums[value]
     };
   });
+};
+
+var setFieldValue = function setFieldValue(value, type) {
+  if (type === 'input') {
+    return value && value.target.value;
+  }
+
+  if (type === 'radio') {
+    return value && value.target.value;
+  }
+
+  return value;
 }; // 用于接受一个从接口获取到的枚举数组
 
 
@@ -60,12 +72,6 @@ export default function FormRender(unionProps, rightProps) {
     props = unionProps;
   }
 
-  var _props = props,
-      field = _props.field,
-      _props$data = _props.data,
-      data = _props$data === void 0 ? {} : _props$data,
-      _props$wrapProps = _props.wrapProps,
-      wrapProps = _props$wrapProps === void 0 ? {} : _props$wrapProps;
   var _construtProps = construtProps,
       require = _construtProps.require,
       getFieldDecorator = _construtProps.getFieldDecorator,
@@ -73,7 +79,17 @@ export default function FormRender(unionProps, rightProps) {
       containerName = _construtProps.containerName,
       defaultWrap = _construtProps.withWrap,
       Wrapper = _construtProps.Wrapper,
-      dynamicParams = _construtProps.dynamicParams;
+      dynamicParams = _construtProps.dynamicParams,
+      datas = _construtProps.datas,
+      _construtProps$_datas = _construtProps._datas,
+      _datas = _construtProps$_datas === void 0 ? {} : _construtProps$_datas;
+
+  var _props = props,
+      field = _props.field,
+      _props$data = _props.data,
+      data = _props$data === void 0 ? datas : _props$data,
+      _props$wrapProps = _props.wrapProps,
+      wrapProps = _props$wrapProps === void 0 ? {} : _props$wrapProps;
   var _field$type = field.type,
       type = _field$type === void 0 ? 'input' : _field$type,
       key = field.key,
@@ -94,7 +110,7 @@ export default function FormRender(unionProps, rightProps) {
       rules = _field$rules === void 0 ? [] : _field$rules,
       maxLength = field.maxLength,
       _field$isEnable = field.isEnable,
-      enableTemp = _field$isEnable === void 0 ? true : _field$isEnable,
+      isEnable = _field$isEnable === void 0 ? true : _field$isEnable,
       specialKey = field.specialKey,
       _field$onChange = field.onChange,
       onChange = _field$onChange === void 0 ? defaultAction : _field$onChange,
@@ -110,14 +126,30 @@ export default function FormRender(unionProps, rightProps) {
       isDynamic = _field$isDynamic === void 0 ? false : _field$isDynamic;
   var enumKey = field.enumKey || key;
   var content = null;
-  var isEnable = enableTemp; // 如果这个节点不需要渲染，那么就直接返回null
+  var tempOnchange = props.onChange || onChange;
+  var finalChange = useCallback(function (value) {
+    _datas[key] = setFieldValue(value, type);
 
-  if (typeof enableTemp === 'function') {
-    isEnable = enableTemp(data);
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    tempOnchange.apply(void 0, [value].concat(args));
+  }, []);
+
+  if (!field) {
+    console.error('field can not be undefined');
+    return content;
   } // 如果props.isEnable为false，或则isEnable 传值为false 或 enableTemp(data) 返回值为false；此节点不渲染
 
 
-  if (!isUndefind(props.isEnable, isEnable)) {
+  var checkEnable = props.isEnable || isEnable;
+
+  if (typeof checkEnable === 'function') {
+    if (!checkEnable(data, _datas)) {
+      return content;
+    }
+  } else if (!isUndefind(props.isEnable, isEnable)) {
     return content;
   }
 
@@ -144,7 +176,7 @@ export default function FormRender(unionProps, rightProps) {
         type: "text",
         style: style,
         maxLength: maxLength,
-        onChange: props.onChange || onChange,
+        onChange: finalChange,
         placeholder: placeholder || "\u8BF7\u8F93\u5165".concat(name),
         disabled: disable && disable(data)
       }, seldomProps))));
@@ -178,7 +210,7 @@ export default function FormRender(unionProps, rightProps) {
         precision: precision,
         style: style,
         placeholder: placeholder || "\u8BF7\u8F93\u5165".concat(name),
-        onChange: props.onChange || onChange,
+        onChange: finalChange,
         disabled: disable && disable(data)
       }, seldomProps))));
       break;
@@ -210,7 +242,7 @@ export default function FormRender(unionProps, rightProps) {
           minRows: minRows,
           maxRows: maxRows
         },
-        onChange: props.onChange || onChange,
+        onChange: finalChange,
         disabled: disable && disable(data)
       }, seldomProps))));
       break;
@@ -233,7 +265,7 @@ export default function FormRender(unionProps, rightProps) {
         placeholder: placeholder || '不限',
         allowClear: allowClear,
         disabled: disable && disable(data),
-        onChange: props.onChange || onChange,
+        onChange: finalChange,
         getPopupContainer: getContainer(containerName)
       }, seldomProps), generateOption(selectEnums).map(function (_ref) {
         var value = _ref.value,
@@ -261,7 +293,7 @@ export default function FormRender(unionProps, rightProps) {
       })(React.createElement(RadioGroup, Object.assign({
         options: generateOption(radioEnums),
         disabled: disable && disable(data),
-        onChange: props.onChange || onChange
+        onChange: finalChange
       }, seldomProps))));
       break;
     // eslint-disable-next-line
@@ -281,7 +313,7 @@ export default function FormRender(unionProps, rightProps) {
       })(React.createElement(CheckboxGroup, Object.assign({
         options: generateOption(checkEnums),
         disabled: disable && disable(data),
-        onChange: props.onChange || onChange
+        onChange: finalChange
       }, seldomProps))));
       break;
 
@@ -299,7 +331,7 @@ export default function FormRender(unionProps, rightProps) {
         style: style,
         showTime: field.showTime || false,
         format: format || DATE_FORMAT,
-        onChange: props.onChange || onChange,
+        onChange: finalChange,
         placeholder: placeholder || '请选择',
         disabled: disable && disable(data),
         getCalendarContainer: getContainer(containerName)
@@ -336,7 +368,7 @@ export default function FormRender(unionProps, rightProps) {
         allowClear: allowClear,
         showTime: showTime,
         className: "search-range-picker",
-        onChange: props.onChange || onChange,
+        onChange: finalChange,
         format: format || (showTime ? DATE_TIME_FORMAT : DATE_FORMAT),
         getCalendarContainer: getContainer(containerName),
         disabledDate: disabledDate ? function (currentDate) {
@@ -360,7 +392,8 @@ export default function FormRender(unionProps, rightProps) {
         }, decorProps))(render({
           field: field,
           props: props,
-          data: data
+          data: data,
+          onChange: finalChange
         })));
       } else {
         console.error('type is not supported');

@@ -31,26 +31,25 @@ import { Form, Row, Col, Button } from 'antd';
 import moment from 'moment';
 import { Pagination } from '../utils/common';
 import { formItemLayout } from '../utils';
-import formR from '../FormRender';
+import FormGroup from '../FormGroup';
 import './index.less';
+var FormRender = FormGroup.FormRender;
 
 function DefaultRender(props) {
   var fields = props.fields,
-      formRender = props.formRender,
-      search = props.search,
       handleSearch = props.handleSearch,
       handleReset = props.handleReset,
+      getFieldDecorator = props.getFieldDecorator,
       extraBtns = props.extraBtns,
-      onReset = props.onReset,
-      dynamicParams = props.dynamicParams;
+      onReset = props.onReset;
   return React.createElement(React.Fragment, null, React.createElement(Row, null, fields.map(function (field) {
     return React.createElement(Col, {
       span: 8,
       key: field.key
-    }, formRender(Object.assign({
+    }, React.createElement(FormRender, Object.assign({}, {
       field: field,
-      data: search
-    }, dynamicParams)));
+      getFieldDecorator: getFieldDecorator
+    })));
   })), React.createElement("div", {
     className: "btn-group"
   }, React.createElement(Button, {
@@ -77,13 +76,9 @@ function (_React$PureComponent) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(WithSearch).call(this, props));
     _this.state = {};
-    var getFieldDecorator = props.form.getFieldDecorator,
-        _props$fields = props.fields,
-        fields = _props$fields === void 0 ? [] : _props$fields;
-    _this.formRender = formR({
-      getFieldDecorator: getFieldDecorator,
-      containerName: 'search-form'
-    });
+    var _props$fields = props.fields,
+        fields = _props$fields === void 0 ? [] : _props$fields; // this.formRender = formR({ getFieldDecorator, containerName: 'search-form' });
+
     _this.handleSearch = _this.handleSearch.bind(_assertThisInitialized(_this));
     _this.handleReset = _this.handleReset.bind(_assertThisInitialized(_this));
     _this.getFormData = _this.getFormData.bind(_assertThisInitialized(_this)); // 数组对象转hashMap
@@ -205,8 +200,10 @@ function (_React$PureComponent) {
           search = _this$props4.search,
           extraBtns = _this$props4.extraBtns,
           onReset = _this$props4.onReset,
+          getFieldDecorator = _this$props4.form.getFieldDecorator,
           _this$props4$dynamicP = _this$props4.dynamicParams,
-          dynamicParams = _this$props4$dynamicP === void 0 ? {} : _this$props4$dynamicP;
+          dynamicParams = _this$props4$dynamicP === void 0 ? {} : _this$props4$dynamicP,
+          required = _this$props4.required;
       var childrenProps = {
         search: search,
         form: form,
@@ -217,13 +214,21 @@ function (_React$PureComponent) {
         dynamicParams: dynamicParams,
         onSearch: this.handleSearch,
         getFormData: this.getFormData,
-        formRender: this.formRender,
+        FormRender: FormRender,
         handleSearch: this.handleSearch,
         handleReset: this.handleReset
       };
+      var extendProps = {
+        containerName: 'search-form',
+        dynamicParams: dynamicParams,
+        formItemLayout: formItemLayout,
+        getFieldDecorator: getFieldDecorator,
+        require: required,
+        datas: search
+      };
       return React.createElement("div", {
         className: "search-form"
-      }, children ? children(childrenProps) : DefaultRender(childrenProps));
+      }, React.createElement(FormGroup, Object.assign({}, extendProps), children ? children(childrenProps, extendProps) : DefaultRender(childrenProps)));
     }
   }]);
 

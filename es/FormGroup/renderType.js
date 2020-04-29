@@ -77,11 +77,13 @@ var WithUnit = function WithUnit(_ref3) {
 var selfDefine = function selfDefine(_ref4) {
   var field = _ref4.field,
       props = _ref4.props,
-      data = _ref4.data;
+      data = _ref4.data,
+      onChange = _ref4.onChange;
   return field.child({
     field: field,
     props: props,
-    data: data
+    data: data,
+    onChange: onChange
   });
 };
 

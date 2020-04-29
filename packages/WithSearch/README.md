@@ -2,7 +2,8 @@
 title: WithSearch 搜索框组件
 ---
 
-WithSearch组件主要是要解决中台业务每个页面都会出现搜索框的共性问题，将共性提取到一个组件中，作为一个容器，用renderProps设计模式实现, 可以传一个fields，其中field属性定义清参照FormRender组件，采用默认样式渲染，也可以自定义节点，定制搜索框要展示的内容。详见下面示例：  
+WithSearch组件主要是要解决中台业务每个页面都会出现搜索框的共性问题，将共性提取到一个组件中，作为一个容器，用renderProps设计模式实现, 可以传一个fields，其中field属性定义清参照FormRender组件，采用默认样式渲染，也可以自定义节点，定制搜索框要展示的内容。详见下面示例：   
+`受FormGroup支持表单联动的影响`，自定义搜索表单用法写法有变动，需要将extendProps属性手动传入，如果要支持表单联动，需要自己用refs实现数据源，并以_datas属性赋值给extendProps；
 ## 代码演示
 
 ## API
@@ -42,6 +43,10 @@ WithSearch组件主要是要解决中台业务每个页面都会出现搜索框�
 
  - feat: 新增setPaginationParam方法设置全局分页变量名， 详见EnhanceTable demo使用
 
-### 2020-03-20
+### 2020-02-20
 
  - 新增timeFormat参数，支持时间范围组件结果的数据自动提取
+
+  ### 2020-03-01
+
+ - feat: 新增1.4.0 beta版，支持搜索表单联动，WithSearch实现有变动，自定义搜索表单写法有变动

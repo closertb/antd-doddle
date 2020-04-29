@@ -1,5 +1,5 @@
 ---
-title: 自定义搜索表单用法
+title: 自定义搜索表单用法(不推荐使用)
 order: 1
 ---
 
@@ -24,17 +24,17 @@ const searchFields = [{
   }
 }, {
   key: 'mobile',
-  name: '手机号',
+  name: '手机号'
 }];
 
 function SearchBar(props) {
-  const { formRender, onSearch, search, searchFields, operate } = props;
+  const { FormRender, onSearch, search, operate, extendProps } = props;
   return (
-    <Form className="h-search-form">
+    <>
       <Row>
         {searchFields.map((field, index) => (
           <Col span={8} key={index}>
-            {formRender({ field, data: search })}
+            <FormRender {...{ field, data: search, extendProps }} />
           </Col>
         ))}
       </Row>
@@ -42,7 +42,7 @@ function SearchBar(props) {
         <Button type="primary" onClick={onSearch}>搜索</Button>
         <Button style={{ marginLeft: 20 }} onClick={() => operate('add')}>新增用户</Button>
       </div>
-    </Form>
+    </>
   );
 }
 
@@ -58,7 +58,7 @@ function Basic() {
   return (
     <div>
       <WithSearch {...searchBarProps} >
-        {props => <SearchBar {...props} searchFields={searchFields} operate={handleOperate} />}
+        {(props, extend) => <SearchBar {...props} extendProps={extend} operate={handleOperate} />}
       </WithSearch>
     </div>
   );

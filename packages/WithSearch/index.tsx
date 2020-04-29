@@ -3,17 +3,20 @@ import { Form, Row, Col, Button } from 'antd';
 import moment, { Moment } from 'moment';
 import { Pagination } from '../utils/common';
 import { formItemLayout, FieldProps, SearchProps } from '../utils';
-import formR from '../FormRender';
+import FormGroup from '../FormGroup';
+import { ConstuctorProps } from '../FormGroup/interface';
 import './index.less';
- 
+
+const { FormRender } = FormGroup;
+
 function DefaultRender(props) {
-  const { fields, formRender, search, handleSearch, handleReset, extraBtns, onReset, dynamicParams } = props;
+  const { fields, handleSearch, handleReset, getFieldDecorator, extraBtns, onReset } = props;
   return (
     <>
       <Row>
         {fields.map(field => (
           <Col span={8} key={field.key}>
-            {formRender({ field, data: search, ...dynamicParams })}
+            <FormRender {...{ field, getFieldDecorator }} />
           </Col>
         ))}
       </Row>
@@ -35,7 +38,7 @@ interface WithSearchProps {
   paramFormat?: Function,
   pageName?: string,
   dynamicParams?: object,
-  children?: (props: WithSearchProps) => React.ReactElement,
+  children?: (props: WithSearchProps, extendProps: ConstuctorProps) => React.ReactElement,
   extraBtns?: Function,
   [propName: string]: any
 }
@@ -50,8 +53,8 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
   constructor(props) {
     super(props);
     this.state = {};
-    const { form: { getFieldDecorator }, fields = [] } = props;
-    this.formRender = formR({ getFieldDecorator, containerName: 'search-form' });
+    const { fields = [] } = props;
+    // this.formRender = formR({ getFieldDecorator, containerName: 'search-form' });
     this.handleSearch = this.handleSearch.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.getFormData = this.getFormData.bind(this);
@@ -137,7 +140,7 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
   }
 
   render() {
-    const { children, form, fields, search, extraBtns, onReset, dynamicParams = {} } = this.props;
+    const { children, form, fields, search, extraBtns, onReset, form: { getFieldDecorator }, dynamicParams = {}, required } = this.props;
     const childrenProps = {
       search,
       form,
@@ -148,13 +151,24 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
       dynamicParams,
       onSearch: this.handleSearch,
       getFormData: this.getFormData,
-      formRender: this.formRender,
+      FormRender,
       handleSearch: this.handleSearch,
       handleReset: this.handleReset,
     };
+
+    const extendProps = {
+      containerName: 'search-form',
+      dynamicParams,
+      formItemLayout,
+      getFieldDecorator,
+      require: required,
+      datas: search,
+    };
     return (
       <div className="search-form">
-        {children ? children(childrenProps) : DefaultRender(childrenProps)}
+        <FormGroup {...extendProps}>
+          {children ? children(childrenProps, extendProps) : DefaultRender(childrenProps)}
+        </FormGroup>
       </div>
     );
   }
