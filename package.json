@@ -24,8 +24,7 @@
   ],
   "sideEffects": [
     "dist/*",
-    "es/*",
-    "lib/*",
+    "es/*"
   ],
   "repository": {
     "type": "git",
