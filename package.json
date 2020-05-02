@@ -1,6 +1,6 @@
 {
   "name": "antd-doddle",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "license": "ISC",
   "description": "antd后台项目前端组件封装和方法库",
   "main": "lib/index.js",
@@ -23,8 +23,7 @@
     "hooks"
   ],
   "sideEffects": [
-    "dist/*",
-    "es/*"
+    "./packages/**/*"
   ],
   "repository": {
     "type": "git",
@@ -70,8 +69,8 @@
     "less-loader": "^4.1.0",
     "merge2": "^1.2.3",
     "mini-css-extract-plugin": "^0.4.4",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.20.1",
     "ts-loader": "^6.0.4",
