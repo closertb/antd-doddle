@@ -1,64 +1,37 @@
-import React, { useCallback } from 'react';
-import moment from 'moment';
-import { Form, Input, InputNumber, Select, DatePicker, Radio, Checkbox, Col } from 'antd';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from '../utils';
-import { FormRenderProps, ConstuctorProps, Enums } from './interface';
+import React from 'react';
+import { Form } from 'antd';
+import { FormRenderProps, ConstuctorProps, FieldProps } from './interface';
 import { extendSymbol } from './default';
 import renderType from './renderType';
 
 const FormItem = Form.Item;
-const { Option } = Select;
-const RadioGroup = Radio.Group;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
-const CheckboxGroup = Checkbox.Group;
 
 const defaultAction = () => { };
-const getContainer = className => () => className ? document.getElementsByClassName(className)[0] : document.body;
 const isUndefind = (value, defaultValue) => typeof value === 'undefined' ? defaultValue : value;
-const handleDisabledDate = currentDate => currentDate && currentDate > moment().endOf('day');
-const generateOption = (enums: object | Enums []):Enums [] => {
-  if (!enums || typeof enums !== 'object') {
-    console.error('enums is not an object or array');
-    return [];
-  }
-  return Array.isArray(enums) ? enums : Object.keys(enums).map(value => ({
-    value: value,
-    label: enums[value]
-  }));
-}
 
-const setFieldValue = (value, type) => {
-  if (type === 'input') {
-    return value && value.target.value;
-  }
-
-  if (type === 'radio') {
-    return value && value.target.value;
-  }
-
-  return value;
-};
 // 用于接受一个从接口获取到的枚举数组
 const getParamFromProps = (key, props) => props[key] || [];
+
+const ruleTipMap = {
+  input: '请输入',
+  text: '请输入',
+  inputNumber: '请输入',
+  select: '请选择',
+  radio: '请选择',
+  check: '请选择',
+  datePicker: '请选择',
+  rangePicker: '请选择'
+};
+
+const gerateRule = ({ placeholder, name, required, type } : FieldProps, rules) => [{
+  required, message: placeholder || ruleTipMap[type] || `请输入${name}` }].concat(rules);
 
 interface UninProps extends FormRenderProps, ConstuctorProps {
 }
 
-export default function FormRender(unionProps: UninProps, rightProps?: FormRenderProps) {
-  let props;
-  let construtProps;
-  // have the special extend SYmbol, the function is call by old FormRender;
-  if (unionProps.extend === extendSymbol) {
-    construtProps = unionProps;
-    props = rightProps;
-  } else {
-    construtProps = unionProps.extendProps;
-    props = unionProps;
-  }
-  const { require, getFieldDecorator, formItemLayout, containerName, withWrap: defaultWrap, Wrapper,
-    dynamicParams, datas, _datas = {} } = construtProps;
-  const { field, data = datas, wrapProps = {} } = props;
+export default function FormRender(props: FormRenderProps) {
+  const { field, require, wrapProps = {}, data = {}, containerName, withWrap: defaultWrap,
+  dynamicParams, Wrapper } = props;
   const {
     type = 'input',
     key,
@@ -66,252 +39,63 @@ export default function FormRender(unionProps: UninProps, rightProps?: FormRende
     style = { width: '100%' },
     required = require || false,
     allowClear = true,
-    placeholder,
-    defaultValue,
     disable = false,
-    rules = [],
-    maxLength,
+    disabled: fieldDisable,
+    rules = props.rules || [],
     isEnable = true,
-    specialKey,
     onChange = defaultAction,
     format,
     withWrap,
     enums = [],
     seldomProps = {},
     decorProps = {},
+    formProps = {},
     isDynamic = false, // 是否获取动态枚举
+    ...others
   } = field;
   const enumKey = field.enumKey || key;
   let content = null;
-
-  const tempOnchange = props.onChange || onChange;
-
-  const finalChange = useCallback((value, ...args) => {
-    _datas[key] = setFieldValue(value, type);
-    tempOnchange(value, ...args);
-  }, []);
 
   if (!field) {
     console.error('field can not be undefined');
     return content;
   }
-  // 如果props.isEnable为false，或则isEnable 传值为false 或 enableTemp(data) 返回值为false；此节点不渲染
-  const checkEnable = props.isEnable || isEnable;
-  if (typeof checkEnable === 'function') {
-    if (!checkEnable(data, _datas)) {
-      return content;
-    }
-  } else if (!isUndefind(props.isEnable, isEnable)) {
+
+  const disabled = fieldDisable || (disable && disable(data));
+
+  const selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
+
+  const common = {
+    style,
+    required,
+    allowClear,
+    disabled,
+    onChange: props.onChange || onChange,
+    ...decorProps,
+    ...seldomProps,
+    ...others
+  };
+
+
+  // 如果这个节点不需要渲染，那么就直接返回null
+  if (!isUndefind(props.isEnable, isEnable)) {
     return content;
   }
-  switch (type) {
-    // eslint-disable-next-line
-    case 'input':
-    // eslint-disable-next-line
-      const patternRules = [{ required, message: placeholder || `请输入${name}` },
-        { pattern: /^\S.*\S$|^\S$/, message: '首尾不能含有空字符' }].concat(rules);
-      content = (
-        <FormItem key={specialKey || key} label={name} {...formItemLayout} className="self-define-item">
-          {getFieldDecorator(key, {
-            initialValue: data[key],
-            rules: patternRules
-          })(
-            <Input
-              type="text"
-              style={style}
-              maxLength={maxLength}
-              onChange={finalChange}
-              placeholder={placeholder || `请输入${name}`}
-              disabled={disable && disable(data)}
-              {...seldomProps}
-            />
-          )}
-        </FormItem>
-      );
-      break;
-    // eslint-disable-next-line
-    case 'inputNumber':
-      // min 设计了默认值的话，会导致表单为非必填时，会默认填上最小值；
-      // eslint-disable-next-line
-      const { max, min, precision = 0, step = 1 } = field;
-      content = (
-        <FormItem key={specialKey || key} label={name} {...formItemLayout} className="self-define-item">
-          {getFieldDecorator(key, {
-            initialValue: data[key],
-            rules: [{ required, message: placeholder || `请输入${name}` }].concat(rules)
-          })(
-            <InputNumber
-              max={max}
-              min={min}
-              step={step}
-              precision={precision}
-              style={style}
-              placeholder={placeholder || `请输入${name}`}
-              onChange={finalChange}
-              disabled={disable && disable(data)}
-              {...seldomProps}
-            />
-          )}
-        </FormItem>
-      );
-      break;
-    // eslint-disable-next-line
-    case 'text':
-    // eslint-disable-next-line
-      const { minRows = 2, maxRows = 6 } = field;
-      content = (
-        <FormItem key={specialKey || key} label={name} {...formItemLayout} className="self-define-item">
-          {getFieldDecorator(key, {
-            initialValue: data[key],
-            rules: [{ required, message: placeholder || `请输入${name}` }].concat(rules)
-          })(
-            <TextArea
-              type="text"
-              style={style}
-              maxLength={maxLength || 300}
-              placeholder={placeholder || `请输入${name}`}
-              autosize={{ minRows, maxRows }}
-              onChange={finalChange}
-              disabled={disable && disable(data)}
-              {...seldomProps}
-            />
-          )}
-        </FormItem>
-      );
-      break;
-    // eslint-disable-next-line
-    case 'select':
-    // eslint-disable-next-line
-    const selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
-      content = (
-        <FormItem key={specialKey || key} label={name} {...formItemLayout}>
-          {getFieldDecorator(key, {
-            initialValue: isUndefind(data[key], defaultValue),
-            rules: [{ required, message: placeholder || `请选择${name}` }].concat(rules)
-          })(
-            <Select
-              style={style}
-              placeholder={placeholder || '不限'}
-              allowClear={allowClear}
-              disabled={disable && disable(data)}
-              onChange={finalChange}
-              getPopupContainer={getContainer(containerName)}
-              {...seldomProps}
-            >
-              {generateOption(selectEnums).map(({ value, label }) => (
-                <Option key={value} value={value}>{label}</Option>
-              ))}
-            </Select>
-          )}
-        </FormItem>
-      );
-      break;
-    // eslint-disable-next-line
-    case 'radio':
-    // eslint-disable-next-line
-    const radioEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
-      content = (
-        <FormItem key={specialKey || key} label={name} {...formItemLayout}>
-          {getFieldDecorator(key, {
-            initialValue: isUndefind(data[key], defaultValue),
-            rules: [{ required, message: placeholder || `请选择${name}` }].concat(rules)
-          })(
-            <RadioGroup
-              options={generateOption(radioEnums)}
-              disabled={disable && disable(data)}
-              onChange={finalChange}
-              {...seldomProps}
-            />
-          )}
-        </FormItem>
-      );
-      break;
-    // eslint-disable-next-line
-    case 'check':
-    // eslint-disable-next-line
-    const checkEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
-      content = (
-        <FormItem key={specialKey || key} label={name} {...formItemLayout}>
-          {getFieldDecorator(key, {
-            initialValue: isUndefind(data[key], defaultValue),
-            rules: [{ required, message: placeholder || `请选择${name}` }].concat(rules)
-          })(
-            <CheckboxGroup
-              options={generateOption(checkEnums)}
-              disabled={disable && disable(data)}
-              onChange={finalChange}
-              {...seldomProps}
-            />
-          )}
-        </FormItem>
-      );
-      break;
-    case 'datePicker':
-      content = (
-        <FormItem key={specialKey || key} label={name} {...formItemLayout}>
-          {getFieldDecorator(key, {
-            initialValue: data[key] && moment(data[key]),
-            rules: [{ required, message: placeholder || `请选择${name}` }].concat(rules)
-          })(
-            <DatePicker
-              style={style}
-              showTime={field.showTime || false}
-              format={format || DATE_FORMAT}
-              onChange={finalChange}
-              placeholder={placeholder || '请选择'}
-              disabled={disable && disable(data)}
-              getCalendarContainer={getContainer(containerName)}
-              {...seldomProps}
-            />
-          )}
-        </FormItem>
-      );
-      break;
-    // eslint-disable-next-line
-    case 'rangePicker':
-      // eslint-disable-next-line
-      const { startKey, endKey, key: rangeKey, disabledDate = false, showTime = false } = field;
-      // eslint-disable-next-line
-      const beginDate = data[startKey];
-      // eslint-disable-next-line
-      const endDate = data[endKey];
-      // eslint-disable-next-line
-      const rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
-      content = (
-        <FormItem key={specialKey || key} label={name} {...formItemLayout}>
-          {getFieldDecorator(rangeKey, {
-            initialValue: rangeDate,
-            rules: [{ required, message: placeholder || `请输入${name}` }].concat(rules)
-          })(
-            <RangePicker
-              style={style}
-              allowClear={allowClear}
-              showTime={showTime}
-              className="search-range-picker"
-              onChange={finalChange}
-              format={format || (showTime ? DATE_TIME_FORMAT : DATE_FORMAT)}
-              getCalendarContainer={getContainer(containerName)}
-              disabledDate={disabledDate ? currentDate => handleDisabledDate(currentDate) : undefined}
-              {...seldomProps}
-            />
-          )}
-        </FormItem>
-      );
-      break;
-    default:
-      if (renderType[type]) {
-        const render = renderType[type];
-        content = (
-          <FormItem key={specialKey || key} label={name} {...formItemLayout}>
-            {getFieldDecorator(key, {
-              initialValue: data[key],
-              rules: [{ required: props.required || required, message: placeholder }].concat(rules),
-              ...decorProps
-            })(render({ field, props, data, onChange: finalChange }))}
-          </FormItem>);
-      } else {
-        console.error('type is not supported');
-      }
+
+  if (renderType[type]) {
+    const render = renderType[type];
+    content = (
+      <FormItem
+        key={key}
+        name={key}
+        label={name}
+        rules={gerateRule(field, rules)}
+        {...formProps}
+      >
+        {render({ field: common, name, enums: selectEnums, containerName })}
+      </FormItem>);
+  } else {
+    console.error('type', type, 'is not supported');
   }
   return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ?
     <Wrapper {...wrapProps}>{content}</Wrapper> : content;

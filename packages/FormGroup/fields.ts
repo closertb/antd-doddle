@@ -5,6 +5,7 @@ import { Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
 import OriginSearch from '../OriginSearch';
 import FileUpload from '../FileUpload';
 import InputWithUnit from '../InputWithUnit';
+import { CommonProps } from './interface';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';

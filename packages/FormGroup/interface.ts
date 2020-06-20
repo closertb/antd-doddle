@@ -1,4 +1,6 @@
- /** 
+/* eslint-disable no-multi-spaces */
+
+/**
  * filed 参数说明
  * @param string type         : 表单项类型
  * @param string key          : 表单项主键
@@ -16,10 +18,10 @@
  * @param string format       : 表单项类型
 */
 export interface FieldProps {
-  type?: string,         //  表单项类型
+  type?: string,         // 表单项类型
   key: string,          //  表单项主键
   name?: string,         //  表单项名称
-  style?: object,        //  表单项样式
+  style?: {},        //  表单项样式
   required?: boolean,    //  表单项是否必填
   allowClear?: boolean,   //  表单项是否允许清除
   placeholder?: string,  //  表单项说明文字
@@ -35,12 +37,6 @@ export interface FieldProps {
   [propName: string]: any
 }
 
-export interface FormRenderProps {
-  field: FieldProps,
-  extendProps?: GroupProps,
-  data?: any,
-  [propName: string]: any // 其他
-}
 /**
  * @param string formItemLayout         : 表单项整体样式定义
  * @param string getFieldDecorator      : 表单项装饰器
@@ -50,12 +46,12 @@ export interface FormRenderProps {
  */
 export interface ConstuctorProps {
   getFieldDecorator: Function,
-  formItemLayout?: object,
+  formItemLayout?: {},
   containerName?: string,
   require?: boolean,
   Wrapper?: Function,
   withWrap?: boolean,
-  dynamicParams?: object, // 动态参数注入
+  dynamicParams?: {}, // 动态参数注入
 }
 
 export interface GroupProps extends ConstuctorProps {
@@ -64,9 +60,27 @@ export interface GroupProps extends ConstuctorProps {
   [propName: string]: any // 其他
 }
 
+export interface FormRenderProps {
+  field: FieldProps,
+  extendProps?: GroupProps,
+  data?: any,
+  [propName: string]: any // 其他
+}
+
 
 export interface Enums {
   value: any,
   label: string | number,
   [propName: string]: any
+}
+
+export interface ComponentProps {
+  [propName: string]: any
+}
+
+export interface CommonProps {
+  field?: ComponentProps,         // 表单项类型
+  enums: Enums,          //  表单项主键
+  name?: string,         //  表单项名称
+  containerName?: string // 容器id
 }
