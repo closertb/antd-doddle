@@ -16,7 +16,8 @@ interface ModalProps {
 }
 
 interface StateProps {
-  visible: boolean
+  visible: boolean,
+  confirmLoading: boolean
 }
 
 export default class HModal extends React.PureComponent<ModalProps> {
@@ -25,38 +26,41 @@ export default class HModal extends React.PureComponent<ModalProps> {
     super(props);
     const { visible } = props;
     this.state = {
-      visible: Boolean(visible)
+      visible: Boolean(visible),
+      confirmLoading: false
     };
     this.handleCancel = this.handleCancel.bind(this);
     this.handleOk = this.handleOk.bind(this);
   }
 
-  componentWillReceiveProps({ visible, confirmLoading }) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { visible, confirmLoading } = nextProps;
+
     // 若 visible 为 false，表示主动关闭弹框
     if (visible === false) {
-      return this.setState({ visible });
+      return { visible, confirmLoading: false };
     }
 
     // 如果props中的visible属性改变，则显示modal
-    if (visible && (visible !== this.props.visible)) {
-      this.setState({
-        visible: true
-      });
+    if (visible && (visible !== prevState.visible)) {
+      return { visible };
     }
+
+    if (confirmLoading) {
+      return { confirmLoading };
+    }
+
     // 如果confirmLoading 从true转变为flase,则处理关闭逻辑
     if (confirmLoading !== undefined && confirmLoading.valueOf() === false &&
-      this.props.confirmLoading && this.props.confirmLoading.valueOf()) {
+    prevState.confirmLoading && prevState.confirmLoading.valueOf()) {
       /* 如果confirmLoading未拥有done属性，则直接关闭对话框，兼容旧版以及纯boolean对象
-       * 如果confirmLoading拥有done属性，且confirmLoading.done为true时才关闭对话框, 适应场景：call请求错误时，不关闭对话框
-       */
+      * 如果confirmLoading拥有done属性，且confirmLoading.done为true时才关闭对话框, 适应场景：call请求错误时，不关闭对话框
+      */
       /* eslint-disable-next-line */
       if (!confirmLoading.hasOwnProperty('done') || confirmLoading.done) {
-        this.setState({
-          visible: false
-        });
+        return { visible };
       }
     }
-    return true;
   }
 
   handleCancel() {
@@ -94,7 +98,7 @@ export default class HModal extends React.PureComponent<ModalProps> {
   }
 
   render() {
-    let { confirmLoading } = this.props;
+    let { confirmLoading } = this.state;
     if (confirmLoading !== undefined) {
       confirmLoading = confirmLoading.valueOf();
     }

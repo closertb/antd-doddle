@@ -1,6 +1,7 @@
 import React from 'react';
-import { Modal, Upload, Icon, Button } from 'antd';
-import { RcFile } from 'antd/lib/upload/';
+import { Modal, Upload, Button } from 'antd';
+import { RcFile } from 'antd/es/upload/';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import './index.less';
 
 const kb = 1024 * 1024;
@@ -20,12 +21,12 @@ function showInfoModal(content) {
 
 const uploadButton = (type  = 'picture-card') => type === 'picture-card' ? (
   <div>
-    <Icon type="plus" />
+    <PlusOutlined translate />
     <div className="ant-upload-text">上传</div>
   </div>
 ) : (
   <Button>
-    <Icon type="upload" />
+    <UploadOutlined translate />
     选择文件
   </Button>
 );

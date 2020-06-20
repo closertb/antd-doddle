@@ -1,11 +1,12 @@
 import React from 'react';
-import { Input, AutoComplete, Spin, Tooltip, Icon } from 'antd';
+import { Input, AutoComplete, Spin, Tooltip } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import { throttle, isEmpty } from '../utils';
 import './index.less';
 
 const { Option } = AutoComplete;
 const DefaultOption = (
-  <Option key="empty" disabled>
+  <Option key="empty" value='' disabled>
     暂无可匹配的搜索结果
   </Option>
 );
@@ -176,7 +177,7 @@ export default class OriginSearch extends React.Component<OriginSearchProps> {
         )}
         {isShowSearch && (
           <div className="js-origin-search origin-search">
-            <Icon type="search" className="origin-search-icon" />
+            <SearchOutlined translate className="origin-search-icon" />
             <AutoComplete
               autoFocus
               className="certain-category-search"
@@ -186,11 +187,10 @@ export default class OriginSearch extends React.Component<OriginSearchProps> {
               onSearch={this.handleChange}
               onSelect={this.handleSelect}
               style={{ width: '100%' }}
-              optionLabelProp="value"
             >
               {loading
                 ? [
-                  <Option key="loading" disabled>
+                  <Option key="loading" value='' disabled>
                     <Spin
                       spinning={loading}
                       style={{ paddingLeft: '45%', textAlign: 'center' }}

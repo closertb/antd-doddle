@@ -1,9 +1,11 @@
-import React, { Children, useMemo, cloneElement, useRef } from 'react';
+import React, { Children, cloneElement, useMemo, forwardRef, useEffect } from 'react';
 import { Form } from 'antd';
 import { formItemLayout as layout } from '../utils';
 import { GroupProps } from './interface';
 import FormRender from './FormRender';
 import { extendSymbol, WrapperDefault } from './default';
+
+const { useForm } = Form;
 
 // 遍历 react children, 识别FormRender
 function deepMap(children, extendProps, mapFields) {
@@ -12,19 +14,16 @@ function deepMap(children, extendProps, mapFields) {
       if (child === null || typeof child !== 'object') {
         return child;
       }
-      const { itemKey, field, data } = child.props;
+      const { itemKey, field } = child.props;
       const isDefine = typeof child.type === 'function';
       // 仅对FormRender 组件做属性扩展
       if (isDefine && child.type.$type === extendSymbol) {
         return cloneElement(child, {
           extendProps,
           field: field || mapFields[itemKey],
-          data: data || extendProps.datas
         });
-      }      // 仅对FormRender 组件做属性扩展
-      if (isDefine && child.type.$type === extendSymbol) {
-        return cloneElement(child, { extendProps });
-      }
+      }      
+
       if (child && child.props && child.props.children && typeof child.props.children === 'object') {
         // Clone the child that has children and map them too
         return cloneElement(child, {
@@ -35,21 +34,10 @@ function deepMap(children, extendProps, mapFields) {
     });
 }
 
-export default function FormGroup(constProps: GroupProps) {
-  const { formItemLayout = layout, containerName, getFieldDecorator, required, fields = [], datas = {},
-    Wrapper = WrapperDefault, withWrap = false, children, dynamicParams, ...others } = constProps;
-  const dataRef = useRef(datas);
-  const extendProps = {
-    formItemLayout,
-    containerName,
-    dynamicParams,
-    getFieldDecorator,
-    require: required,
-    _datas: dataRef.current,
-    datas,
-    Wrapper,
-    withWrap
-  };
+function FormGroup(constProps: GroupProps, ref) {
+  const { formItemLayout = layout, containerName, required, fields = [],
+    Wrapper = WrapperDefault, withWrap = false, dynamicParams, children, datas, ...others } = constProps;
+
   const mapFields = useMemo(() => fields.reduce((pre, cur) => {
     const { key } = cur;
     if (!key) {
@@ -59,10 +47,39 @@ export default function FormGroup(constProps: GroupProps) {
     pre[key] = cur;
     return pre;
   }, {}), [fields]);
+
+  const extendProps = {
+    containerName,
+    dynamicParams,
+    required,
+    Wrapper,
+    withWrap,
+  };
+
+  const formProps = {
+    ...formItemLayout,
+    ...others
+  };
+
+  useEffect(() => {
+    // 如果data 值变化，重置表单的值
+    console.log('form', ref);
+    ref && ref.current.setFieldsValue(datas);
+  }, [datas]);
   return (
-    <Form {...others}>
+    <Form {...formProps} ref={ref}>
       {deepMap(children, extendProps, mapFields)}
     </Form>);
 }
 
-FormGroup.FormRender = FormRender;
+interface FormOut {
+  [propName: string]: any
+}
+
+const ForwardForm: FormOut = forwardRef(FormGroup);
+
+ForwardForm.FormRender = FormRender;
+
+ForwardForm.useForm = useForm;
+
+export default ForwardForm;
