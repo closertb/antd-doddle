@@ -8,18 +8,18 @@ order: 1
 ```jsx
 import React, { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
-import { Form, Row, Col, Button, Switch, Input } from 'antd';
+import { Row, Col, Button, Switch, Input } from 'antd';
 // import { formRender } from 'antd-doddle';
 import FormGroup from "../index";
 
-const FormItem = Form.Item;
+// const FormItem = Form.Item;
 const { FormRender } = FormGroup;
 
 function Edit(props) {
   const [enums, setEnums] = useState([{value: 1,label: '启用'}, {value: 0,label: '禁用'}]);
-  const handleSubmit  = useCallback(() => {
-    const { form } = props;
 
+  const [form] = FormGroup.useForm();
+  const handleSubmit  = useCallback(() => {
     form.validateFields((err, values) => {
       if (err) return;
       console.log(values);
@@ -32,11 +32,10 @@ function Edit(props) {
     }, 500);
   }, []);
 
-  const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: false, interest: { number: 0.12, unit: 'month' }  }, form: { getFieldDecorator } } = props;
+  const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: false, interest: { number: 0.12, unit: 'month' }  } } = props;
   // 组件声明，绑定getFieldDecorator
   const formProps = {
     layout: 'horizontal',
-    getFieldDecorator,
     required: true,
     formItemLayout,
     withWrap: true,
@@ -49,17 +48,6 @@ function Edit(props) {
       <FormGroup {...formProps}>
         <Row>
           {editFields.map(field=> <FormRender key={field.key} {...{ field, data }} />)}
-          <Col span={12}>
-            <FormItem label="原生组件" {...formItemLayout} >
-              {getFieldDecorator('self', {
-                initialValue: 'self name',
-              })(
-                <Input
-                  type="text"
-                />
-              )}
-            </FormItem>
-          </Col>
         </Row>
       </FormGroup>
       <div style={{ textAlign: 'center' }}>
@@ -111,13 +99,6 @@ const editFields = [{
     suffix: '%'
   }
 }, {
-  key: 'corpLegalIdCardFrontStoreId',
-  url: 'corpLegalIdCardFrontUrl',
-  name: '正面',
-  required: false,
-  type: 'image',
-  psimple: 'https://cos.56qq.com/loan/loanuser/idcard_back.png'
-}, {
   key: 'enable',
   name: '是否隐藏',
   required: false,
@@ -143,6 +124,5 @@ const editFields = [{
   enums: statusEnums
 }];
 
-const Basic = Form.create()(Edit)
-ReactDOM.render(<Basic />, mountNode);
+ReactDOM.render(<Edit />, mountNode);
 ```

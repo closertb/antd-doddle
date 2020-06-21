@@ -20,20 +20,13 @@ export const searchFields = [{
   type: 'select',
   enums: [{ label: '是', value: 1 }, { label: '否', value: 0 }],
   isDynamic: true,
-  inputProps: { 
+  seldomProps: { 
     allowClear: true,
   }
 }, {
   key: 'mobile',
   name: '手机号',
-  isEnable: (_, datas) => datas.reach !== 0
-}, {
-  key: 'consumeTime',
-  startKey: 'consumeSt',
-  endKey: 'consumeEd',
-  name: '测试时间',
-  type: 'rangePicker',
-  showTime: true,
+  isEnable: (_, datas = {}) => datas.reach !== 0
 }];
 
 class Basic extends React.Component {

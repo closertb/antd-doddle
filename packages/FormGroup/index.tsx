@@ -1,5 +1,6 @@
-import React, { Children, cloneElement, useMemo, forwardRef, useEffect } from 'react';
+import React, { Children, cloneElement, useMemo, useRef, forwardRef, useEffect } from 'react';
 import { Form } from 'antd';
+import { FormInstance } from 'antd/es/form';
 import { formItemLayout as layout } from '../utils';
 import { GroupProps } from './interface';
 import FormRender from './FormRender';
@@ -34,10 +35,12 @@ function deepMap(children, extendProps, mapFields) {
     });
 }
 
-function FormGroup(constProps: GroupProps, ref) {
+const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (props, ref) => {
   const { formItemLayout = layout, containerName, required, fields = [],
-    Wrapper = WrapperDefault, withWrap = false, dynamicParams, children, datas, ...others } = constProps;
+    Wrapper = WrapperDefault, withWrap = false, dynamicParams, children, datas, ...others } = props;
 
+  const insideRef = useRef();
+  // const [form] = useForm();
   const mapFields = useMemo(() => fields.reduce((pre, cur) => {
     const { key } = cur;
     if (!key) {
@@ -48,6 +51,7 @@ function FormGroup(constProps: GroupProps, ref) {
     return pre;
   }, {}), [fields]);
 
+  const _ref = ref || insideRef;
   const extendProps = {
     containerName,
     dynamicParams,
@@ -63,20 +67,26 @@ function FormGroup(constProps: GroupProps, ref) {
 
   useEffect(() => {
     // 如果data 值变化，重置表单的值
-    console.log('form', ref);
-    ref && ref.current.setFieldsValue(datas);
+    if (typeof _ref === 'object') {
+      _ref.current.setFieldsValue(datas);
+    }
   }, [datas]);
   return (
-    <Form {...formProps} ref={ref}>
+    <Form {...formProps} ref={_ref}>
       {deepMap(children, extendProps, mapFields)}
     </Form>);
+};
+
+const FormGroupWithRef = forwardRef(FormGroup);
+
+type FormGroup = typeof FormGroupWithRef;
+
+interface FormOut extends FormGroup {
+  useForm: typeof useForm;
+  FormRender: typeof FormRender;
 }
 
-interface FormOut {
-  [propName: string]: any
-}
-
-const ForwardForm: FormOut = forwardRef(FormGroup);
+const ForwardForm: FormOut = FormGroupWithRef as FormOut;
 
 ForwardForm.FormRender = FormRender;
 

@@ -8,18 +8,16 @@ order: 0
 ```jsx
 import React, { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
-import { Form, Row, Col, Button, Switch, Input } from 'antd';
+import { Row, Col, Button, Switch, Input } from 'antd';
 // import { formRender } from 'antd-doddle';
 import FormGroup from "../index";
 
-const FormItem = Form.Item;
 const { FormRender } = FormGroup;
 
 function Edit(props) {
   const [enums, setEnums] = useState([{value: 1,label: '启用'}, {value: 0,label: '禁用'}]);
+  const [form] = FormGroup.useForm();
   const handleSubmit  = useCallback(() => {
-    const { form } = props;
-
     form.validateFields((err, values) => {
       if (err) return;
       console.log(values);
@@ -31,11 +29,10 @@ function Edit(props) {
       setEnums([{value: 1,label: '远程启用'}, {value: 0,label: '远程禁用'}])
     })
   }, [])
-  const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: true }, form: { getFieldDecorator } } = props;
+  const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: true } } = props;
   // 组件声明，绑定getFieldDecorator
   const formProps = {
     layout: 'horizontal',
-    getFieldDecorator,
     required: true,
     formItemLayout,
     withWrap: true,
@@ -64,17 +61,6 @@ function Edit(props) {
             <FormRender itemKey="notshow" />
           </Row>
           <FormRender itemKey="remark" />
-          <Col span={12}>
-            <FormItem label="原生组件" {...formItemLayout} >
-              {getFieldDecorator('self', {
-                initialValue: 'self name',
-              })(
-                <Input
-                  type="text"
-                />
-              )}
-            </FormItem>
-          </Col>
         </FormGroup>
       </Row>
       <div style={{ textAlign: 'center' }}>
@@ -114,16 +100,6 @@ const editFields = [{
   type: 'radio',
   enums: statusEnums
 }, {
-  key: 'corpLegalIdCardFrontStoreId',
-  url: 'corpLegalIdCardFrontUrl',
-  name: '正面',
-  required: false,
-  type: 'image',
-  psimple: 'https://cos.56qq.com/loan/loanuser/idcard_back.png',
-  isEnable: (_, data) => {
-    return data.cardStatus !== 'error';
-  },
-}, {
   key: 'enable',
   name: '是否激活',
   required: false,
@@ -149,6 +125,5 @@ const editFields = [{
   }
 }];
 
-const Another = Form.create()(Edit)
-ReactDOM.render(<Another />, mountNode);
+ReactDOM.render(<Edit />, mountNode);
 ```

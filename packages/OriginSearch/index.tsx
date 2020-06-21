@@ -177,7 +177,7 @@ export default class OriginSearch extends React.Component<OriginSearchProps> {
         )}
         {isShowSearch && (
           <div className="js-origin-search origin-search">
-            <SearchOutlined translate className="origin-search-icon" />
+            <SearchOutlined className="origin-search-icon" />
             <AutoComplete
               autoFocus
               className="certain-category-search"

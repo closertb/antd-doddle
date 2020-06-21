@@ -81,6 +81,5 @@ export interface ComponentProps {
 export interface CommonProps {
   field?: ComponentProps,         // 表单项类型
   enums: Enums,          //  表单项主键
-  name?: string,         //  表单项名称
   containerName?: string // 容器id
 }

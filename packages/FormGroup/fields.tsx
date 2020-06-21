@@ -29,41 +29,29 @@ const generateOption = (enums = []) => {
 };
 const handleDisabledDate = currentDate => currentDate && currentDate > moment().endOf('day');
 
-const HInput = ({ field, name }) => {
-  const { placeholder, ...others } = field;
-  return (
-    <Input
-      placeholder={placeholder || `请输入${name}`}
-      {...others}
-    />);
+function HInput<T extends CommonProps> ({ field }: T) {
+  return <Input {...field} />
 };
 
 const HText = ({ field }) => {
-  const { name, placeholder, ...others } = field;
   return (
     <TextArea
-      placeholder={placeholder || `请输入${name}`}
-      {...others}
+      {...field}
     />);
 };
 
 const HInputNumber = ({ field }) => {
-  const { name, placeholder, ...others } = field;
   return (
     <InputNumber
-      type="text"
-      placeholder={placeholder || `请输入${name}`}
-      {...others}
+      {...field}
     />);
 };
 
 const HSelect = ({ field, selectEnums, containerName }) => {
-  const { placeholder, ...others } = field;
   return (
     <Select
-      placeholder={placeholder || '不限'}
       getPopupContainer={getContainer(containerName)}
-      {...others}
+      {...field}
     >
       {generateOption(selectEnums).map(({ value, label }) => (
         <Option key={value} value={value}>{label}</Option>
@@ -72,45 +60,41 @@ const HSelect = ({ field, selectEnums, containerName }) => {
 };
 
 const HRadio = ({ field, selectEnums }) => {
-  const { name, placeholder, ...others } = field;
   return (
     <RadioGroup
       options={generateOption(selectEnums)}
-      {...others}
+      {...field}
     />);
 };
 
 const HCheck = ({ field, selectEnums }) => {
-  const { placeholder, ...others } = field;
   return (
     <CheckboxGroup
       options={generateOption(selectEnums)}
-      {...others}
+      {...field}
     />);
 };
 
 const HDatePicker = ({ field, containerName }) => {
-  const { placeholder, format, ...others } = field;
+  const { format, ...others } = field;
   return (
     <DatePicker
       format={format || DATE_FORMAT}
-      placeholder={placeholder || '请选择'}
       getCalendarContainer={getContainer(containerName)}
       {...others}
     />);
 };
 
 const HRangePicker = ({ field, containerName }) => {
-  const { startKey, endKey, disabledDate, showTime = false, placeholder, format, ...others } = field;
-  // eslint-disable-next-line
-  const beginDate = data[startKey];
-  // eslint-disable-next-line
-  const endDate = data[endKey];
-  // eslint-disable-next-line
-  const rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
+  const { disabledDate, showTime = false, format, ...others } = field;
+  // // eslint-disable-next-line
+  // const beginDate = data[startKey];
+  // // eslint-disable-next-line
+  // const endDate = data[endKey];
+  // // eslint-disable-next-line
+  // const rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
   return (
     <RangePicker
-      placeholder={placeholder || '请选择'}
       showTime={showTime}
       getCalendarContainer={getContainer(containerName)}
       disabledDate={disabledDate ? currentDate => handleDisabledDate(currentDate) : undefined}
@@ -130,12 +114,24 @@ const HInputWithUnit = ({ field }) => {
   />);
 };
 
-const selfDefine = ({ field, props, data }) => field.child({ field, props, data });
+const selfDefine = ({ field, data }) => field.child({ field, data });
 
+const OriginInput = ({ field }) => {
+  return (<OriginSearch
+    {...field}
+    style={{ width: '100%', height: 32 }}
+  />);
+};
+
+const UploadFile = ({ field, props = {} }) => {
+  return (<FileUpload
+    {...field}
+  />);
+};
 
 const renderType = {
-  // origin: OriginInput,
-  // image: UploadFile,
+  origin: OriginInput,
+  image: UploadFile,
   // imageUpload: UploadFile,
   selfDefine,
   inputWithUnit: HInputWithUnit,

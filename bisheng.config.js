@@ -1,3 +1,5 @@
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+
 const alertLessConfig = (rules) => {
   rules.forEach((rule) => {
     if (rule.loader && rule.loader.includes('less-loader')) {
@@ -89,6 +91,7 @@ module.exports = {
     alertLessConfig(config.module.rules);
     alertCssConfig(config.module.rules);
     resetTsConfig(config.module.rules);
+    config.plugins.push(new AntdDayjsWebpackPlugin());
     return config;
   },
   root: `${filePath}/`

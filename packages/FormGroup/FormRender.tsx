@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'antd';
 import { FormRenderProps, ConstuctorProps, FieldProps } from './interface';
 import { extendSymbol } from './default';
-import renderType from './renderType';
+import renderType from './fields';
 
 const FormItem = Form.Item;
 
@@ -23,8 +23,8 @@ const ruleTipMap = {
   rangePicker: '请选择'
 };
 
-const gerateRule = ({ placeholder, name, required, type } : FieldProps, rules) => [{
-  required, message: placeholder || ruleTipMap[type] || `请输入${name}` }].concat(rules);
+const gerateRule = (required: boolean, placeholder: string, rules) => [{
+  required, message: placeholder }].concat(rules);
 
 interface UninProps extends FormRenderProps, ConstuctorProps {
 }
@@ -32,6 +32,9 @@ interface UninProps extends FormRenderProps, ConstuctorProps {
 export default function FormRender(props: FormRenderProps) {
   const { field, require, wrapProps = {}, data = {}, containerName, withWrap: defaultWrap,
   dynamicParams, Wrapper } = props;
+
+  console.log('ls', field);
+
   const {
     type = 'input',
     key,
@@ -40,6 +43,7 @@ export default function FormRender(props: FormRenderProps) {
     required = require || false,
     allowClear = true,
     disable = false,
+    placeholder,
     disabled: fieldDisable,
     rules = props.rules || [],
     isEnable = true,
@@ -65,11 +69,13 @@ export default function FormRender(props: FormRenderProps) {
 
   const selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
 
+  const pholder = placeholder || ruleTipMap[type] || `请输入${name}`;
   const common = {
     style,
     required,
     allowClear,
     disabled,
+    placeholder: pholder,
     onChange: props.onChange || onChange,
     ...decorProps,
     ...seldomProps,
@@ -89,7 +95,7 @@ export default function FormRender(props: FormRenderProps) {
         key={key}
         name={key}
         label={name}
-        rules={gerateRule(field, rules)}
+        rules={gerateRule(required, pholder, rules)}
         {...formProps}
       >
         {render({ field: common, name, enums: selectEnums, containerName })}
@@ -97,6 +103,9 @@ export default function FormRender(props: FormRenderProps) {
   } else {
     console.error('type', type, 'is not supported');
   }
+
+  console.log(key, content);
+
   return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ?
     <Wrapper {...wrapProps}>{content}</Wrapper> : content;
 }

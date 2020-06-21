@@ -21,12 +21,12 @@ function showInfoModal(content) {
 
 const uploadButton = (type  = 'picture-card') => type === 'picture-card' ? (
   <div>
-    <PlusOutlined translate />
+    <PlusOutlined />
     <div className="ant-upload-text">上传</div>
   </div>
 ) : (
   <Button>
-    <UploadOutlined translate />
+    <UploadOutlined />
     选择文件
   </Button>
 );
