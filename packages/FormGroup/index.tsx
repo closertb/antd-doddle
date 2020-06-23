@@ -20,7 +20,7 @@ function deepMap(children, extendProps, mapFields) {
       // 仅对FormRender 组件做属性扩展
       if (isDefine && child.type.$type === extendSymbol) {
         return cloneElement(child, {
-          extendProps,
+          ...extendProps,
           field: field || mapFields[itemKey],
         });
       }      
@@ -37,7 +37,7 @@ function deepMap(children, extendProps, mapFields) {
 
 const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (props, ref) => {
   const { formItemLayout = layout, containerName, required, fields = [],
-    Wrapper = WrapperDefault, withWrap = false, dynamicParams, children, datas, ...others } = props;
+    Wrapper = WrapperDefault, withWrap, dynamicParams, children, datas, ...others } = props;
 
   const insideRef = useRef();
   // const [form] = useForm();
@@ -61,16 +61,25 @@ const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (pro
   };
 
   const formProps = {
+    initialValues: datas,
     ...formItemLayout,
     ...others
   };
 
+  // 如果data 值变化，重置表单的值
   useEffect(() => {
-    // 如果data 值变化，重置表单的值
+    // 函数式组件采用form 直接reset；
+    if (props.form) {
+      console.log('de', props.form);
+      props.form.setFieldsValue(datas);
+      return;
+    }
+    // 如果是类组件，才采用ref示例更新组件
     if (typeof _ref === 'object') {
       _ref.current.setFieldsValue(datas);
     }
   }, [datas]);
+
   return (
     <Form {...formProps} ref={_ref}>
       {deepMap(children, extendProps, mapFields)}

@@ -1,4 +1,5 @@
 /* eslint-disable no-multi-spaces */
+import { FormInstance } from 'antd/es/form';
 
 /**
  * filed 参数说明
@@ -45,10 +46,9 @@ export interface FieldProps {
  * @param string containerName          : 表单组件挂载的Dom节点ClassName
  */
 export interface ConstuctorProps {
-  getFieldDecorator: Function,
   formItemLayout?: {},
   containerName?: string,
-  require?: boolean,
+  required?: boolean,
   Wrapper?: Function,
   withWrap?: boolean,
   dynamicParams?: {}, // 动态参数注入
@@ -57,6 +57,7 @@ export interface ConstuctorProps {
 export interface GroupProps extends ConstuctorProps {
   children: React.ReactNode, // React.ReactChildren
   required?: boolean,
+  form?: FormInstance,
   [propName: string]: any // 其他
 }
 

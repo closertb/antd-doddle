@@ -47,30 +47,30 @@ const HInputNumber = ({ field }) => {
     />);
 };
 
-const HSelect = ({ field, selectEnums, containerName }) => {
+const HSelect = ({ field, enums, containerName }) => {
   return (
     <Select
       getPopupContainer={getContainer(containerName)}
       {...field}
     >
-      {generateOption(selectEnums).map(({ value, label }) => (
+      {generateOption(enums).map(({ value, label }) => (
         <Option key={value} value={value}>{label}</Option>
       ))}
     </Select>);
 };
 
-const HRadio = ({ field, selectEnums }) => {
+const HRadio = ({ field, enums }) => {
   return (
     <RadioGroup
-      options={generateOption(selectEnums)}
+      options={generateOption(enums)}
       {...field}
     />);
 };
 
-const HCheck = ({ field, selectEnums }) => {
+const HCheck = ({ field, enums }) => {
   return (
     <CheckboxGroup
-      options={generateOption(selectEnums)}
+      options={generateOption(enums)}
       {...field}
     />);
 };
@@ -103,14 +103,10 @@ const HRangePicker = ({ field, containerName }) => {
     />);
 };
 
-const HInputWithUnit = ({ field }) => {
-  const { inputProps, selectProps, defaultUnit, enums, ...others } = field;
+const HInputWithUnit = ({ field, enums }) => {
   return (<InputWithUnit
     enums={enums}
-    selectProps={selectProps}
-    inputProps={inputProps}
-    defaultUnit={defaultUnit}
-    {...others}
+    {...field}
   />);
 };
 
@@ -134,7 +130,7 @@ const renderType = {
   image: UploadFile,
   // imageUpload: UploadFile,
   selfDefine,
-  inputWithUnit: HInputWithUnit,
+  withUnit: HInputWithUnit,
   text: HText,
   input: HInput,
   inputNumber: HInputNumber,

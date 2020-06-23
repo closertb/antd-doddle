@@ -18,8 +18,7 @@ function Edit(props) {
   const [enums, setEnums] = useState([{value: 1,label: '启用'}, {value: 0,label: '禁用'}]);
   const [form] = FormGroup.useForm();
   const handleSubmit  = useCallback(() => {
-    form.validateFields((err, values) => {
-      if (err) return;
+    form.validateFields().then((values) => {
       console.log(values);
     });
   })
@@ -30,7 +29,6 @@ function Edit(props) {
     })
   }, [])
   const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: true } } = props;
-  // 组件声明，绑定getFieldDecorator
   const formProps = {
     layout: 'horizontal',
     required: true,
@@ -40,29 +38,27 @@ function Edit(props) {
     datas: {
       userName: 'doddle'
     },
+    form,
     dynamicParams: {
       status: enums
     }
   };
   return (
     <div>
-      <Row>
-        <FormGroup {...formProps}>
-          <Row>
-            <FormRender itemKey="userName" />
-            <FormRender itemKey="mail" />
-          </Row>
-          <Row>
-            <FormRender itemKey="cardStatus" />
-            <FormRender itemKey="corpLegalIdCardFrontStoreId" />
-          </Row>
-          <Row>  
-            <FormRender itemKey="enable" />
-            <FormRender itemKey="notshow" />
-          </Row>
-          <FormRender itemKey="remark" />
-        </FormGroup>
-      </Row>
+      <FormGroup {...formProps}>
+        <Row>
+          <FormRender itemKey="userName" />
+          <FormRender itemKey="mail" />
+        </Row>
+        <Row>
+          <FormRender itemKey="cardStatus" />
+        </Row>
+        <Row>  
+          <FormRender itemKey="enable" />
+          <FormRender itemKey="notshow" />
+        </Row>
+        <FormRender itemKey="remark" />
+      </FormGroup>
       <div style={{ textAlign: 'center' }}>
         <Button onClick={handleSubmit}>提交</Button>
       </div>

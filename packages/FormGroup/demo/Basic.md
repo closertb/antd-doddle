@@ -20,8 +20,7 @@ function Edit(props) {
 
   const [form] = FormGroup.useForm();
   const handleSubmit  = useCallback(() => {
-    form.validateFields((err, values) => {
-      if (err) return;
+    form.validateFields().then((values) => {
       console.log(values);
     });
   })
@@ -32,10 +31,11 @@ function Edit(props) {
     }, 500);
   }, []);
 
-  const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: false, interest: { number: 0.12, unit: 'month' }  } } = props;
-  // 组件声明，绑定getFieldDecorator
+  const { detail: datas = { userName: 'doddle', mail: 'closertb@163.com', enable: false, interest: { number: 0.12, unit: 'month' }  } } = props;
   const formProps = {
     layout: 'horizontal',
+    form,
+    datas,
     required: true,
     formItemLayout,
     withWrap: true,
@@ -47,7 +47,7 @@ function Edit(props) {
     <div>
       <FormGroup {...formProps}>
         <Row>
-          {editFields.map(field=> <FormRender key={field.key} {...{ field, data }} />)}
+          {editFields.map(field=> <FormRender key={field.key} {...{ field }} />)}
         </Row>
       </FormGroup>
       <div style={{ textAlign: 'center' }}>
@@ -95,7 +95,7 @@ const editFields = [{
   type: 'withUnit',
   enums: [{ value: 'month', label: '月' }, { value: 'year', label: '年' }],
   defaultUnit: 'year',
-  inputProps: {
+  seldomProps: {
     suffix: '%'
   }
 }, {

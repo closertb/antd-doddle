@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
-import { FormRenderProps, ConstuctorProps, FieldProps } from './interface';
+import { FormRenderProps } from './interface';
 import { extendSymbol } from './default';
 import renderType from './fields';
 
@@ -26,14 +26,9 @@ const ruleTipMap = {
 const gerateRule = (required: boolean, placeholder: string, rules) => [{
   required, message: placeholder }].concat(rules);
 
-interface UninProps extends FormRenderProps, ConstuctorProps {
-}
-
 export default function FormRender(props: FormRenderProps) {
-  const { field, require, wrapProps = {}, data = {}, containerName, withWrap: defaultWrap,
+  const { field, required: require, wrapProps = {}, data = {}, containerName, withWrap: defaultWrap,
   dynamicParams, Wrapper } = props;
-
-  console.log('ls', field);
 
   const {
     type = 'input',
@@ -69,6 +64,8 @@ export default function FormRender(props: FormRenderProps) {
 
   const selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
 
+  console.log('ls', enumKey, dynamicParams, selectEnums);
+
   const pholder = placeholder || ruleTipMap[type] || `请输入${name}`;
   const common = {
     style,
@@ -101,10 +98,8 @@ export default function FormRender(props: FormRenderProps) {
         {render({ field: common, name, enums: selectEnums, containerName })}
       </FormItem>);
   } else {
-    console.error('type', type, 'is not supported');
+    console.error('type:', type, 'is not supported, you can use extendRenderTypes API to define what you want');
   }
-
-  console.log(key, content);
 
   return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ?
     <Wrapper {...wrapProps}>{content}</Wrapper> : content;

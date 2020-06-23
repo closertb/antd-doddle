@@ -19,7 +19,7 @@ const searchFields = [{
   name: '是否达成',
   type: 'select',
   enums: [{ label: '是', value: 1 }, { label: '否', value: 0 }],
-  inputProps: { 
+  seldomProps: { 
     allowClear: true,
   }
 }, {

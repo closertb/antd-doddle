@@ -80,13 +80,14 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
   handleSearch() {
     const { onSearch, pageName = Pagination.PN } = this.props;
 
-    this.formRef.current.validateFields((err, values) => {
-      if (err) return;
+    this.formRef.current.validateFields().then((values) => {
       const res = this.timeFormatFun(values);
       onSearch({
         ...res,
         [pageName]: 1
       });
+    }).catch((err) => {
+      console.error(err);
     });
   }
 
@@ -134,8 +135,8 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
   }
 
   handleReset() {
-    const { onReset, form } = this.props;
-    form.resetFields();
+    const { onReset } = this.props;
+    this.formRef.current.resetFields();
     onReset && onReset();
   }
 
