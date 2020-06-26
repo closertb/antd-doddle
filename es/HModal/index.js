@@ -32,7 +32,8 @@ function (_React$PureComponent) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(HModal).call(this, props));
     var visible = props.visible;
     _this.state = {
-      visible: Boolean(visible)
+      visible: Boolean(visible),
+      confirmLoading: false
     };
     _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     _this.handleOk = _this.handleOk.bind(_assertThisInitialized(_this));
@@ -40,42 +41,6 @@ function (_React$PureComponent) {
   }
 
   _createClass(HModal, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(_ref) {
-      var visible = _ref.visible,
-          confirmLoading = _ref.confirmLoading;
-
-      // 若 visible 为 false，表示主动关闭弹框
-      if (visible === false) {
-        return this.setState({
-          visible: visible
-        });
-      } // 如果props中的visible属性改变，则显示modal
-
-
-      if (visible && visible !== this.props.visible) {
-        this.setState({
-          visible: true
-        });
-      } // 如果confirmLoading 从true转变为flase,则处理关闭逻辑
-
-
-      if (confirmLoading !== undefined && confirmLoading.valueOf() === false && this.props.confirmLoading && this.props.confirmLoading.valueOf()) {
-        /* 如果confirmLoading未拥有done属性，则直接关闭对话框，兼容旧版以及纯boolean对象
-         * 如果confirmLoading拥有done属性，且confirmLoading.done为true时才关闭对话框, 适应场景：call请求错误时，不关闭对话框
-         */
-
-        /* eslint-disable-next-line */
-        if (!confirmLoading.hasOwnProperty('done') || confirmLoading.done) {
-          this.setState({
-            visible: false
-          });
-        }
-      }
-
-      return true;
-    }
-  }, {
     key: "handleCancel",
     value: function handleCancel() {
       if (this.props.onCancel) {
@@ -122,7 +87,7 @@ function (_React$PureComponent) {
   }, {
     key: "render",
     value: function render() {
-      var confirmLoading = this.props.confirmLoading;
+      var confirmLoading = this.state.confirmLoading;
 
       if (confirmLoading !== undefined) {
         confirmLoading = confirmLoading.valueOf();
@@ -135,6 +100,46 @@ function (_React$PureComponent) {
         onCancel: this.handleCancel
       });
       return React.createElement("div", null, this.state.visible && React.createElement(Modal, Object.assign({}, modalProps), this.props.children));
+    }
+  }], [{
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      var visible = nextProps.visible,
+          confirmLoading = nextProps.confirmLoading; // 若 visible 为 false，表示主动关闭弹框
+
+      if (visible === false) {
+        return {
+          visible: visible,
+          confirmLoading: false
+        };
+      } // 如果props中的visible属性改变，则显示modal
+
+
+      if (visible && visible !== prevState.visible) {
+        return {
+          visible: visible
+        };
+      }
+
+      if (confirmLoading) {
+        return {
+          confirmLoading: confirmLoading
+        };
+      } // 如果confirmLoading 从true转变为flase,则处理关闭逻辑
+
+
+      if (confirmLoading !== undefined && confirmLoading.valueOf() === false && prevState.confirmLoading && prevState.confirmLoading.valueOf()) {
+        /* 如果confirmLoading未拥有done属性，则直接关闭对话框，兼容旧版以及纯boolean对象
+        * 如果confirmLoading拥有done属性，且confirmLoading.done为true时才关闭对话框, 适应场景：call请求错误时，不关闭对话框
+        */
+
+        /* eslint-disable-next-line */
+        if (!confirmLoading.hasOwnProperty('done') || confirmLoading.done) {
+          return {
+            visible: visible
+          };
+        }
+      }
     }
   }]);
 

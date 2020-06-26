@@ -17,7 +17,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 import React from 'react';
-import { Modal, Upload, Icon, Button } from 'antd';
+import { Modal, Upload, Button } from 'antd';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import './index.less';
 var kb = 1024 * 1024;
 
@@ -42,13 +43,9 @@ function showInfoModal(content) {
 
 var uploadButton = function uploadButton() {
   var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'picture-card';
-  return type === 'picture-card' ? React.createElement("div", null, React.createElement(Icon, {
-    type: "plus"
-  }), React.createElement("div", {
+  return type === 'picture-card' ? React.createElement("div", null, React.createElement(PlusOutlined, null), React.createElement("div", {
     className: "ant-upload-text"
-  }, "\u4E0A\u4F20")) : React.createElement(Button, null, React.createElement(Icon, {
-    type: "upload"
-  }), "\u9009\u62E9\u6587\u4EF6");
+  }, "\u4E0A\u4F20")) : React.createElement(Button, null, React.createElement(UploadOutlined, null), "\u9009\u62E9\u6587\u4EF6");
 };
 
 var FileUpload =

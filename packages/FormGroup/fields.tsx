@@ -104,6 +104,7 @@ const HRangePicker = ({ field, containerName }) => {
 };
 
 const HInputWithUnit = ({ field, enums }) => {
+  console.log('update unit');
   return (<InputWithUnit
     enums={enums}
     {...field}
@@ -125,22 +126,17 @@ const UploadFile = ({ field, props = {} }) => {
   />);
 };
 
-const renderType = {
-  origin: OriginInput,
-  image: UploadFile,
-  // imageUpload: UploadFile,
+export {
+  OriginInput,
+  UploadFile,
   selfDefine,
-  withUnit: HInputWithUnit,
-  text: HText,
-  input: HInput,
-  inputNumber: HInputNumber,
-  select: HSelect,
-  radio: HRadio,
-  check: HCheck,
-  datePicker: HDatePicker,
-  rangePicker: HRangePicker
+  HInputWithUnit,
+  HText,
+  HInput,
+  HInputNumber,
+  HSelect,
+  HRadio,
+  HCheck,
+  HDatePicker,
+  HRangePicker
 };
-
-export const extendRenderTypes = (types = {}) => Object.assign(renderType, types);
-
-export default renderType;

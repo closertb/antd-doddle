@@ -6,12 +6,13 @@ order: 0
 默认示例
 
 ```jsx
-import React from 'react';
+import React, { createRef } from 'react';
 import { Form } from 'antd';
 // import { OriginSearch } from 'antd-doddle';
 import OriginSearch from '../index';
 
 const FormItem = Form.Item;
+
 export const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -35,10 +36,12 @@ const mockFetch = ({ keyword }) =>
       resolve(res);
     }, 600),
   );
-class ModalBase extends React.Component {
+
+class ModalBase extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
+    this.form = createRef();
     this.handleSelect = this.handleSelect.bind(this);
   }
   handleSelect(value, index, searchRes) {
@@ -64,14 +67,11 @@ class ModalBase extends React.Component {
       fetchData: mockFetch, // 一个带promise特性的请求；
       searchKey: 'keyword',
     };
-    const { getFieldDecorator } = this.props.form;
     return (
       <div>
-        <Form style={{ width: 600 }}>
-          <FormItem type="inline" {...formItemLayout} label="员工姓名">
-            {getFieldDecorator('search', {
-              initialValue: { name: 'Dom', id: '0909' },
-            })(<OriginSearch {...modalProps} />)}
+        <Form {...formItemLayout} style={{ width: 600 }} ref={this.form} initialValues={{  search: { name: 'Dom', id: '0909' }}}>
+          <FormItem type="inline" name="search" label="员工姓名">
+            <OriginSearch {...modalProps} />
           </FormItem>
         </Form>
       </div>
@@ -79,6 +79,5 @@ class ModalBase extends React.Component {
   }
 }
 
-const Basic = Form.create()(ModalBase);
-ReactDOM.render(<Basic />, mountNode);
+ReactDOM.render(<ModalBase />, mountNode);
 ```

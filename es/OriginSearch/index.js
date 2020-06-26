@@ -19,12 +19,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 import React from 'react';
-import { Input, AutoComplete, Spin, Tooltip, Icon } from 'antd';
+import { Input, AutoComplete, Spin, Tooltip } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import { throttle, isEmpty } from '../utils';
 import './index.less';
 var Option = AutoComplete.Option;
 var DefaultOption = React.createElement(Option, {
   key: "empty",
+  value: '',
   disabled: true
 }, "\u6682\u65E0\u53EF\u5339\u914D\u7684\u641C\u7D22\u7ED3\u679C");
 
@@ -211,8 +213,7 @@ function (_React$Component) {
         title: inputValue
       }, React.createElement(Input, Object.assign({}, nodeProps))) : React.createElement(Input, Object.assign({}, nodeProps)), isShowSearch && React.createElement("div", {
         className: "js-origin-search origin-search"
-      }, React.createElement(Icon, {
-        type: "search",
+      }, React.createElement(SearchOutlined, {
         className: "origin-search-icon"
       }), React.createElement(AutoComplete, {
         autoFocus: true,
@@ -224,10 +225,10 @@ function (_React$Component) {
         onSelect: this.handleSelect,
         style: {
           width: '100%'
-        },
-        optionLabelProp: "value"
+        }
       }, loading ? [React.createElement(Option, {
         key: "loading",
+        value: '',
         disabled: true
       }, React.createElement(Spin, {
         spinning: loading,
@@ -241,6 +242,7 @@ function (_React$Component) {
     key: "getDerivedStateFromProps",
     value: function getDerivedStateFromProps(nextProps, prevState) {
       var value = nextProps.value;
+      console.log(value);
 
       if (!prevState.value || prevState.value !== value) {
         return {

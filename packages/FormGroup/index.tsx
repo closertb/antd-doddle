@@ -36,11 +36,10 @@ function deepMap(children, extendProps, mapFields) {
 }
 
 const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (props, ref) => {
-  const { formItemLayout = layout, containerName, required, fields = [],
-    Wrapper = WrapperDefault, withWrap, dynamicParams, children, datas, ...others } = props;
+  const { formItemLayout = layout, containerName, required, fields = [], onFormChange,
+    Wrapper = WrapperDefault, withWrap, dynamicParams, children, datas = {}, ...others } = props;
 
   const insideRef = useRef();
-  // const [form] = useForm();
   const mapFields = useMemo(() => fields.reduce((pre, cur) => {
     const { key } = cur;
     if (!key) {
@@ -55,6 +54,7 @@ const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (pro
   const extendProps = {
     containerName,
     dynamicParams,
+    datas,
     required,
     Wrapper,
     withWrap,
@@ -70,7 +70,6 @@ const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (pro
   useEffect(() => {
     // 函数式组件采用form 直接reset；
     if (props.form) {
-      console.log('de', props.form);
       props.form.setFieldsValue(datas);
       return;
     }
@@ -79,6 +78,7 @@ const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (pro
       _ref.current.setFieldsValue(datas);
     }
   }, [datas]);
+
 
   return (
     <Form {...formProps} ref={_ref}>

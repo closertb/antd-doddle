@@ -90,21 +90,26 @@ const editFields = [{
   type: 'select',
   isDynamic: true
 }, {
-  key: 'interest',
-  name: '利率',
-  type: 'withUnit',
-  enums: [{ value: 'month', label: '月' }, { value: 'year', label: '年' }],
-  defaultUnit: 'year',
-  seldomProps: {
-    suffix: '%'
-  }
-}, {
   key: 'enable',
   name: '是否隐藏',
   required: false,
   type: 'selfDefine',
   decorProps: { valuePropName: 'checked' },
   child: ({ field }) => <Switch />
+}, {
+  key: 'interest',
+  name: '利率',
+  type: 'withUnit',
+  enums: [{ value: 'month', label: '月' }, { value: 'year', label: '年' }],
+  defaultUnit: 'year',
+  isEnable: (_, { enable }) => !enable,
+  shouldUpdate: (pre, cur) => {
+    console.log('rers', pre.enable !== cur.enable);
+    return pre.enable !== cur.enable
+  },
+  seldomProps: {
+    suffix: '%'
+  }
 }, {
   key: 'notshow',
   name: '不显示',
@@ -116,12 +121,18 @@ const editFields = [{
   name: '联动表单',
   required: false,
   type: 'text',
-  isEnable: ({ enable }) => enable
+  dependencies: ['enable'],
+  required: true,
+  rules: [{ type: 'email', message: 'fuck' }],
 }, {
   key: 'cardStatus',
   name: '卡状态',
   type: 'radio',
-  enums: statusEnums
+  enums: statusEnums,
+  disable: data => data.status === 0,
+  shouldUpdate: (pre, cur) => {
+    return pre.status !== cur.status
+  },
 }];
 
 ReactDOM.render(<Edit />, mountNode);

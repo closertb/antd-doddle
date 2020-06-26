@@ -13,11 +13,12 @@ var __rest = this && this.__rest || function (s, e) {
   return t;
 };
 
-import React, { Children, useMemo, cloneElement, useRef } from 'react';
+import React, { Children, cloneElement, useMemo, useRef, forwardRef, useEffect, useCallback } from 'react';
 import { Form } from 'antd';
 import { formItemLayout as layout } from '../utils';
 import FormRender from './FormRender';
-import { extendSymbol, WrapperDefault } from './default'; // 遍历 react children, 识别FormRender
+import { extendSymbol, WrapperDefault } from './default';
+var useForm = Form.useForm; // 遍历 react children, 识别FormRender
 
 function deepMap(children, extendProps, mapFields) {
   return Children.map(children, function (child) {
@@ -27,23 +28,13 @@ function deepMap(children, extendProps, mapFields) {
 
     var _child$props = child.props,
         itemKey = _child$props.itemKey,
-        field = _child$props.field,
-        data = _child$props.data;
+        field = _child$props.field;
     var isDefine = typeof child.type === 'function'; // 仅对FormRender 组件做属性扩展
 
     if (isDefine && child.type.$type === extendSymbol) {
-      return cloneElement(child, {
-        extendProps: extendProps,
-        field: field || mapFields[itemKey],
-        data: data || extendProps.datas
-      });
-    } // 仅对FormRender 组件做属性扩展
-
-
-    if (isDefine && child.type.$type === extendSymbol) {
-      return cloneElement(child, {
-        extendProps: extendProps
-      });
+      return cloneElement(child, Object.assign({}, extendProps, {
+        field: field || mapFields[itemKey]
+      }));
     }
 
     if (child && child.props && child.props.children && _typeof(child.props.children) === 'object') {
@@ -57,36 +48,33 @@ function deepMap(children, extendProps, mapFields) {
   });
 }
 
-export default function FormGroup(constProps) {
-  var _constProps$formItemL = constProps.formItemLayout,
-      formItemLayout = _constProps$formItemL === void 0 ? layout : _constProps$formItemL,
-      containerName = constProps.containerName,
-      getFieldDecorator = constProps.getFieldDecorator,
-      required = constProps.required,
-      _constProps$fields = constProps.fields,
-      fields = _constProps$fields === void 0 ? [] : _constProps$fields,
-      _constProps$datas = constProps.datas,
-      datas = _constProps$datas === void 0 ? {} : _constProps$datas,
-      _constProps$Wrapper = constProps.Wrapper,
-      Wrapper = _constProps$Wrapper === void 0 ? WrapperDefault : _constProps$Wrapper,
-      _constProps$withWrap = constProps.withWrap,
-      withWrap = _constProps$withWrap === void 0 ? false : _constProps$withWrap,
-      children = constProps.children,
-      dynamicParams = constProps.dynamicParams,
-      others = __rest(constProps, ["formItemLayout", "containerName", "getFieldDecorator", "required", "fields", "datas", "Wrapper", "withWrap", "children", "dynamicParams"]);
+var FormGroup = function FormGroup(props, ref) {
+  var _props$formItemLayout = props.formItemLayout,
+      formItemLayout = _props$formItemLayout === void 0 ? layout : _props$formItemLayout,
+      containerName = props.containerName,
+      required = props.required,
+      _props$fields = props.fields,
+      fields = _props$fields === void 0 ? [] : _props$fields,
+      onFormChange = props.onFormChange,
+      _props$Wrapper = props.Wrapper,
+      Wrapper = _props$Wrapper === void 0 ? WrapperDefault : _props$Wrapper,
+      withWrap = props.withWrap,
+      dynamicParams = props.dynamicParams,
+      children = props.children,
+      datas = props.datas,
+      others = __rest(props, ["formItemLayout", "containerName", "required", "fields", "onFormChange", "Wrapper", "withWrap", "dynamicParams", "children", "datas"]);
 
-  var dataRef = useRef(datas);
-  var extendProps = {
-    formItemLayout: formItemLayout,
-    containerName: containerName,
-    dynamicParams: dynamicParams,
-    getFieldDecorator: getFieldDecorator,
-    require: required,
-    _datas: dataRef.current,
-    datas: datas,
-    Wrapper: Wrapper,
-    withWrap: withWrap
-  };
+  var insideRef = useRef();
+
+  var _store = useRef(datas);
+
+  var _onChange = useCallback(function (values) {
+    _store.current = Object.assign(_store.current, values);
+    console.log('update', _store.current);
+    onFormChange && onFormChange(values);
+  }, [datas]); // const [form] = useForm();
+
+
   var mapFields = useMemo(function () {
     return fields.reduce(function (pre, cur) {
       var key = cur.key;
@@ -100,6 +88,43 @@ export default function FormGroup(constProps) {
       return pre;
     }, {});
   }, [fields]);
-  return React.createElement(Form, Object.assign({}, others), deepMap(children, extendProps, mapFields));
-}
-FormGroup.FormRender = FormRender;
+
+  var _ref = ref || insideRef;
+
+  var extendProps = {
+    containerName: containerName,
+    dynamicParams: dynamicParams,
+    required: required,
+    Wrapper: Wrapper,
+    withWrap: withWrap
+  };
+  var formProps = Object.assign({
+    initialValues: datas
+  }, formItemLayout, others); // 如果data 值变化，重置表单的值
+
+  useEffect(function () {
+    _store.current = datas; // 函数式组件采用form 直接reset；
+
+    if (props.form) {
+      console.log('de', props.form);
+      props.form.setFieldsValue(datas);
+      return;
+    } // 如果是类组件，才采用ref示例更新组件
+
+
+    if (_typeof(_ref) === 'object') {
+      _ref.current.setFieldsValue(datas);
+    }
+  }, [datas]);
+  console.log('form render', _store.current);
+  return React.createElement(Form, Object.assign({}, formProps, {
+    ref: _ref,
+    onValuesChange: _onChange
+  }), deepMap(children, extendProps, mapFields));
+};
+
+var FormGroupWithRef = forwardRef(FormGroup);
+var ForwardForm = FormGroupWithRef;
+ForwardForm.FormRender = FormRender;
+ForwardForm.useForm = useForm;
+export default ForwardForm;

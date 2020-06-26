@@ -26,8 +26,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-import React from 'react';
-import { Form, Row, Col, Button } from 'antd';
+import React, { createRef } from 'react';
+import { Row, Col, Button } from 'antd';
 import moment from 'moment';
 import { Pagination } from '../utils/common';
 import { formItemLayout } from '../utils';
@@ -39,17 +39,15 @@ function DefaultRender(props) {
   var fields = props.fields,
       handleSearch = props.handleSearch,
       handleReset = props.handleReset,
-      getFieldDecorator = props.getFieldDecorator,
       extraBtns = props.extraBtns,
       onReset = props.onReset;
   return React.createElement(React.Fragment, null, React.createElement(Row, null, fields.map(function (field) {
     return React.createElement(Col, {
       span: 8,
       key: field.key
-    }, React.createElement(FormRender, Object.assign({}, {
-      field: field,
-      getFieldDecorator: getFieldDecorator
-    })));
+    }, React.createElement(FormRender, {
+      field: field
+    }));
   })), React.createElement("div", {
     className: "btn-group"
   }, React.createElement(Button, {
@@ -76,6 +74,7 @@ function (_React$PureComponent) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(WithSearch).call(this, props));
     _this.state = {};
+    _this.formRef = createRef();
     var _props$fields = props.fields,
         fields = _props$fields === void 0 ? [] : _props$fields; // this.formRender = formR({ getFieldDecorator, containerName: 'search-form' });
 
@@ -103,9 +102,8 @@ function (_React$PureComponent) {
   _createClass(WithSearch, [{
     key: "getFormData",
     value: function getFormData(paramFormat) {
-      var form = this.props.form;
       var data = {};
-      form.validateFields(function (err, values) {
+      this.formRef.current.validateFields(function (err, values) {
         data = typeof paramFormat === 'function' ? paramFormat(values) : values;
       });
       return data;
@@ -116,16 +114,15 @@ function (_React$PureComponent) {
       var _this2 = this;
 
       var _this$props = this.props,
-          form = _this$props.form,
           onSearch = _this$props.onSearch,
           _this$props$pageName = _this$props.pageName,
           pageName = _this$props$pageName === void 0 ? Pagination.PN : _this$props$pageName;
-      form.validateFields(function (err, values) {
-        if (err) return;
-
+      this.formRef.current.validateFields().then(function (values) {
         var res = _this2.timeFormatFun(values);
 
         onSearch(Object.assign({}, res, _defineProperty({}, pageName, 1)));
+      })["catch"](function (err) {
+        console.error(err);
       });
     }
   }, {
@@ -184,29 +181,25 @@ function (_React$PureComponent) {
   }, {
     key: "handleReset",
     value: function handleReset() {
-      var _this$props3 = this.props,
-          onReset = _this$props3.onReset,
-          form = _this$props3.form;
-      form.resetFields();
+      var onReset = this.props.onReset;
+      this.formRef.current.resetFields();
       onReset && onReset();
     }
   }, {
     key: "render",
     value: function render() {
-      var _this$props4 = this.props,
-          children = _this$props4.children,
-          form = _this$props4.form,
-          fields = _this$props4.fields,
-          search = _this$props4.search,
-          extraBtns = _this$props4.extraBtns,
-          onReset = _this$props4.onReset,
-          getFieldDecorator = _this$props4.form.getFieldDecorator,
-          _this$props4$dynamicP = _this$props4.dynamicParams,
-          dynamicParams = _this$props4$dynamicP === void 0 ? {} : _this$props4$dynamicP,
-          required = _this$props4.required;
+      var _this$props3 = this.props,
+          children = _this$props3.children,
+          fields = _this$props3.fields,
+          search = _this$props3.search,
+          extraBtns = _this$props3.extraBtns,
+          onReset = _this$props3.onReset,
+          _this$props3$dynamicP = _this$props3.dynamicParams,
+          dynamicParams = _this$props3$dynamicP === void 0 ? {} : _this$props3$dynamicP,
+          required = _this$props3.required;
       var childrenProps = {
         search: search,
-        form: form,
+        form: this.formRef.current,
         fields: fields,
         onReset: onReset,
         extraBtns: extraBtns,
@@ -222,17 +215,18 @@ function (_React$PureComponent) {
         containerName: 'search-form',
         dynamicParams: dynamicParams,
         formItemLayout: formItemLayout,
-        getFieldDecorator: getFieldDecorator,
         require: required,
         datas: search
       };
       return React.createElement("div", {
         className: "search-form"
-      }, React.createElement(FormGroup, Object.assign({}, extendProps), children ? children(childrenProps, extendProps) : DefaultRender(childrenProps)));
+      }, React.createElement(FormGroup, Object.assign({
+        ref: this.formRef
+      }, extendProps), children ? children(childrenProps) : DefaultRender(childrenProps)));
     }
   }]);
 
   return WithSearch;
 }(React.PureComponent);
 
-export default Form.create()(WithSearch);
+export default WithSearch;

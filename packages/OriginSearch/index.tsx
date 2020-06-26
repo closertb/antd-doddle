@@ -72,6 +72,7 @@ export default class OriginSearch extends React.Component<OriginSearchProps> {
   }
   static getDerivedStateFromProps(nextProps, prevState) {
     const { value } = nextProps;
+    console.log(value);
     if (!prevState.value || prevState.value !== value) {
       return { value: nextProps.value };
     }

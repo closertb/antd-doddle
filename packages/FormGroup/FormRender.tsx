@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'antd';
 import { FormRenderProps } from './interface';
 import { extendSymbol } from './default';
-import renderType from './fields';
+import renderType from './renderType';
 
 const FormItem = Form.Item;
 
@@ -27,7 +27,7 @@ const gerateRule = (required: boolean, placeholder: string, rules) => [{
   required, message: placeholder }].concat(rules);
 
 export default function FormRender(props: FormRenderProps) {
-  const { field, required: require, wrapProps = {}, data = {}, containerName, withWrap: defaultWrap,
+  const { field, required: require, wrapProps = {}, datas = {}, containerName, withWrap: defaultWrap,
   dynamicParams, Wrapper } = props;
 
   const {
@@ -41,7 +41,7 @@ export default function FormRender(props: FormRenderProps) {
     placeholder,
     disabled: fieldDisable,
     rules = props.rules || [],
-    isEnable = true,
+    isEnable = () => true,
     onChange = defaultAction,
     format,
     withWrap,
@@ -49,6 +49,8 @@ export default function FormRender(props: FormRenderProps) {
     seldomProps = {},
     decorProps = {},
     formProps = {},
+    dependencies = [],
+    shouldUpdate = false,
     isDynamic = false, // 是否获取动态枚举
     ...others
   } = field;
@@ -60,11 +62,9 @@ export default function FormRender(props: FormRenderProps) {
     return content;
   }
 
-  const disabled = fieldDisable || (disable && disable(data));
+  const disabled = fieldDisable || (disable && disable(datas));
 
   const selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
-
-  console.log('ls', enumKey, dynamicParams, selectEnums);
 
   const pholder = placeholder || ruleTipMap[type] || `请输入${name}`;
   const common = {
@@ -80,18 +80,34 @@ export default function FormRender(props: FormRenderProps) {
   };
 
 
+  console.log('con', key, type);
   // 如果这个节点不需要渲染，那么就直接返回null
-  if (!isUndefind(props.isEnable, isEnable)) {
-    return content;
-  }
+  const finalEnable = props.isEnable || isEnable;
 
   if (renderType[type]) {
     const render = renderType[type];
-    content = (
+    content = shouldUpdate ? (
+      <FormItem shouldUpdate={shouldUpdate} noStyle>
+        {form => { 
+           const datas = form.getFieldsValue();
+           const disabled = fieldDisable || (disable && disable(datas));
+           return finalEnable(form, datas) ?
       <FormItem
         key={key}
         name={key}
         label={name}
+        dependencies={dependencies}
+        rules={gerateRule(required, pholder, rules)}
+        {...formProps}
+      >
+        {render({ field: Object.assign(common, { disabled }), name, enums: selectEnums, containerName })}
+      </FormItem> : null}}
+      </FormItem>) : (
+      <FormItem
+        key={key}
+        name={key}
+        label={name}
+        dependencies={dependencies}
         rules={gerateRule(required, pholder, rules)}
         {...formProps}
       >
