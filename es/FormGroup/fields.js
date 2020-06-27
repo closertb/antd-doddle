@@ -16,7 +16,6 @@ var __rest = this && this.__rest || function (s, e) {
 
 
 import React from 'react';
-import moment from 'moment';
 import { Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
 import OriginSearch from '../OriginSearch';
 import FileUpload from '../FileUpload';
@@ -49,10 +48,6 @@ var generateOption = function generateOption() {
       label: enums[value]
     };
   });
-};
-
-var handleDisabledDate = function handleDisabledDate(currentDate) {
-  return currentDate && currentDate > moment().endOf('day');
 };
 
 function HInput(_ref) {
@@ -121,24 +116,18 @@ var HRangePicker = function HRangePicker(_ref9) {
   var field = _ref9.field,
       containerName = _ref9.containerName;
 
-  var disabledDate = field.disabledDate,
+  var startKey = field.startKey,
+      endKey = field.endKey,
+      placeholder = field.placeholder,
       _field$showTime = field.showTime,
       showTime = _field$showTime === void 0 ? false : _field$showTime,
       format = field.format,
-      others = __rest(field, ["disabledDate", "showTime", "format"]); // // eslint-disable-next-line
-  // const beginDate = data[startKey];
-  // // eslint-disable-next-line
-  // const endDate = data[endKey];
-  // // eslint-disable-next-line
-  // const rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
-
+      others = __rest(field, ["startKey", "endKey", "placeholder", "showTime", "format"]);
 
   return React.createElement(RangePicker, Object.assign({
     showTime: showTime,
     getCalendarContainer: getContainer(containerName),
-    disabledDate: disabledDate ? function (currentDate) {
-      return handleDisabledDate(currentDate);
-    } : undefined,
+    placeholder: ['开始日期', '结束日期'],
     format: format || (showTime ? DATE_TIME_FORMAT : DATE_FORMAT)
   }, others));
 };
@@ -146,7 +135,6 @@ var HRangePicker = function HRangePicker(_ref9) {
 var HInputWithUnit = function HInputWithUnit(_ref10) {
   var field = _ref10.field,
       enums = _ref10.enums;
-  console.log('update unit');
   return React.createElement(InputWithUnit, Object.assign({
     enums: enums
   }, field));
@@ -178,23 +166,4 @@ var UploadFile = function UploadFile(_ref13) {
   return React.createElement(FileUpload, Object.assign({}, field));
 };
 
-var renderType = {
-  origin: OriginInput,
-  image: UploadFile,
-  // imageUpload: UploadFile,
-  selfDefine: selfDefine,
-  withUnit: HInputWithUnit,
-  text: HText,
-  input: HInput,
-  inputNumber: HInputNumber,
-  select: HSelect,
-  radio: HRadio,
-  check: HCheck,
-  datePicker: HDatePicker,
-  rangePicker: HRangePicker
-};
-export var extendRenderTypes = function extendRenderTypes() {
-  var types = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object.assign(renderType, types);
-};
-export default renderType;
+export { OriginInput, UploadFile, selfDefine, HInputWithUnit, HText, HInput, HInputNumber, HSelect, HRadio, HCheck, HDatePicker, HRangePicker };

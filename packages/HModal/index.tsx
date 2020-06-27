@@ -16,8 +16,9 @@ interface ModalProps {
 }
 
 interface StateProps {
-  visible: boolean,
-  confirmLoading: boolean
+  visible: boolean, // 仅用于中间态的保持
+  confirmLoading: boolean,
+  innervisible: boolean,
 }
 
 export default class HModal extends React.PureComponent<ModalProps> {
@@ -26,7 +27,8 @@ export default class HModal extends React.PureComponent<ModalProps> {
     super(props);
     const { visible } = props;
     this.state = {
-      visible: Boolean(visible),
+      visible,
+      innervisible: Boolean(visible),
       confirmLoading: false
     };
     this.handleCancel = this.handleCancel.bind(this);
@@ -38,12 +40,12 @@ export default class HModal extends React.PureComponent<ModalProps> {
 
     // 若 visible 为 false，表示主动关闭弹框
     if (visible === false) {
-      return { visible, confirmLoading: false };
+      return { visible, innervisible: false, confirmLoading: false };
     }
 
     // 如果props中的visible属性改变，则显示modal
     if (visible && (visible !== prevState.visible)) {
-      return { visible };
+      return { visible, innervisible: true };
     }
 
     if (confirmLoading) {
@@ -56,11 +58,10 @@ export default class HModal extends React.PureComponent<ModalProps> {
       /* 如果confirmLoading未拥有done属性，则直接关闭对话框，兼容旧版以及纯boolean对象
       * 如果confirmLoading拥有done属性，且confirmLoading.done为true时才关闭对话框, 适应场景：call请求错误时，不关闭对话框
       */
-      /* eslint-disable-next-line */
-      if (!confirmLoading.hasOwnProperty('done') || confirmLoading.done) {
-        return { visible };
-      }
+        return { innervisible: false, confirmLoading: false };
     }
+
+    return null;
   }
 
   handleCancel() {
@@ -69,7 +70,7 @@ export default class HModal extends React.PureComponent<ModalProps> {
     }
 
     this.setState({
-      visible: false
+      innervisible: false
     });
   }
 
@@ -84,10 +85,7 @@ export default class HModal extends React.PureComponent<ModalProps> {
 
     if (onOk && form) {
       // 如果设置了form属性，则验证成功后才关闭表单
-      form.validateFields((err, values) => {
-        if (err) {
-          return;
-        }
+      form.validateFields().then((values) => {
         const success = onOk(values); // onOk处理为true时才关闭窗口；
         success && hideModal();
       });
@@ -98,18 +96,17 @@ export default class HModal extends React.PureComponent<ModalProps> {
   }
 
   render() {
-    let { confirmLoading } = this.state;
-    if (confirmLoading !== undefined) {
-      confirmLoading = confirmLoading.valueOf();
-    }
+    const { confirmLoading, innervisible } = this.state;
+
+    const { children, ...others } = this.props;
     const modalProps = {
-      ...this.props,
+      ...others,
       confirmLoading,
-      visible: true,
+      visible: innervisible,
       onOk: this.handleOk,
       onCancel: this.handleCancel };
     return (
-      <div>{this.state.visible && <Modal {...modalProps} >{this.props.children}</Modal>}</div>
+      <div>{innervisible && <Modal {...modalProps} >{children}</Modal>}</div>
     );
   }
 }

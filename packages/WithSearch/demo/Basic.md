@@ -24,9 +24,11 @@ export const searchFields = [{
     allowClear: true,
   }
 }, {
-  key: 'mobile',
-  name: '手机号',
-  isEnable: (_, datas = {}) => datas.reach !== 0
+  key: 'time',
+  name: '筛选时间',
+  type: 'rangePicker',
+  startKey: 'startTime',
+  endKey: 'endTime',
 }];
 
 class Basic extends React.Component {

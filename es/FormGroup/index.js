@@ -13,7 +13,7 @@ var __rest = this && this.__rest || function (s, e) {
   return t;
 };
 
-import React, { Children, cloneElement, useMemo, useRef, forwardRef, useEffect, useCallback } from 'react';
+import React, { Children, cloneElement, useMemo, useRef, forwardRef, useEffect } from 'react';
 import { Form } from 'antd';
 import { formItemLayout as layout } from '../utils';
 import FormRender from './FormRender';
@@ -61,20 +61,11 @@ var FormGroup = function FormGroup(props, ref) {
       withWrap = props.withWrap,
       dynamicParams = props.dynamicParams,
       children = props.children,
-      datas = props.datas,
+      _props$datas = props.datas,
+      datas = _props$datas === void 0 ? {} : _props$datas,
       others = __rest(props, ["formItemLayout", "containerName", "required", "fields", "onFormChange", "Wrapper", "withWrap", "dynamicParams", "children", "datas"]);
 
   var insideRef = useRef();
-
-  var _store = useRef(datas);
-
-  var _onChange = useCallback(function (values) {
-    _store.current = Object.assign(_store.current, values);
-    console.log('update', _store.current);
-    onFormChange && onFormChange(values);
-  }, [datas]); // const [form] = useForm();
-
-
   var mapFields = useMemo(function () {
     return fields.reduce(function (pre, cur) {
       var key = cur.key;
@@ -94,6 +85,7 @@ var FormGroup = function FormGroup(props, ref) {
   var extendProps = {
     containerName: containerName,
     dynamicParams: dynamicParams,
+    datas: datas,
     required: required,
     Wrapper: Wrapper,
     withWrap: withWrap
@@ -103,10 +95,8 @@ var FormGroup = function FormGroup(props, ref) {
   }, formItemLayout, others); // 如果data 值变化，重置表单的值
 
   useEffect(function () {
-    _store.current = datas; // 函数式组件采用form 直接reset；
-
+    // 函数式组件采用form 直接reset；
     if (props.form) {
-      console.log('de', props.form);
       props.form.setFieldsValue(datas);
       return;
     } // 如果是类组件，才采用ref示例更新组件
@@ -116,10 +106,8 @@ var FormGroup = function FormGroup(props, ref) {
       _ref.current.setFieldsValue(datas);
     }
   }, [datas]);
-  console.log('form render', _store.current);
   return React.createElement(Form, Object.assign({}, formProps, {
-    ref: _ref,
-    onValuesChange: _onChange
+    ref: _ref
   }), deepMap(children, extendProps, mapFields));
 };
 

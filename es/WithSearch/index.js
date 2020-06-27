@@ -28,7 +28,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import React, { createRef } from 'react';
 import { Row, Col, Button } from 'antd';
-import moment from 'moment';
 import { Pagination } from '../utils/common';
 import { formItemLayout } from '../utils';
 import FormGroup from '../FormGroup';
@@ -59,8 +58,6 @@ function DefaultRender(props) {
   /* 仅在设置onReset情况下，开启重置按钮 */
   , extraBtns && extraBtns()));
 }
-
-;
 
 var WithSearch =
 /*#__PURE__*/
@@ -156,10 +153,10 @@ function (_React$PureComponent) {
       };
       return keys.reduce(function (pre, cur) {
         var value = pre[cur];
-        var field = _this3.mapField[cur]; // 搜索结果为数组，且数组的值为Moment对象
+        var field = _this3.mapField[cur]; // 搜索结果为数组，且数组的值为Moment或Date对象
 
         if (field.isRangePicker) {
-          if (Array.isArray(value) && value[0] instanceof moment) {
+          if (Array.isArray(value) && value.length === 2) {
             var _value = _slicedToArray(value, 2),
                 start = _value[0],
                 end = _value[1]; // 会根据showTIme 来判断是否需要自动去取一天的一头一尾

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button } from 'antd';
+import { PlusCircleOutlined, MinusCircleOutlined, DownCircleOutlined, UpCircleOutlined } from '@ant-design/icons';
+import './index.less';
 
 // 根据方向，找出指定索引的有效的上一或下一数据项
 function findValid(arr, index, dir = 1) {
@@ -127,46 +128,34 @@ export default class DynamicForm extends React.PureComponent<DynamicFormProps> {
     const validDatas = rules.filter(({ deleteFlag }) => !deleteFlag);
     const length = validDatas.length - 1;
     return (
-      <div className="doddle-daynamic-form">
+      <div className="doddle-dynamic-form">
         {validDatas.map((rule, index) => (
           <div key={rule.key}>
             {children(rule, dataBind)}
             {!rule.disableBtn && index > 0 &&
-              <Button
-                style={{ marginLeft: 10 }}
-                type="primary"
-                shape="circle"
-                icon="minus"
+              <MinusCircleOutlined
+                className="self-style"
                 onClick={() => this.handlMinus(rule.key)}
               />
             }
             {!rule.disableBtn && index === 0 &&
-              <Button
-                style={{ marginLeft: 10 }}
+              <PlusCircleOutlined
+                className="self-style"
                 onClick={this.handlAdd}
-                type="primary"
-                shape="circle"
-                icon="plus"
               />
             }
             {/* 第一条只能下移 */}
             {!rule.disableBtn && canMove && index > 0 &&
-              <Button
-                style={{ marginLeft: 10 }}
+              <UpCircleOutlined
+                className="self-style"
                 onClick={this.handlMoveUp(rule.key)}
-                type="primary"
-                shape="circle"
-                icon="up"
               />
             }
             {/* 最后一条只能上移 */}
             {!rule.disableBtn && canMove && (index < length) &&
-              <Button
-                style={{ marginLeft: 10 }}
+              <DownCircleOutlined
+                className="self-style"
                 onClick={this.handlMoveDown(rule.key)}
-                type="primary"
-                shape="circle"
-                icon="down"
               />
             }
           </div>)

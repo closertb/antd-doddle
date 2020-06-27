@@ -35,7 +35,7 @@ export default class EnhanceTable extends React.PureComponent<EnhanceTableProps>
     return createColumns(fields).enhance(extraFields).values();
   }
   render() {
-    const { fields, search = {}, datas, total = 0, loading = {}, onSearch,
+    const { fields, search = {}, datas, total = 0, loading = false, onSearch,
       rowKey = 'id', footer, noPage = false, pageName = Pagination.PN, ...others } = this.props;
     const columns = this.getInitalColumns(fields);
     const page = search.pageNum ? 'pageNum' : pageName;

@@ -14,7 +14,7 @@ var __rest = this && this.__rest || function (s, e) {
 import React from 'react';
 import { Form } from 'antd';
 import { extendSymbol } from './default';
-import renderType from './fields';
+import renderType from './renderType';
 var FormItem = Form.Item;
 
 var defaultAction = function defaultAction() {};
@@ -51,12 +51,16 @@ export default function FormRender(props) {
       require = props.required,
       _props$wrapProps = props.wrapProps,
       wrapProps = _props$wrapProps === void 0 ? {} : _props$wrapProps,
-      _props$data = props.data,
-      data = _props$data === void 0 ? {} : _props$data,
+      _props$datas = props.datas,
+      initData = _props$datas === void 0 ? {} : _props$datas,
       containerName = props.containerName,
       defaultWrap = props.withWrap,
       dynamicParams = props.dynamicParams,
-      Wrapper = props.Wrapper;
+      itemKey = props.itemKey,
+      _props$disabled = props.disabled,
+      disabled = _props$disabled === void 0 ? false : _props$disabled,
+      Wrapper = props.Wrapper,
+      otherFormPrrops = __rest(props, ["field", "required", "wrapProps", "datas", "containerName", "withWrap", "dynamicParams", "itemKey", "disabled", "Wrapper"]);
 
   var _field$type = field.type,
       type = _field$type === void 0 ? 'input' : _field$type,
@@ -70,14 +74,14 @@ export default function FormRender(props) {
       required = _field$required === void 0 ? require || false : _field$required,
       _field$allowClear = field.allowClear,
       allowClear = _field$allowClear === void 0 ? true : _field$allowClear,
-      _field$disable = field.disable,
-      disable = _field$disable === void 0 ? false : _field$disable,
       placeholder = field.placeholder,
       fieldDisable = field.disabled,
       _field$rules = field.rules,
       rules = _field$rules === void 0 ? props.rules || [] : _field$rules,
       _field$isEnable = field.isEnable,
-      isEnable = _field$isEnable === void 0 ? true : _field$isEnable,
+      isEnable = _field$isEnable === void 0 ? function () {
+    return true;
+  } : _field$isEnable,
       _field$onChange = field.onChange,
       onChange = _field$onChange === void 0 ? defaultAction : _field$onChange,
       format = field.format,
@@ -86,17 +90,19 @@ export default function FormRender(props) {
       enums = _field$enums === void 0 ? [] : _field$enums,
       _field$seldomProps = field.seldomProps,
       seldomProps = _field$seldomProps === void 0 ? {} : _field$seldomProps,
-      _field$decorProps = field.decorProps,
-      decorProps = _field$decorProps === void 0 ? {} : _field$decorProps,
       _field$formProps = field.formProps,
       formProps = _field$formProps === void 0 ? {} : _field$formProps,
       _field$dependencies = field.dependencies,
       dependencies = _field$dependencies === void 0 ? [] : _field$dependencies,
+      _field$render = field.render,
+      selfRender = _field$render === void 0 ? function () {
+    return null;
+  } : _field$render,
       _field$shouldUpdate = field.shouldUpdate,
       shouldUpdate = _field$shouldUpdate === void 0 ? false : _field$shouldUpdate,
       _field$isDynamic = field.isDynamic,
       isDynamic = _field$isDynamic === void 0 ? false : _field$isDynamic,
-      others = __rest(field, ["type", "key", "name", "style", "required", "allowClear", "disable", "placeholder", "disabled", "rules", "isEnable", "onChange", "format", "withWrap", "enums", "seldomProps", "decorProps", "formProps", "dependencies", "shouldUpdate", "isDynamic"]);
+      others = __rest(field, ["type", "key", "name", "style", "required", "allowClear", "placeholder", "disabled", "rules", "isEnable", "onChange", "format", "withWrap", "enums", "seldomProps", "formProps", "dependencies", "render", "shouldUpdate", "isDynamic"]);
 
   var enumKey = field.enumKey || key;
   var content = null;
@@ -106,31 +112,54 @@ export default function FormRender(props) {
     return content;
   }
 
-  var disabled = fieldDisable || disable && disable(data);
+  var disableTemp = fieldDisable || disabled;
+  var disable = typeof disableTemp === 'function' ? disableTemp(initData) : disableTemp;
+
+  var _required = typeof required === 'function' ? required(initData) : required;
+
   var selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : props.enums || enums;
   var pholder = placeholder || ruleTipMap[type] || "\u8BF7\u8F93\u5165".concat(name);
   var common = Object.assign({
     style: style,
-    required: required,
+    required: _required,
     allowClear: allowClear,
-    disabled: disabled,
+    disabled: disable,
     placeholder: pholder,
     onChange: props.onChange || onChange
-  }, decorProps, seldomProps, others);
-  console.log('con', key, type); // 如果这个节点不需要渲染，那么就直接返回null
+  }, seldomProps, others); // 如果这个节点不需要渲染，那么就直接返回null
 
-  if (!isUndefind(props.isEnable, isEnable)) {
-    return content;
-  }
+  var finalEnable = props.isEnable || isEnable;
 
   if (renderType[type]) {
     var render = renderType[type];
-    content = React.createElement(FormItem, Object.assign({
+    content = shouldUpdate ? React.createElement(FormItem, {
+      shouldUpdate: shouldUpdate,
+      noStyle: true
+    }, function (form) {
+      var datas = Object.assign({}, initData, form.getFieldsValue());
+
+      var require = typeof required === 'function' ? required(datas) : required;
+
+      var disabled = typeof disableTemp === 'function' ? disableTemp(datas) : disableTemp;
+      return finalEnable(datas, form) ? React.createElement(FormItem, Object.assign({
+        key: key,
+        name: key,
+        label: name,
+        dependencies: dependencies,
+        rules: gerateRule(require, pholder, rules)
+      }, formProps, otherFormPrrops), render({
+        field: Object.assign(common, {
+          disabled: disabled
+        }),
+        name: name,
+        enums: selectEnums,
+        containerName: containerName
+      })) : selfRender(datas, form);
+    }) : React.createElement(FormItem, Object.assign({
       key: key,
       name: key,
       label: name,
       dependencies: dependencies,
-      shouldUpdate: shouldUpdate,
       rules: gerateRule(required, pholder, rules)
     }, formProps), render({
       field: common,

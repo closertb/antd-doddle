@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayJs from 'dayjs';
 import { getValueFromEnums, toDecimalNumber, DATE_FORMAT, DATE_TIME_FORMAT } from '../../utils';
 
 var isValid = function isValid(date) {
@@ -6,7 +6,7 @@ var isValid = function isValid(date) {
 };
 
 var getParsedDate = function getParsedDate(date, format) {
-  return isValid(date) ? moment(date).format(format) : '';
+  return isValid(date) ? dayJs(date).format(format) : '';
 };
 /*
  * column类型定义

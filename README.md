@@ -60,8 +60,12 @@ import { getEnumObject } from 'antd-doddle/utils';
 
 ### 2020-03-01
 
- - feat: 新增1.4.0 beta版，支持Form表单联动
+ - feat: 新增1.4.0 版，支持Form表单联动
 
- ### 2020-05-01
+### 2020-05-01
 
  - feat: 添加sideEffects，更好的支持Webpack对ES模块的TreeShaking功能，但带来的代价是，样式的按需加载功能没了，需要全量引入`import 'antd-doddle/dist/index.css`,当然也可以使用import组件实现；
+
+### 2020-06-24
+
+ - feat: 新增2.0.0版，定向支持antd 4.x版本表单

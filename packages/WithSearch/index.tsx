@@ -1,6 +1,5 @@
 import React, { createRef } from 'react';
 import { Row, Col, Button } from 'antd';
-import moment, { Moment } from 'moment';
 import { Pagination } from '../utils/common';
 import { formItemLayout, FieldProps, SearchProps } from '../utils';
 import FormGroup from '../FormGroup';
@@ -41,10 +40,6 @@ interface WithSearchProps {
   extraBtns?: Function,
   [propName: string]: any
 }
-
-interface MomentArr {
-  [index: number]: Moment
-};
 
 class WithSearch extends React.PureComponent<WithSearchProps> {
   formRender: React.ReactNode
@@ -116,9 +111,9 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
     return keys.reduce((pre, cur) => {
       const value = pre[cur];
       const field = this.mapField[cur];
-      // 搜索结果为数组，且数组的值为Moment对象
+      // 搜索结果为数组，且数组的值为Moment或Date对象
       if (field.isRangePicker) {
-        if (Array.isArray(value) && (value as MomentArr)[0] instanceof moment) {
+        if (Array.isArray(value) && value.length === 2) {
           const [start, end] = value;
           // 会根据showTIme 来判断是否需要自动去取一天的一头一尾
           pre[field.startKey] = field.showTime ? transformFunc(start) : transformFunc(start.startOf('day'));

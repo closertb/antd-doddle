@@ -13,7 +13,7 @@ var __rest = this && this.__rest || function (s, e) {
   return t;
 };
 
-import moment from 'moment';
+import dayJs from 'dayjs';
 export var DATE_FORMAT = 'YYYY-MM-DD';
 export var DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'; // 表单通用格式
 
@@ -208,7 +208,7 @@ export function idCodeValid(code, mask) {
     checkBool = false;
   } else if (!city[code.substr(0, 2)]) {
     checkBool = false;
-  } else if (moment("".concat(code.substring(6, 10), "-").concat(code.substring(10, 12), "-").concat(code.substring(12, 14))) > moment()) {
+  } else if (dayJs("".concat(code.substring(6, 10), "-").concat(code.substring(10, 12), "-").concat(code.substring(12, 14))).isBefore(dayJs())) {
     checkBool = false;
   } else {
     var codeArr = code.split(''); // 加权因子
@@ -266,11 +266,11 @@ export function getAgeById() {
   var age = -1;
 
   if (idCodeValid(id)) {
-    var birth = moment("".concat(id.substring(6, 10), "-").concat(id.substring(10, 12), "-").concat(id.substring(12, 14)));
+    var birth = dayJs("".concat(id.substring(6, 10), "-").concat(id.substring(10, 12), "-").concat(id.substring(12, 14)));
     var birthYear = birth.year();
     var birthMonth = birth.month();
     var birthDate = birth.date();
-    var now = moment();
+    var now = dayJs();
     var nowYear = now.year();
     var nowMonth = now.month();
     var nowDate = now.date();
@@ -345,6 +345,7 @@ export var Type = {
 
 
     if (value instanceof Object) {
+      // eslint-disable-next-line no-restricted-syntax
       for (var key in value) {
         if (Object.prototype.hasOwnProperty.call(value, key)) {
           return false;
@@ -353,6 +354,8 @@ export var Type = {
 
       return true;
     }
+
+    return false;
   }
 };
 export var Rules = {

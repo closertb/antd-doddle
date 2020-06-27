@@ -23,18 +23,26 @@ class Basic extends React.Component {
     
     constructor(props) {
         super(props);
-        this.state = { visible: false };
+        this.state = { visible: false, confirmLoading: false };
     }
 
     handleModal(){
         this.setState({ visible: Symbol() });
     }
 
+    handleOk = () => {
+        this.setState({ confirmLoading: true });
+        setTimeout(() => {
+            this.setState({ confirmLoading: false });
+        }, 2000);
+    }
+
     render(){
-        const { visible } = this.state;
+        const { visible, confirmLoading } = this.state;
         const modalProps = {
             visible,
-            onOk: () => console.log('close')
+            confirmLoading,
+            onOk: this.handleOk
         }
         return (
             <div>

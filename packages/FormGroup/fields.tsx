@@ -1,6 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import moment from 'moment';
 import { Input, InputNumber, Select, DatePicker, Radio, Checkbox } from 'antd';
 import OriginSearch from '../OriginSearch';
 import FileUpload from '../FileUpload';
@@ -27,7 +26,6 @@ const generateOption = (enums = []) => {
     label: enums[value]
   }));
 };
-const handleDisabledDate = currentDate => currentDate && currentDate > moment().endOf('day');
 
 function HInput<T extends CommonProps> ({ field }: T) {
   return <Input {...field} />
@@ -86,25 +84,19 @@ const HDatePicker = ({ field, containerName }) => {
 };
 
 const HRangePicker = ({ field, containerName }) => {
-  const { disabledDate, showTime = false, format, ...others } = field;
-  // // eslint-disable-next-line
-  // const beginDate = data[startKey];
-  // // eslint-disable-next-line
-  // const endDate = data[endKey];
-  // // eslint-disable-next-line
-  // const rangeDate = beginDate && endDate ? [moment(beginDate), moment(endDate)] : [];
+  const { startKey, endKey, placeholder, showTime = false, format, ...others } = field;
+
   return (
     <RangePicker
       showTime={showTime}
       getCalendarContainer={getContainer(containerName)}
-      disabledDate={disabledDate ? currentDate => handleDisabledDate(currentDate) : undefined}
+      placeholder={['开始日期', '结束日期']}
       format={format || (showTime ? DATE_TIME_FORMAT : DATE_FORMAT)}
       {...others}
     />);
 };
 
 const HInputWithUnit = ({ field, enums }) => {
-  console.log('update unit');
   return (<InputWithUnit
     enums={enums}
     {...field}

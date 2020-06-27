@@ -38,7 +38,8 @@ var __rest = this && this.__rest || function (s, e) {
 };
 
 import React from 'react';
-import { Button } from 'antd'; // 根据方向，找出指定索引的有效的上一或下一数据项
+import { PlusCircleOutlined, MinusCircleOutlined, DownCircleOutlined, UpCircleOutlined } from '@ant-design/icons';
+import './index.less'; // 根据方向，找出指定索引的有效的上一或下一数据项
 
 function findValid(arr, index) {
   var dir = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
@@ -203,44 +204,24 @@ function (_React$PureComponent) {
       });
       var length = validDatas.length - 1;
       return React.createElement("div", {
-        className: "doddle-daynamic-form"
+        className: "doddle-dynamic-form"
       }, validDatas.map(function (rule, index) {
         return React.createElement("div", {
           key: rule.key
-        }, children(rule, dataBind), !rule.disableBtn && index > 0 && React.createElement(Button, {
-          style: {
-            marginLeft: 10
-          },
-          type: "primary",
-          shape: "circle",
-          icon: "minus",
+        }, children(rule, dataBind), !rule.disableBtn && index > 0 && React.createElement(MinusCircleOutlined, {
+          className: "self-style",
           onClick: function onClick() {
             return _this2.handlMinus(rule.key);
           }
-        }), !rule.disableBtn && index === 0 && React.createElement(Button, {
-          style: {
-            marginLeft: 10
-          },
-          onClick: _this2.handlAdd,
-          type: "primary",
-          shape: "circle",
-          icon: "plus"
-        }), !rule.disableBtn && canMove && index > 0 && React.createElement(Button, {
-          style: {
-            marginLeft: 10
-          },
-          onClick: _this2.handlMoveUp(rule.key),
-          type: "primary",
-          shape: "circle",
-          icon: "up"
-        }), !rule.disableBtn && canMove && index < length && React.createElement(Button, {
-          style: {
-            marginLeft: 10
-          },
-          onClick: _this2.handlMoveDown(rule.key),
-          type: "primary",
-          shape: "circle",
-          icon: "down"
+        }), !rule.disableBtn && index === 0 && React.createElement(PlusCircleOutlined, {
+          className: "self-style",
+          onClick: _this2.handlAdd
+        }), !rule.disableBtn && canMove && index > 0 && React.createElement(UpCircleOutlined, {
+          className: "self-style",
+          onClick: _this2.handlMoveUp(rule.key)
+        }), !rule.disableBtn && canMove && index < length && React.createElement(DownCircleOutlined, {
+          className: "self-style",
+          onClick: _this2.handlMoveDown(rule.key)
         }));
       }));
     }

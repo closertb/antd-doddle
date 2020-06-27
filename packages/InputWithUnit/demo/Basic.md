@@ -7,7 +7,6 @@ order: 0
 
 ```jsx
 import React from 'react';
-import moment from 'moment';
 import { Form, Row, Col } from 'antd';
 import InputWithUnit from "../index";
 

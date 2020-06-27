@@ -1,18 +1,20 @@
 ---
 title: 基本用法
-order: 1
+order: 00
 ---
 
-默认示例(图片没有上传接口，所以暂时没法上传)
+默认示例(图片没有上传接口，所以暂时没法上传)，展示了以下功能
+ - 联动表单（required，disabled，isEnable）用法；
+ - 自定义表单类型的用法；
+ - 动态指定枚举的用法
 
 ```jsx
 import React, { useCallback, useEffect, useState } from 'react';
-import moment from 'moment';
-import { Row, Col, Button, Switch, Input } from 'antd';
+import { Form, Row, Col, Button, Switch, Input } from 'antd';
 // import { formRender } from 'antd-doddle';
 import FormGroup from "../index";
 
-// const FormItem = Form.Item;
+const FormItem = Form.Item;
 const { FormRender } = FormGroup;
 
 function Edit(props) {
@@ -77,7 +79,7 @@ const statusEnums = {
 const editFields = [{
   key: 'userName',
   name: '真实姓名',
-  disable: data => typeof data.userName !== 'undefined'
+  disabled: data => typeof data.userName !== 'undefined'
 }, {
   key: 'mail',
   name: '邮箱',
@@ -85,37 +87,50 @@ const editFields = [{
   key: 'userId',
   name: '用户ID',
 }, {
-  key: 'status',
-  name: '状态',
-  type: 'select',
-  isDynamic: true
-}, {
-  key: 'enable',
-  name: '是否隐藏',
-  required: false,
-  type: 'selfDefine',
-  decorProps: { valuePropName: 'checked' },
-  child: ({ field }) => <Switch />
-}, {
   key: 'interest',
   name: '利率',
   type: 'withUnit',
   enums: [{ value: 'month', label: '月' }, { value: 'year', label: '年' }],
   defaultUnit: 'year',
-  isEnable: (_, { enable }) => !enable,
+  required: ({ enable }) => !enable,
   shouldUpdate: (pre, cur) => {
-    console.log('rers', pre.enable !== cur.enable);
     return pre.enable !== cur.enable
   },
   seldomProps: {
     suffix: '%'
   }
 }, {
+  key: 'enable',
+  name: '是否隐藏',
+  required: false,
+  type: 'selfDefine',
+  formProps: { valuePropName: 'checked' },
+  child: ({ field }) => <Switch />
+}, {
   key: 'notshow',
   name: '不显示',
   required: false,
   isEnable: false,
-  type: 'text'
+  type: 'text',
+  isEnable: ({ enable }) => !enable,
+  shouldUpdate: (pre, cur) => {
+    return pre.enable !== cur.enable
+  },
+  render: ({ userName, email }) => (<FormItem label="静态信息">{`${userName}-${email}`}</FormItem>)
+}, {
+  key: 'status',
+  name: '状态',
+  type: 'select',
+  isDynamic: true
+}, {
+  key: 'cardStatus',
+  name: '卡状态',
+  type: 'radio',
+  enums: statusEnums,
+  disabled: data => data.status === 0,
+  shouldUpdate: (pre, cur) => {
+    return pre.status !== cur.status
+  },
 }, {
   key: 'remark',
   name: '联动表单',
@@ -124,15 +139,6 @@ const editFields = [{
   dependencies: ['enable'],
   required: true,
   rules: [{ type: 'email', message: 'fuck' }],
-}, {
-  key: 'cardStatus',
-  name: '卡状态',
-  type: 'radio',
-  enums: statusEnums,
-  disable: data => data.status === 0,
-  shouldUpdate: (pre, cur) => {
-    return pre.status !== cur.status
-  },
 }];
 
 ReactDOM.render(<Edit />, mountNode);

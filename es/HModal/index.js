@@ -16,6 +16,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
 import React from 'react';
 import { Modal } from 'antd';
 
@@ -32,7 +45,8 @@ function (_React$PureComponent) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(HModal).call(this, props));
     var visible = props.visible;
     _this.state = {
-      visible: Boolean(visible),
+      visible: visible,
+      innervisible: Boolean(visible),
       confirmLoading: false
     };
     _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
@@ -48,7 +62,7 @@ function (_React$PureComponent) {
       }
 
       this.setState({
-        visible: false
+        innervisible: false
       });
     }
   }, {
@@ -70,11 +84,7 @@ function (_React$PureComponent) {
 
       if (onOk && form) {
         // 如果设置了form属性，则验证成功后才关闭表单
-        form.validateFields(function (err, values) {
-          if (err) {
-            return;
-          }
-
+        form.validateFields().then(function (values) {
           var success = onOk(values); // onOk处理为true时才关闭窗口；
 
           success && hideModal();
@@ -87,19 +97,21 @@ function (_React$PureComponent) {
   }, {
     key: "render",
     value: function render() {
-      var confirmLoading = this.state.confirmLoading;
+      var _this$state = this.state,
+          confirmLoading = _this$state.confirmLoading,
+          innervisible = _this$state.innervisible;
 
-      if (confirmLoading !== undefined) {
-        confirmLoading = confirmLoading.valueOf();
-      }
+      var _a = this.props,
+          children = _a.children,
+          others = __rest(_a, ["children"]);
 
-      var modalProps = Object.assign({}, this.props, {
+      var modalProps = Object.assign({}, others, {
         confirmLoading: confirmLoading,
-        visible: true,
+        visible: innervisible,
         onOk: this.handleOk,
         onCancel: this.handleCancel
       });
-      return React.createElement("div", null, this.state.visible && React.createElement(Modal, Object.assign({}, modalProps), this.props.children));
+      return React.createElement("div", null, innervisible && React.createElement(Modal, Object.assign({}, modalProps), children));
     }
   }], [{
     key: "getDerivedStateFromProps",
@@ -110,6 +122,7 @@ function (_React$PureComponent) {
       if (visible === false) {
         return {
           visible: visible,
+          innervisible: false,
           confirmLoading: false
         };
       } // 如果props中的visible属性改变，则显示modal
@@ -117,7 +130,8 @@ function (_React$PureComponent) {
 
       if (visible && visible !== prevState.visible) {
         return {
-          visible: visible
+          visible: visible,
+          innervisible: true
         };
       }
 
@@ -132,14 +146,13 @@ function (_React$PureComponent) {
         /* 如果confirmLoading未拥有done属性，则直接关闭对话框，兼容旧版以及纯boolean对象
         * 如果confirmLoading拥有done属性，且confirmLoading.done为true时才关闭对话框, 适应场景：call请求错误时，不关闭对话框
         */
-
-        /* eslint-disable-next-line */
-        if (!confirmLoading.hasOwnProperty('done') || confirmLoading.done) {
-          return {
-            visible: visible
-          };
-        }
+        return {
+          innervisible: false,
+          confirmLoading: false
+        };
       }
+
+      return null;
     }
   }]);
 

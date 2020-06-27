@@ -27,8 +27,8 @@ const gerateRule = (required: boolean, placeholder: string, rules) => [{
   required, message: placeholder }].concat(rules);
 
 export default function FormRender(props: FormRenderProps) {
-  const { field, required: require, wrapProps = {}, datas = {}, containerName, withWrap: defaultWrap,
-  dynamicParams, Wrapper } = props;
+  const { field, required: require, wrapProps = {}, datas: initData = {}, containerName, withWrap: defaultWrap,
+  dynamicParams, itemKey, disabled = false, Wrapper, ...otherFormPrrops } = props;
 
   const {
     type = 'input',
@@ -37,7 +37,6 @@ export default function FormRender(props: FormRenderProps) {
     style = { width: '100%' },
     required = require || false,
     allowClear = true,
-    disable = false,
     placeholder,
     disabled: fieldDisable,
     rules = props.rules || [],
@@ -47,9 +46,9 @@ export default function FormRender(props: FormRenderProps) {
     withWrap,
     enums = [],
     seldomProps = {},
-    decorProps = {},
     formProps = {},
     dependencies = [],
+    render: selfRender = () => null,
     shouldUpdate = false,
     isDynamic = false, // 是否获取动态枚举
     ...others
@@ -62,25 +61,27 @@ export default function FormRender(props: FormRenderProps) {
     return content;
   }
 
-  const disabled = fieldDisable || (disable && disable(datas));
+  const disableTemp = fieldDisable || disabled;
+
+  const disable = typeof disableTemp === 'function'
+    ? disableTemp(initData) : disableTemp;
+
+  const _required = typeof required === 'function' ? required(initData) : required;
 
   const selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
 
   const pholder = placeholder || ruleTipMap[type] || `请输入${name}`;
   const common = {
     style,
-    required,
+    required: _required,
     allowClear,
-    disabled,
+    disabled: disable,
     placeholder: pholder,
     onChange: props.onChange || onChange,
-    ...decorProps,
     ...seldomProps,
     ...others
   };
 
-
-  console.log('con', key, type);
   // 如果这个节点不需要渲染，那么就直接返回null
   const finalEnable = props.isEnable || isEnable;
 
@@ -89,19 +90,22 @@ export default function FormRender(props: FormRenderProps) {
     content = shouldUpdate ? (
       <FormItem shouldUpdate={shouldUpdate} noStyle>
         {form => { 
-           const datas = form.getFieldsValue();
-           const disabled = fieldDisable || (disable && disable(datas));
-           return finalEnable(form, datas) ?
+           const datas = Object.assign({}, initData, form.getFieldsValue());
+           const require = typeof required === 'function' ? required(datas) : required;
+           const disabled = typeof disableTemp === 'function'
+            ? disableTemp(datas) : disableTemp;
+           return finalEnable(datas, form) ?
       <FormItem
         key={key}
         name={key}
         label={name}
         dependencies={dependencies}
-        rules={gerateRule(required, pholder, rules)}
+        rules={gerateRule(require, pholder, rules)}
         {...formProps}
+        {...otherFormPrrops}
       >
         {render({ field: Object.assign(common, { disabled }), name, enums: selectEnums, containerName })}
-      </FormItem> : null}}
+      </FormItem> : selfRender(datas, form)}}
       </FormItem>) : (
       <FormItem
         key={key}

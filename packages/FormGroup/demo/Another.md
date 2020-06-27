@@ -1,13 +1,12 @@
 ---
 title: 单项列举用法
-order: 0
+order: 1
 ---
 
 默认示例(图片没有上传接口，所以暂时没法上传)
  
 ```jsx
 import React, { useCallback, useEffect, useState } from 'react';
-import moment from 'moment';
 import { Row, Col, Button, Switch, Input } from 'antd';
 // import { formRender } from 'antd-doddle';
 import FormGroup from "../index";
@@ -86,7 +85,7 @@ const statusEnums = {
 const editFields = [{
   key: 'userName',
   name: '真实姓名',
-  disable: data => typeof data.userName !== 'undefined'
+  disabled: data => typeof data.userName !== 'undefined'
 }, {
   key: 'mail',
   name: '邮箱',
@@ -100,15 +99,17 @@ const editFields = [{
   name: '是否激活',
   required: false,
   type: 'selfDefine',
-  decorProps: { valuePropName: 'checked' },
-  child: ({ field, onChange }) => <Switch onChange={onChange} />
+  formProps: {
+    valuePropName: 'checked'
+  },
+  child: ({ field }) => <Switch />
 }, {
   key: 'notshow',
   name: '激活时展示',
   required: false,
-  isEnable: (_, data) => {
-    console.log('data:', data);
-    return data.enable;
+  isEnable: ({ enable }) => !enable,
+  shouldUpdate: (pre, cur) => {
+    return pre.enable !== cur.enable
   },
   type: 'text'
 }, {

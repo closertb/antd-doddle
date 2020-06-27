@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayJs from 'dayjs';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
@@ -17,7 +17,7 @@ export const formItemLayout = {
 
 export interface EnumField {
   label: 'string', // option显示标签
-  value: 'string' // option值 这个类型只能定义为string，而不是string | number或any，是因为antd的option value属性只能为string
+  value: 'string', // option值 这个类型只能定义为string，而不是string | number或any，是因为antd的option value属性只能为string
   [propName: string]: any // 其他
 }
 
@@ -25,9 +25,9 @@ export interface EnumField {
 export interface FieldProps {
   name: string | number,
   key: string,
-  type?: string
+  type?: string,
   render?: Function,
-  enums?: object | EnumField [],
+  enums?: {} | EnumField [],
   isShow?: Function,
   itemCount?: number,
   unit?: string,
@@ -53,12 +53,12 @@ export const isEmpty = value => value === null || (typeof value === 'object' && 
  * @param {*} value 枚举值
  * @param {*} enums 枚举数组
  */
-export const getEnumObject = (enums: object | EnumField [], value, key = 'value') => {
+export const getEnumObject = (enums: {} | EnumField [], value, key = 'value') => {
   if (Array.isArray(enums)) {
     const res = enums.filter(item => item[key] === value);
     return res.length > 0 ? res[0] : {};
   }
-  return  {
+  return {
     label: enums[value] || ''
   };
 };
@@ -68,9 +68,7 @@ export const getEnumObject = (enums: object | EnumField [], value, key = 'value'
  * @param {*} value 枚举值
  * @param {*} enums 枚举数组
  */
-export const getValueFromEnums = (enums: object | EnumField [], value) => {
-  return getEnumObject(enums, value).label;
-};
+export const getValueFromEnums = (enums: {} | EnumField [], value) => getEnumObject(enums, value).label;
 
 /**
  * 根据给定的数组,转化成标准的label, value数组；如果给定的数组子集是字符串，那么value,label值都是该字符串
@@ -185,7 +183,7 @@ export function idCodeValid(code: string, mask?: boolean, startNum: number = 4, 
     checkBool = false;
   } else if (!city[code.substr(0, 2)]) {
     checkBool = false;
-  } else if (moment(`${code.substring(6, 10)}-${code.substring(10, 12)}-${code.substring(12, 14)}`) > moment()) {
+  } else if (dayJs(`${code.substring(6, 10)}-${code.substring(10, 12)}-${code.substring(12, 14)}`).isBefore(dayJs())) {
     checkBool = false;
   } else {
     const codeArr = code.split('');
@@ -244,11 +242,11 @@ export function getAgeById(id: string = ''): number {
   let age = -1;
 
   if (idCodeValid(id)) {
-    const birth = moment(`${id.substring(6, 10)}-${id.substring(10, 12)}-${id.substring(12, 14)}`);
+    const birth = dayJs(`${id.substring(6, 10)}-${id.substring(10, 12)}-${id.substring(12, 14)}`);
     const birthYear = birth.year();
     const birthMonth = birth.month();
     const birthDate = birth.date();
-    const now = moment();
+    const now = dayJs();
     const nowYear = now.year();
     const nowMonth = now.month();
     const nowDate = now.date();
@@ -289,8 +287,8 @@ export const Type = {
   },
   isFunction(source) {
     return (
-      source != null &&
-      (source.constructor === Function || source instanceof Function)
+      source != null
+      && (source.constructor === Function || source instanceof Function)
     );
   },
   isArray(source) {
@@ -298,16 +296,15 @@ export const Type = {
   },
   isString(source) {
     return (
-      typeof source === 'string' ||
-      (!!source &&
-        typeof source === 'object' &&
-        Object.prototype.toString.call(source) === '[object String]')
+      typeof source === 'string'
+      || (!!source
+        && typeof source === 'object'
+        && Object.prototype.toString.call(source) === '[object String]')
     );
   },
   isNumber(source) {
     return (
-      source != null &&
-      (source.constructor === Number || source instanceof Number)
+      source != null && (source.constructor === Number || source instanceof Number)
     );
   },
   isEmpty(value) {
@@ -329,13 +326,15 @@ export const Type = {
     }
     // 传入空对象，则为空
     if (value instanceof Object) {
-      for (var key in value) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key in value) {
         if (Object.prototype.hasOwnProperty.call(value, key)) {
           return false;
         }
       }
       return true;
     }
+    return false;
   },
 };
 

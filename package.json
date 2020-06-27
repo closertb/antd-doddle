@@ -1,6 +1,6 @@
 {
   "name": "antd-doddle",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.3",
   "license": "ISC",
   "description": "antd后台项目前端组件封装和方法库",
   "main": "lib/index.js",
@@ -33,8 +33,8 @@
   "author": "denzelt",
   "dependencies": {
     "@wry/equality": "^0.1.9",
+    "dayjs": "^1.8.28",
     "memoize-one": "^5.1.1",
-    "moment": "^2.22.2",
     "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
