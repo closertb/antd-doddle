@@ -107,7 +107,7 @@ const editFields = [{
   key: 'notshow',
   name: '激活时展示',
   required: false,
-  isEnable: ({ enable }) => !enable,
+  isEnable: (_, { enable }) => !enable,
   shouldUpdate: (pre, cur) => {
     return pre.enable !== cur.enable
   },

@@ -33,7 +33,7 @@ function Edit(props) {
     }, 500);
   }, []);
 
-  const { detail: datas = { userName: 'doddle', mail: 'closertb@163.com', enable: false, interest: { number: 0.12, unit: 'month' }  } } = props;
+  const { detail: datas = { userName: 'doddle', enable: true, mail: 'closertb@163.com', enable: false, interest: { number: 0.12, unit: 'month' }  } } = props;
   const formProps = {
     layout: 'horizontal',
     form,
@@ -92,7 +92,7 @@ const editFields = [{
   type: 'withUnit',
   enums: [{ value: 'month', label: '月' }, { value: 'year', label: '年' }],
   defaultUnit: 'year',
-  required: ({ enable }) => !enable,
+  required: (_, { enable }) => !enable,
   shouldUpdate: (pre, cur) => {
     return pre.enable !== cur.enable
   },
@@ -112,7 +112,7 @@ const editFields = [{
   required: false,
   isEnable: false,
   type: 'text',
-  isEnable: ({ enable }) => !enable,
+  isEnable: (_, { enable }) => !enable,
   shouldUpdate: (pre, cur) => {
     return pre.enable !== cur.enable
   },
@@ -127,7 +127,7 @@ const editFields = [{
   name: '卡状态',
   type: 'radio',
   enums: statusEnums,
-  disabled: data => data.status === 0,
+  disabled: (_, data) => data.status === 0,
   shouldUpdate: (pre, cur) => {
     return pre.status !== cur.status
   },

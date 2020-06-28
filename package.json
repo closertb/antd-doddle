@@ -1,6 +1,6 @@
 {
   "name": "antd-doddle",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0",
   "license": "ISC",
   "description": "antd后台项目前端组件封装和方法库",
   "main": "lib/index.js",
@@ -22,8 +22,11 @@
     "decorator",
     "hooks"
   ],
+  "notes": "备注：下面的设置是针对于正式环境tree-shaking时，css会被当做无副作用清理掉",
   "sideEffects": [
-    "./packages/**/*"
+    "./packages/*/index.less",
+    "./es/*/index.less",
+    "./lib/*/index.less"
   ],
   "repository": {
     "type": "git",

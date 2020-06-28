@@ -4,7 +4,7 @@ title: FormGroup 表单配置组件
 
 FormGroup组件: 延续了1.x版90% 语法，其他10% 改动只是为了迎合antd 4.x 的重构而变动，主要体现在：
  - FormGroup 扩展了useForm hooks，支持了ref传参和form属性；
- - 内部自动实现了initialValues 改变时的自动resetFieldsValue；
+ - 初始值设置在FormGroup组件上，并内部实现了initialValues 改变时的自动resetFieldsValue；
  - decorProps属性变更为formProps: 4.x 之前FormItem 更多的是承担UI的作用，但现在还兼顾了以前getDecorator的作用，所以新增了formProps来增加对FormItem的配置入口；
  - seldomProps: 这个属性其实很早前就有了。antd组件支持的属性太多，我只加了一些常用的，如果需要用到特殊的，可在这个组件上扩展，参考示例见**备注**一栏；
  - RangePicker组件的初始值自动包装取消，考虑到两方面原因，一是：antd4 支持了moment与dayJs时间库的切换；二是：4.x之前，value设置是在getDecorator时设置，现在是在Form这一层就要设置；
@@ -36,7 +36,7 @@ extendRenderTypes({
 | form | 表单实例 | 是（函数组件） | formInstance | --
 | ref | 表单实例 | 是（类组件） | instance | --
 | formItemLayout | 布局 | 否 | object | 8 ： 15
-| fields | 表单配置项 | 否 | Array | []
+| fields | 表单配置项, 使用itemKey 模式必填 | 否 | Array | []
 | datas | 初始化数据 | 否 | object | {}
 | required | 是否必填 | 否 | boolean | false  
 | Wrapper | 包装组件 | 否 | Node | --  
@@ -51,9 +51,9 @@ extendRenderTypes({
 :--|:--:|---:|---:|:--    
 | field | 表单装饰器 | 是 |  object | --
 | itemKey | 表单key：设置该项就不用设置field，表单会通过父组件的fields与 itemKey，自动去适配field | 否  | string | --
-| isEnable | 是否渲染 | 否  | fun：（innerData） => { return ... } | true
-| `disabled` | 是否禁用 | 否 | fun：（innerData） => { return ... } | false
-| `required` | 是否必填 | 否 | fun：（innerData） => { return ... } | false
+| isEnable | 是否渲染 | 否  | fun：（initData, currentData） => { return ... } | true
+| `disabled` | 是否禁用 | 否 | fun：（initData, currentData） => { return ... } | false
+| `required` | 是否必填 | 否 | fun：（initData, currentData） => { return ... } | false
 | enums | 枚举 | 否 | array | --
 | withWrap | 是否用包装组件包装 | 否  | boolean | --  
 | ...others | 其它属性, 请参考ant.FormItem属性 | - | -
@@ -68,23 +68,23 @@ type属性一共包含： input， inputNumber， text， select, radio, check, 
 | type | 表单类型 | 是 |  string | input| --
 | key | 键值，表单属性值 | 是  | string | - | --
 | name| 表单中文名 | 否 | string | -- | --
-| `required` | 是否必填 | 否 | fun：（innerData） => { return ... } | false | 权重： props.required > required > Form.required
+| `required` | 是否必填 | 否 | fun：（initData, currentData） => { return ... } | false | 权重： props.required > required > Form.required
 | placeholder | 说明 | 否  | string | 请输入/请选择 | --
 | defaultValue| 初始值 | 否 | 根据需要 | -- | --
-| isEnable | 是否渲染 | 否  | fun：（innerData） => { return ... } | true | --
-| `disabled` | 是否禁用 | 否 | fun：（innerData） => { return ... } | false | --
+| isEnable | 是否渲染 | 否  | fun：（initData, currentData） => { return ... } | true | --
+| `disabled` | 是否禁用 | 否 | fun：（initData, currentData） => { return ... } | false | --
 | rules| 校验规则 | 否 | array | -- |  必填的校验不在此定义
 | enums| 枚举 | 否 | array | {} | 适用：select, radio, check, 详见示例
 | seldomProps | 不常用配置属性对象 | 否 | object | {} | --
 | withWrap | 是否用包装组件包装 | 否  | boolean | false | --
 
-很多在field和props同时出现的属性，props中的权重大于field中的, field中的权重大于Render声明中的。除了上面所列，还有一些不常用的，后面慢慢补充    
+很多在field和props同时出现的属性，props中的权重大于field中的, field中的权重大于FormGroup中声明的。除了上面所列，还有一些不常用的，后面慢慢补充    
 
 #### 表单联动实现
 主要通过rerquired, disabled 与 isEnable三个属性实现，如果是静态的，可直接设置布尔值一步到位；这里主要演示动态设置, 具体应用请参看示例
 ```javascript
-// rerquired, disabled 与 isEnable三个属性为函数时，入参会收到一个入参,其值为Object.assign({}, innitialValues 与 currentDatas
-// innitialValues 是FormGroup接受的初始属性datas
+// rerquired, disabled 与 isEnable三个属性为函数时，会收到两个入参,分别为其值为initialValues 与 currentDatas
+// initialValues 是FormGroup接受的初始属性datas
 // currentDatas 是表单form.getFieldsValue()获取到的即时表单值
 const fields = [{
   key: 'userName',
@@ -102,7 +102,7 @@ const fields = [{
   required: false,
   type: 'image',
   psimple: 'https://cos.56qq.com/loan/loanuser/idcard_back.png',
-  isEnable: (datas) => {
+  isEnable: (_, datas) => {
     return datas.cardStatus !== 'error';
   },
 }]

@@ -64,9 +64,9 @@ export default function FormRender(props: FormRenderProps) {
   const disableTemp = fieldDisable || disabled;
 
   const disable = typeof disableTemp === 'function'
-    ? disableTemp(initData) : disableTemp;
+    ? disableTemp(initData, {}) : disableTemp;
 
-  const _required = typeof required === 'function' ? required(initData) : required;
+  const _required = typeof required === 'function' ? required(initData, {}) : required;
 
   const selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : (props.enums || enums);
 
@@ -90,11 +90,11 @@ export default function FormRender(props: FormRenderProps) {
     content = shouldUpdate ? (
       <FormItem shouldUpdate={shouldUpdate} noStyle>
         {form => { 
-           const datas = Object.assign({}, initData, form.getFieldsValue());
-           const require = typeof required === 'function' ? required(datas) : required;
+           const datas = Object.assign({}, form.getFieldsValue());
+           const require = typeof required === 'function' ? required(initData, datas) : required;
            const disabled = typeof disableTemp === 'function'
-            ? disableTemp(datas) : disableTemp;
-           return finalEnable(datas, form) ?
+            ? disableTemp(initData, datas) : disableTemp;
+           return finalEnable(initData, datas) ?
       <FormItem
         key={key}
         name={key}

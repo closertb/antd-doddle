@@ -1,9 +1,24 @@
+.search-form {
+  padding: 10px 20px 15px;
+  border: 1px solid #108ee9;
+  border-radius: 7px;
+}
+.search-form .btn-group {
+  text-align: center;
+}
+.search-form .btn-group button {
+  margin-left: 20px;
+}
+
 .doddle-input-search {
   position: relative;
   height: 100%;
 }
 .doddle-input-search .origin-search {
   position: relative;
+}
+.doddle-input-search .origin-search .ant-select-selection-search {
+  left: 25px;
 }
 .doddle-input-search .origin-search-icon {
   position: absolute;
@@ -57,16 +72,10 @@
   margin-left: 5px;
 }
 
-.search-form {
-  padding: 10px 20px 15px;
-  border: 1px solid #108ee9;
-  border-radius: 7px;
-}
-.search-form .btn-group {
-  text-align: center;
-}
-.search-form .btn-group button {
-  margin-left: 20px;
+.doddle-dynamic-form .self-style {
+  margin-left: 10px;
+  font-size: 20px;
+  color: #1890ff;
 }
 
 .doddle-render-detail {
