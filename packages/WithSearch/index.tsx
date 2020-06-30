@@ -27,7 +27,7 @@ function DefaultRender(props) {
   );
 }
 
-interface WithSearchProps {
+export interface WithSearchProps {
   form: any,
   onSearch: Function,
   fields?: FieldProps [],
@@ -48,7 +48,8 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
   constructor(props) {
     super(props);
     this.state = {};
-    this.formRef = createRef();
+    this.formRef = props.formRef || createRef();
+    // ref = this.formRef;
     const { fields = [] } = props;
     // this.formRender = formR({ getFieldDecorator, containerName: 'search-form' });
     this.handleSearch = this.handleSearch.bind(this);
@@ -65,6 +66,13 @@ class WithSearch extends React.PureComponent<WithSearchProps> {
       return pre;
     }, { _hasTimeRange: false }) : { _hasTimeRange: true };
   }
+
+  componentDidMount() {
+    // 将form对象暴露给父组件
+    const { setForm } = this.props;
+    setForm && setForm(this.formRef.current);
+  }
+
   getFormData(paramFormat) {
     let data = {};
     this.formRef.current.validateFields((err, values) => {

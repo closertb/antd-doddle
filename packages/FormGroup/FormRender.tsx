@@ -90,33 +90,33 @@ export default function FormRender(props: FormRenderProps) {
     content = shouldUpdate ? (
       <FormItem shouldUpdate={shouldUpdate} noStyle>
         {form => { 
-           const datas = Object.assign({}, form.getFieldsValue());
+           const datas = form.getFieldsValue();
            const require = typeof required === 'function' ? required(initData, datas) : required;
            const disabled = typeof disableTemp === 'function'
             ? disableTemp(initData, datas) : disableTemp;
            return finalEnable(initData, datas) ?
-      <FormItem
-        key={key}
-        name={key}
-        label={name}
-        dependencies={dependencies}
-        rules={gerateRule(require, pholder, rules)}
-        {...formProps}
-        {...otherFormPrrops}
-      >
-        {render({ field: Object.assign(common, { disabled }), name, enums: selectEnums, containerName })}
-      </FormItem> : selfRender(datas, form)}}
-      </FormItem>) : (
-      <FormItem
-        key={key}
-        name={key}
-        label={name}
-        dependencies={dependencies}
-        rules={gerateRule(required, pholder, rules)}
-        {...formProps}
-      >
-        {render({ field: common, name, enums: selectEnums, containerName })}
-      </FormItem>);
+            <FormItem
+              key={key}
+              name={key}
+              label={name}
+              dependencies={dependencies}
+              rules={gerateRule(require, pholder, rules)}
+              {...formProps}
+              {...otherFormPrrops}
+            >
+              {render({ field: Object.assign(common, { disabled }), name, enums: selectEnums, containerName })}
+            </FormItem> : selfRender(datas, form)}}
+            </FormItem>) : (
+            <FormItem
+              key={key}
+              name={key}
+              label={name}
+              dependencies={dependencies}
+              rules={gerateRule(required, pholder, rules)}
+              {...formProps}
+            >
+              {render({ field: common, name, enums: selectEnums, containerName })}
+            </FormItem>);
   } else {
     console.error('type:', type, 'is not supported, you can use extendRenderTypes API to define what you want');
   }

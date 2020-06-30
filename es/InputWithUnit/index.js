@@ -1,4 +1,4 @@
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -8,15 +8,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 import React from 'react';
 import { Input, Select } from 'antd';
@@ -32,17 +36,17 @@ var DefaultEnums = [{
   label: '天'
 }];
 
-var InputWithUnit =
-/*#__PURE__*/
-function (_React$Component) {
+var InputWithUnit = /*#__PURE__*/function (_React$Component) {
   _inherits(InputWithUnit, _React$Component);
+
+  var _super = _createSuper(InputWithUnit);
 
   function InputWithUnit(props) {
     var _this;
 
     _classCallCheck(this, InputWithUnit);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(InputWithUnit).call(this, props));
+    _this = _super.call(this, props);
     var _this$props = _this.props,
         _this$props$value = _this$props.value,
         value = _this$props$value === void 0 ? {} : _this$props$value,
@@ -61,7 +65,7 @@ function (_React$Component) {
     value: function handleChange(val, key) {
       var res = this.state;
       this.setState(_defineProperty({}, key, val));
-      this.trigger(Object.assign({}, res, _defineProperty({}, key, val)));
+      this.trigger(Object.assign(Object.assign({}, res), _defineProperty({}, key, val)));
     }
   }, {
     key: "trigger",
@@ -83,7 +87,7 @@ function (_React$Component) {
           _this$props2$selectPr = _this$props2.selectProps,
           selectProps = _this$props2$selectPr === void 0 ? {} : _this$props2$selectPr;
       var time = this.state;
-      return React.createElement("span", null, React.createElement(Input, Object.assign({
+      return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement(Input, Object.assign({
         value: time.number,
         onChange: function onChange(e) {
           return _this2.handleChange(e.target.value, 'number');
@@ -93,7 +97,7 @@ function (_React$Component) {
           marginRight: '3%'
         },
         placeholder: "\u8BF7\u8F93\u5165"
-      }, inputProps)), React.createElement(Select, Object.assign({
+      }, inputProps)), /*#__PURE__*/React.createElement(Select, Object.assign({
         value: time.unit,
         style: {
           width: '32%'
@@ -105,7 +109,7 @@ function (_React$Component) {
       }, selectProps), enums.map(function (_ref) {
         var value = _ref.value,
             label = _ref.label;
-        return React.createElement(Option, {
+        return /*#__PURE__*/React.createElement(Option, {
           key: value,
           value: value
         }, label);

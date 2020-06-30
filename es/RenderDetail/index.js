@@ -49,12 +49,12 @@ function renderBaseFields(fields) {
 
     var _final = value === undefined || value === '' ? '--' : value;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "showInfo-item ".concat(lineClass),
       key: key
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "showInfo-label"
-    }, name), React.createElement("span", {
+    }, name), /*#__PURE__*/React.createElement("span", {
       className: "showInfo-value"
     }, _final, _final === value ? unit : ''));
   });
@@ -66,13 +66,13 @@ function RenderDetail(props) {
       detail = _props$detail === void 0 ? {} : _props$detail,
       fieldsName = props.fieldsName,
       children = props.children;
-  return React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: "doddle-render-detail"
-  }, fieldsName && React.createElement("h3", {
+  }, fieldsName && /*#__PURE__*/React.createElement("h3", {
     className: "title"
-  }, fieldsName), React.createElement("div", {
+  }, fieldsName), /*#__PURE__*/React.createElement("div", {
     className: "showInfo-content"
   }, children ? children(renderBaseFields) : renderBaseFields(fields, detail)));
 }
 
-export default React.memo(RenderDetail);
+export default /*#__PURE__*/React.memo(RenderDetail);

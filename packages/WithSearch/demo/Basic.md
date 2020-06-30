@@ -35,6 +35,7 @@ class Basic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.form = React.createRef();
     this.handleSearch = this.handleSearch.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
@@ -42,6 +43,7 @@ class Basic extends React.Component {
     console.log('search', result);
   }
   handleReset() {
+    console.log('this.form', this.form);
     console.log('research');
   }
   componentDidMount() {
@@ -57,6 +59,7 @@ class Basic extends React.Component {
       search: { reach: 0 },
       onSearch: this.handleSearch,
       onReset: this.handleReset,
+      // setForm: form => this.form = form,
       timeFormat: 'YYYY-MM-DD HH:mm:ss',
       dynamicParams: { // 从请求获取到的动态枚举， 需配合fields设置isDynamic属性
         reach: enums,
@@ -64,7 +67,7 @@ class Basic extends React.Component {
       extraBtns // 添加自定义按钮操作
     };
     return (
-      <WithSearch {...modalProps}/>
+      <WithSearch {...modalProps} formRef={this.form}/>
     );
   }
 }

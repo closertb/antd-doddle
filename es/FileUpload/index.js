@@ -1,4 +1,4 @@
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -6,15 +6,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 import React from 'react';
 import { Modal, Upload, Button } from 'antd';
@@ -43,22 +47,22 @@ function showInfoModal(content) {
 
 var uploadButton = function uploadButton() {
   var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'picture-card';
-  return type === 'picture-card' ? React.createElement("div", null, React.createElement(PlusOutlined, null), React.createElement("div", {
+  return type === 'picture-card' ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(PlusOutlined, null), /*#__PURE__*/React.createElement("div", {
     className: "ant-upload-text"
-  }, "\u4E0A\u4F20")) : React.createElement(Button, null, React.createElement(UploadOutlined, null), "\u9009\u62E9\u6587\u4EF6");
+  }, "\u4E0A\u4F20")) : /*#__PURE__*/React.createElement(Button, null, /*#__PURE__*/React.createElement(UploadOutlined, null), "\u9009\u62E9\u6587\u4EF6");
 };
 
-var FileUpload =
-/*#__PURE__*/
-function (_React$PureComponent) {
+var FileUpload = /*#__PURE__*/function (_React$PureComponent) {
   _inherits(FileUpload, _React$PureComponent);
+
+  var _super = _createSuper(FileUpload);
 
   function FileUpload(props) {
     var _this;
 
     _classCallCheck(this, FileUpload);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(FileUpload).call(this, props));
+    _this = _super.call(this, props);
 
     _this.beforeUpload = function (file) {
       var _this$props = _this.props,
@@ -235,11 +239,11 @@ function (_React$PureComponent) {
           imageUrl = _this$state.imageUrl,
           fileList = _this$state.fileList,
           previewVisible = _this$state.previewVisible;
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: "doddle-image-upload"
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: fileList.length ? 'imgArea has-child' : 'imgArea'
-      }, React.createElement(Upload, {
+      }, /*#__PURE__*/React.createElement(Upload, {
         listType: listType,
         fileList: fileList,
         disabled: disabled,
@@ -249,19 +253,21 @@ function (_React$PureComponent) {
         onChange: this.handleChange,
         onRemove: this.handleRemove
       }, fileList.length >= maxSize ? null : child), simple && fileList.length === 0 &&
+      /*#__PURE__*/
+
       /* eslint-disable-next-line */
       React.createElement("img", {
         src: simple,
         alt: "\u6837\u4F8B",
         onClick: this.handleSimplePreview(simple),
         className: "show-simple"
-      })), info && fileList.length === 0 && React.createElement("div", {
+      })), info && fileList.length === 0 && /*#__PURE__*/React.createElement("div", {
         className: "show-info"
-      }, info), React.createElement(Modal, {
+      }, info), /*#__PURE__*/React.createElement(Modal, {
         visible: previewVisible,
         footer: null,
         onCancel: this.handleCancel
-      }, React.createElement("img", {
+      }, /*#__PURE__*/React.createElement("img", {
         alt: "",
         style: {
           width: '100%'

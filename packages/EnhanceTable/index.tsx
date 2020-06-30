@@ -10,7 +10,7 @@ interface LoadingWrap  {
   list?: boolean 
 }
 // 输入类型定义
-interface EnhanceTableProps {
+export interface EnhanceTableProps {
   fields: FieldProps [],
   datas: [],
   total?: number,
@@ -36,16 +36,16 @@ export default class EnhanceTable extends React.PureComponent<EnhanceTableProps>
   }
   render() {
     const { fields, search = {}, datas, total = 0, loading = false, onSearch,
-      rowKey = 'id', footer, noPage = false, pageName = Pagination.PN, ...others } = this.props;
+      rowKey = 'id', footer, pagination = true, pageName = Pagination.PN, ...others } = this.props;
     const columns = this.getInitalColumns(fields);
-    const page = search.pageNum ? 'pageNum' : pageName;
-    const pagination = noPage ? null : {
+    // pagination 默认由组件自身生成，设置为 null 时不渲染，设置为object 时为自定义
+    const _pagination = pagination && (typeof pagination === 'object' ? pagination : {
       total,
-      current: search[page],
+      current: search[pageName],
       pageSize: search[Pagination.PS],
-      onChange: pn => onSearch({ [page]: pn }),
+      onChange: pn => onSearch({ [pageName]: pn }),
       showTotal: t => footer ? footer({ total, ...search }) : `共 ${t} 条`
-    };
+    });
     // loading 类型断言
     let spinning;
     if ((loading as LoadingWrap).list !== undefined) {
@@ -55,7 +55,7 @@ export default class EnhanceTable extends React.PureComponent<EnhanceTableProps>
     }
     const tableProps = {
       columns,
-      pagination,
+      pagination: _pagination,
       bordered: true,
       dataSource: datas,
       loading: spinning,

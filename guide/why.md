@@ -7,8 +7,8 @@ order: 1
 
 ## 写一个搜索框
 要实现一张类似于下面样式的效果图：
-![效果图](https://user-images.githubusercontent.com/22979584/69646343-99d76d00-10a2-11ea-9fdb-197cd810c14f.png)
-
+ 
+![20200629141500](https://doddle.oss-cn-beijing.aliyuncs.com/oldNotes/20200629141500.png)
 ### 以前
 我们会定义一个SearchBar组件，然后在组件中挨个去getFieldDecorator，代码量大，重复复制粘贴, 最后导出；接着在index.js中去引入，传参什么的
 ```jsx
@@ -125,7 +125,7 @@ function Index(props) {
 ### 现在
 嗯，你是不是感觉翻了很久的图片，才翻到这里。过时的写法就是这样的，代码冗余，看着心累。现在看看使用antd-doddle中的WithSearch组件会会发生什么；
 
-```js
+```jsx
 
 // index.js 这里简写
 import { Button, Table } from 'antd';
@@ -176,3 +176,7 @@ function Index(props) {
 ```
 
 对比一下，代码量是不是减少了好多，要添加减少搜索项，我们只需要去维护field。更多方便，请看组件介绍及示例。
+
+## 最后
+
+组件化是最简单粗暴的逻辑复用，我们在这个基础上还可以进一步的抽象，封装SearchPage组件，来更简易化简单页面的开发，详情可查看[SearchPage组件介绍](http:doc.closertb.site/packages/SearchPage)；

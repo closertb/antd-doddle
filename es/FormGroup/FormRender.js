@@ -119,29 +119,29 @@ export default function FormRender(props) {
 
   var selectEnums = isDynamic ? getParamFromProps(enumKey, dynamicParams || props) : props.enums || enums;
   var pholder = placeholder || ruleTipMap[type] || "\u8BF7\u8F93\u5165".concat(name);
-  var common = Object.assign({
+  var common = Object.assign(Object.assign({
     style: style,
     required: _required,
     allowClear: allowClear,
     disabled: disable,
     placeholder: pholder,
     onChange: props.onChange || onChange
-  }, seldomProps, others); // 如果这个节点不需要渲染，那么就直接返回null
+  }, seldomProps), others); // 如果这个节点不需要渲染，那么就直接返回null
 
   var finalEnable = props.isEnable || isEnable;
 
   if (renderType[type]) {
     var render = renderType[type];
-    content = shouldUpdate ? React.createElement(FormItem, {
+    content = shouldUpdate ? /*#__PURE__*/React.createElement(FormItem, {
       shouldUpdate: shouldUpdate,
       noStyle: true
     }, function (form) {
-      var datas = Object.assign({}, form.getFieldsValue());
+      var datas = form.getFieldsValue();
 
       var require = typeof required === 'function' ? required(initData, datas) : required;
 
       var disabled = typeof disableTemp === 'function' ? disableTemp(initData, datas) : disableTemp;
-      return finalEnable(initData, datas) ? React.createElement(FormItem, Object.assign({
+      return finalEnable(initData, datas) ? /*#__PURE__*/React.createElement(FormItem, Object.assign({
         key: key,
         name: key,
         label: name,
@@ -155,7 +155,7 @@ export default function FormRender(props) {
         enums: selectEnums,
         containerName: containerName
       })) : selfRender(datas, form);
-    }) : React.createElement(FormItem, Object.assign({
+    }) : /*#__PURE__*/React.createElement(FormItem, Object.assign({
       key: key,
       name: key,
       label: name,
@@ -171,6 +171,6 @@ export default function FormRender(props) {
     console.error('type:', type, 'is not supported, you can use extendRenderTypes API to define what you want');
   }
 
-  return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? React.createElement(Wrapper, Object.assign({}, wrapProps), content) : content;
+  return isUndefind(props.withWrap, isUndefind(withWrap, defaultWrap)) ? /*#__PURE__*/React.createElement(Wrapper, Object.assign({}, wrapProps), content) : content;
 }
 FormRender.$type = extendSymbol;

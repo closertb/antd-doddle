@@ -10,6 +10,7 @@ export { default as EnhanceTable } from './EnhanceTable';
 export { default as HModal } from './HModal';
 export { default as FileUpload } from './FileUpload';
 export { default as ImageLoad } from './ImageLoad';
+export { default as Searchpage } from './Searchpage';
 
 // 三个extends方法
 export { combineTypes as extendFieldTypes } from './EnhanceTable/table/fieldTypes';

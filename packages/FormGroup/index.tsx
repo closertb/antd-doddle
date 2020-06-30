@@ -36,7 +36,7 @@ function deepMap(children, extendProps, mapFields) {
 }
 
 const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (props, ref) => {
-  const { formItemLayout = layout, containerName, required, fields = [], onFormChange,
+  const { formItemLayout = layout, containerName, required, fields = [],
     Wrapper = WrapperDefault, withWrap, dynamicParams, children, datas = {}, ...others } = props;
 
   const insideRef = useRef();

@@ -17,7 +17,7 @@ WithSearch组件主要是要解决中台业务每个页面都会出现搜索框�
 | onSearch | 必填，查询操作 | fun | 无
 | onReset | 查询重置操作, 只有设置了此项，重置按钮才会显示 | fun | 无
 | paramFormat | 搜索结果格式化 |  fun: 参照示例 | --
-| `timeFormat` | 搜索时间段结果格式化，paramFormat存在时，会忽略timeFormat, 为字符串时，比如：`YYYY-MM-DD`，为布尔值true时，返回时间戳  | boolean | string | undefined
+| `timeFormat` | 搜索时间段结果格式化，paramFormat存在时，会忽略timeFormat, 为字符串时，比如：`YYYY-MM-DD`，为布尔值true时，返回时间戳  | boolean 或 string | undefined
 | pageName | 页码属性名 | string | pageNo
 | extraBtns | 额外按钮节点 | fun | --
 | formItemLayout | 表单项样式 | {} | { labelCol: { span: 6 }, wrapperCol: { span: 18 } }

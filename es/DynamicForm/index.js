@@ -1,12 +1,16 @@
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14,15 +18,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var __rest = this && this.__rest || function (s, e) {
   var t = {};
@@ -55,17 +63,17 @@ function findValid(arr, index) {
   return target;
 }
 
-var DynamicForm =
-/*#__PURE__*/
-function (_React$PureComponent) {
+var DynamicForm = /*#__PURE__*/function (_React$PureComponent) {
   _inherits(DynamicForm, _React$PureComponent);
+
+  var _super = _createSuper(DynamicForm);
 
   function DynamicForm(props) {
     var _this;
 
     _classCallCheck(this, DynamicForm);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(DynamicForm).call(this, props));
+    _this = _super.call(this, props);
 
     _this.handlMoveUp = function (index) {
       return function () {
@@ -76,10 +84,10 @@ function (_React$PureComponent) {
             temp = __rest(_a, ["key"]);
 
         var lastIndex = findValid(rules, key, -1);
-        rules[index] = Object.assign({}, rules[lastIndex], {
+        rules[index] = Object.assign(Object.assign({}, rules[lastIndex]), {
           key: key
         });
-        rules[lastIndex] = Object.assign({}, temp, {
+        rules[lastIndex] = Object.assign(Object.assign({}, temp), {
           key: lastIndex
         });
 
@@ -100,10 +108,10 @@ function (_React$PureComponent) {
             temp = __rest(_a, ["key"]);
 
         var nextIndex = findValid(rules, key, 1);
-        rules[index] = Object.assign({}, rules[nextIndex], {
+        rules[index] = Object.assign(Object.assign({}, rules[nextIndex]), {
           key: key
         });
-        rules[nextIndex] = Object.assign({}, temp, {
+        rules[nextIndex] = Object.assign(Object.assign({}, temp), {
           key: nextIndex
         });
 
@@ -125,9 +133,9 @@ function (_React$PureComponent) {
     _this.state = {
       canReset: !isValid,
       rules: initValue.map(function (ele, key) {
-        return Object.assign({
+        return Object.assign(Object.assign({
           disableBtn: disableBtn
-        }, ele, {
+        }, ele), {
           key: key
         });
       })
@@ -203,23 +211,23 @@ function (_React$PureComponent) {
         return !deleteFlag;
       });
       var length = validDatas.length - 1;
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: "doddle-dynamic-form"
       }, validDatas.map(function (rule, index) {
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           key: rule.key
-        }, children(rule, dataBind), !rule.disableBtn && index > 0 && React.createElement(MinusCircleOutlined, {
+        }, children(rule, dataBind), !rule.disableBtn && index > 0 && /*#__PURE__*/React.createElement(MinusCircleOutlined, {
           className: "self-style",
           onClick: function onClick() {
             return _this2.handlMinus(rule.key);
           }
-        }), !rule.disableBtn && index === 0 && React.createElement(PlusCircleOutlined, {
+        }), !rule.disableBtn && index === 0 && /*#__PURE__*/React.createElement(PlusCircleOutlined, {
           className: "self-style",
           onClick: _this2.handlAdd
-        }), !rule.disableBtn && canMove && index > 0 && React.createElement(UpCircleOutlined, {
+        }), !rule.disableBtn && canMove && index > 0 && /*#__PURE__*/React.createElement(UpCircleOutlined, {
           className: "self-style",
           onClick: _this2.handlMoveUp(rule.key)
-        }), !rule.disableBtn && canMove && index < length && React.createElement(DownCircleOutlined, {
+        }), !rule.disableBtn && canMove && index < length && /*#__PURE__*/React.createElement(DownCircleOutlined, {
           className: "self-style",
           onClick: _this2.handlMoveDown(rule.key)
         }));
@@ -237,9 +245,9 @@ function (_React$PureComponent) {
       if (canReset && value.length > 0) {
         return {
           rules: value.map(function (ele, key) {
-            return Object.assign({
+            return Object.assign(Object.assign({
               disableBtn: disableBtn
-            }, ele, {
+            }, ele), {
               key: key
             });
           }),

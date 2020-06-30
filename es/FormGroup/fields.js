@@ -1,4 +1,4 @@
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __rest = this && this.__rest || function (s, e) {
   var t = {};
@@ -52,31 +52,31 @@ var generateOption = function generateOption() {
 
 function HInput(_ref) {
   var field = _ref.field;
-  return React.createElement(Input, Object.assign({}, field));
+  return /*#__PURE__*/React.createElement(Input, Object.assign({}, field));
 }
 
 ;
 
 var HText = function HText(_ref2) {
   var field = _ref2.field;
-  return React.createElement(TextArea, Object.assign({}, field));
+  return /*#__PURE__*/React.createElement(TextArea, Object.assign({}, field));
 };
 
 var HInputNumber = function HInputNumber(_ref3) {
   var field = _ref3.field;
-  return React.createElement(InputNumber, Object.assign({}, field));
+  return /*#__PURE__*/React.createElement(InputNumber, Object.assign({}, field));
 };
 
 var HSelect = function HSelect(_ref4) {
   var field = _ref4.field,
       enums = _ref4.enums,
       containerName = _ref4.containerName;
-  return React.createElement(Select, Object.assign({
+  return /*#__PURE__*/React.createElement(Select, Object.assign({
     getPopupContainer: getContainer(containerName)
   }, field), generateOption(enums).map(function (_ref5) {
     var value = _ref5.value,
         label = _ref5.label;
-    return React.createElement(Option, {
+    return /*#__PURE__*/React.createElement(Option, {
       key: value,
       value: value
     }, label);
@@ -86,7 +86,7 @@ var HSelect = function HSelect(_ref4) {
 var HRadio = function HRadio(_ref6) {
   var field = _ref6.field,
       enums = _ref6.enums;
-  return React.createElement(RadioGroup, Object.assign({
+  return /*#__PURE__*/React.createElement(RadioGroup, Object.assign({
     options: generateOption(enums)
   }, field));
 };
@@ -94,7 +94,7 @@ var HRadio = function HRadio(_ref6) {
 var HCheck = function HCheck(_ref7) {
   var field = _ref7.field,
       enums = _ref7.enums;
-  return React.createElement(CheckboxGroup, Object.assign({
+  return /*#__PURE__*/React.createElement(CheckboxGroup, Object.assign({
     options: generateOption(enums)
   }, field));
 };
@@ -106,7 +106,7 @@ var HDatePicker = function HDatePicker(_ref8) {
   var format = field.format,
       others = __rest(field, ["format"]);
 
-  return React.createElement(DatePicker, Object.assign({
+  return /*#__PURE__*/React.createElement(DatePicker, Object.assign({
     format: format || DATE_FORMAT,
     getCalendarContainer: getContainer(containerName)
   }, others));
@@ -124,7 +124,7 @@ var HRangePicker = function HRangePicker(_ref9) {
       format = field.format,
       others = __rest(field, ["startKey", "endKey", "placeholder", "showTime", "format"]);
 
-  return React.createElement(RangePicker, Object.assign({
+  return /*#__PURE__*/React.createElement(RangePicker, Object.assign({
     showTime: showTime,
     getCalendarContainer: getContainer(containerName),
     placeholder: ['开始日期', '结束日期'],
@@ -135,7 +135,7 @@ var HRangePicker = function HRangePicker(_ref9) {
 var HInputWithUnit = function HInputWithUnit(_ref10) {
   var field = _ref10.field,
       enums = _ref10.enums;
-  return React.createElement(InputWithUnit, Object.assign({
+  return /*#__PURE__*/React.createElement(InputWithUnit, Object.assign({
     enums: enums
   }, field));
 };
@@ -151,7 +151,7 @@ var selfDefine = function selfDefine(_ref11) {
 
 var OriginInput = function OriginInput(_ref12) {
   var field = _ref12.field;
-  return React.createElement(OriginSearch, Object.assign({}, field, {
+  return /*#__PURE__*/React.createElement(OriginSearch, Object.assign({}, field, {
     style: {
       width: '100%',
       height: 32
@@ -163,7 +163,7 @@ var UploadFile = function UploadFile(_ref13) {
   var field = _ref13.field,
       _ref13$props = _ref13.props,
       props = _ref13$props === void 0 ? {} : _ref13$props;
-  return React.createElement(FileUpload, Object.assign({}, field));
+  return /*#__PURE__*/React.createElement(FileUpload, Object.assign({}, field));
 };
 
 export { OriginInput, UploadFile, selfDefine, HInputWithUnit, HText, HInput, HInputNumber, HSelect, HRadio, HCheck, HDatePicker, HRangePicker };
