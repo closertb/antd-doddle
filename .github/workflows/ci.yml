@@ -3,7 +3,7 @@ name: Deploy static source to my server
 on: 
   push:
     branches:
-      - master
+      - ts
 
 jobs:
   build:
@@ -23,4 +23,4 @@ jobs:
         token: ${{ secrets.Deploy_Token }}
         requestUrl: 'http://deploy.closertb.site/operate/deploy'
         dist: 'docs'
-        target: 'antd-doddle'
+        target: 'antd-docs'
