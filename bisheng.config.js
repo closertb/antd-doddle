@@ -52,7 +52,7 @@ module.exports = {
   entiryName: 'index',
   themeConfig: {
     siteKey: 'antd-doddle',
-    home: '/guide/introduce',
+    home: '/guide/README',
     root: filePath,
     combineChangelog: false,
     compSorterType: 'native',

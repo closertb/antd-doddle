@@ -7,6 +7,7 @@
   "module": "es/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development bisheng start",
+    "presite": "rm -rf ./guide/README.md && cp -rf README.md ./guide",
     "site": "cross-env NODE_ENV=production bisheng build",
     "build": "webpack --config webpack.config.js",
     "lib": "gulp lib",

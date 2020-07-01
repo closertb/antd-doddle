@@ -9,12 +9,9 @@ antd-doddle是源于日常中后台系统开发不断的积累，如其名一样
 
 ## 使用文档
 
-[Antd-doddle 2.x文档地址,  支持4.x](http://doc.closertb.site): http://doc.closertb.site, 首次加载较慢，请耐心等候。
+[Antd4.x 文档地址](http://doc.closertb.site): http://doc.closertb.site, 首次加载较慢，请耐心等候。
 
-[Antd-doddle 1.x文档地址,  支持3.x](http://static.closertb.site): http://static.closertb.site, 首次加载较慢，请耐心等候。
-
-[试用项目Git 地址](https://github.com/closertb/koa-spring-client/tree/antd4)
-
+[Antd3.x 文档地址](http://oldDoc.closertb.site): http://oldDoc.closertb.site, 首次加载较慢，请耐心等候。
 ## 安装
 
 antd-doddle是一个多包的项目，组件与方法分离，依赖于react环境与antd组件库，支持treeShaking。

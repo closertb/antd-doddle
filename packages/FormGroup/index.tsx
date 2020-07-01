@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, useMemo, useRef, forwardRef, useEffect } from 'react';
 import { Form } from 'antd';
 import { FormInstance } from 'antd/es/form';
-import { formItemLayout as layout } from '../utils';
+import { formItemLayout as layout, Type } from '../utils';
 import { GroupProps } from './interface';
 import FormRender from './FormRender';
 import { extendSymbol, WrapperDefault } from './default';
@@ -61,21 +61,28 @@ const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (pro
   };
 
   const formProps = {
-    initialValues: datas,
+    initialValues: {},
     ...formItemLayout,
     ...others
   };
 
   // 如果data 值变化，重置表单的值
   useEffect(() => {
-    // 函数式组件采用form 直接reset；
+    let data = datas;
+    let apiStr = 'setFieldsValue';
+    // 这里加了一个逻辑，当设置一个空数据，表面想清空表单，所以使用了resetFields API；
+    if (Type.isEmpty(datas)) {
+      data = undefined;
+      apiStr = 'resetFields';
+    }
+    // 函数式组件采用form操作；
     if (props.form) {
-      props.form.setFieldsValue(datas);
+      props.form[apiStr](data);
       return;
     }
     // 如果是类组件，才采用ref示例更新组件
     if (typeof _ref === 'object') {
-      _ref.current.setFieldsValue(datas);
+      _ref.current[apiStr](data);
     }
   }, [datas]);
 
