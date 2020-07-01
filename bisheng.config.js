@@ -67,6 +67,8 @@ module.exports = {
   devServerConfig: {},
   webpackConfig(config) {
     config.devtool = 'source-map';
+    // 解除对moment配置文件不编译的问题
+    delete config.module.noParse;
     if (process.env.NODE_ENV === 'production') {
       config.devtool = 'none';
       config.mode = 'production';

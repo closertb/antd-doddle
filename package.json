@@ -11,8 +11,9 @@
     "build": "webpack --config webpack.config.js",
     "lib": "gulp lib",
     "es": "gulp es",
-    "pub": "gulp",
-    "propub": "gulp && webpack --config webpack.config.js"
+    "propub": "gulp && webpack --config webpack.config.js",
+    "prepublish": "gulp",
+    "postpublish": "rm -rf es && rm -rf lib"
   },
   "files": [
     "es",
