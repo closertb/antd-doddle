@@ -68,13 +68,8 @@ const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (pro
 
   // 如果data 值变化，重置表单的值
   useEffect(() => {
-    let data = datas;
-    let apiStr = 'setFieldsValue';
     // 这里加了一个逻辑，当设置一个空数据，表面想清空表单，所以使用了resetFields API；
-    if (Type.isEmpty(datas)) {
-      data = undefined;
-      apiStr = 'resetFields';
-    }
+    const [data, apiStr] = Type.isEmpty(datas) ? [undefined, 'resetFields'] : [datas, 'setFieldsValue'];
     // 函数式组件采用form操作；
     if (props.form) {
       props.form[apiStr](data);
