@@ -9,7 +9,7 @@ order: 00
  - 动态指定枚举的用法
 
 ```jsx
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Form, Row, Col, Button, Switch, Input } from 'antd';
 // import { formRender } from 'antd-doddle';
 import FormGroup from "../index";
@@ -19,11 +19,15 @@ const { FormRender } = FormGroup;
 
 function Edit(props) {
   const [enums, setEnums] = useState([{value: 1,label: '启用'}, {value: 0,label: '禁用'}]);
-
+  const  { update, setUpdate} = props;
   const [form] = FormGroup.useForm();
   const handleSubmit  = useCallback(() => {
     form.validateFields().then((values) => {
       console.log(values);
+      setUpdate(true);
+      setTimeout(() => {
+        setUpdate(false);
+      }, 2000)
     });
   })
   // 模拟远程数据获取
@@ -31,13 +35,20 @@ function Edit(props) {
     setTimeout(() => {
       setEnums([{value: 1,label: '远程启用'}, {value: 0,label: '远程禁用'}])
     }, 500);
+    // setTimeout(() => {
+    //   form.setFieldsValue({ enable: true });
+    //   console.log('set');
+    // }, 1000);
   }, []);
 
-  const { detail: datas = { userName: 'doddle', enable: true, mail: 'closertb@163.com', enable: false, interest: { number: 0.12, unit: 'month' }  } } = props;
+  // 注意这里的datas 得确保每次渲染更新保持对象不变，所以这里采用了ref来保证；
+  // const data = { userName: 'doddle' }; 这种就会导致，表单有更新，造成表单数据意外重置
+  const dataRef = useRef({ userName: 'doddle', enable: true, mail: 'closertb@163.com', interest: { number: 0.12, unit: 'month' } });
+
   const formProps = {
     layout: 'horizontal',
     form,
-    datas,
+    datas: dataRef.current,
     required: true,
     formItemLayout,
     withWrap: true,
@@ -52,8 +63,8 @@ function Edit(props) {
           {editFields.map(field=> <FormRender key={field.key} {...{ field }} />)}
         </Row>
       </FormGroup>
-      <div style={{ textAlign: 'center' }}>
-        <Button onClick={handleSubmit}>提交</Button>
+      <div style={{ textAlign: 'center' }} >
+        <Button onClick={handleSubmit} loading={update}>提交</Button>
       </div>
     </div>
   );
@@ -116,7 +127,7 @@ const editFields = [{
   shouldUpdate: (pre, cur) => {
     return pre.enable !== cur.enable
   },
-  render: ({ userName, email }) => (<FormItem label="静态信息">{`${userName}-${email}`}</FormItem>)
+  render: ({ userName, mail }) => (<FormItem label="静态信息">{`${userName}-${mail}`}</FormItem>)
 }, {
   key: 'status',
   name: '状态',
@@ -138,8 +149,13 @@ const editFields = [{
   type: 'text',
   dependencies: ['enable'],
   required: true,
-  rules: [{ type: 'email', message: 'fuck' }],
+  rules: [{ type: 'email', message: '请输入邮箱格式' }],
 }];
 
-ReactDOM.render(<Edit />, mountNode);
+function WrapNode() {
+  const [update, setUpdate] = useState(false);
+  return <Edit setUpdate={setUpdate} update={update} />
+}
+
+ReactDOM.render(<WrapNode />, mountNode);
 ```

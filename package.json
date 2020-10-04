@@ -1,6 +1,6 @@
 {
   "name": "antd-doddle",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "license": "ISC",
   "description": "antd后台项目前端组件封装和方法库",
   "main": "lib/index.js",
@@ -57,7 +57,7 @@
     "@doddle/eslint-config-doddle": "^0.0.11",
     "@types/react": "^16.9.38",
     "@types/react-dom": "^16.9.8",
-    "antd": "^4.4.0",
+    "antd": "^4.6.6",
     "antd-dayjs-webpack-plugin": "^1.0.0",
     "babel-loader": "^8.0.5",
     "bind-decorator": "^1.0.11",

@@ -16,9 +16,11 @@ const { FormRender } = FormGroup;
 function Edit(props) {
   const [enums, setEnums] = useState([{value: 1,label: '启用'}, {value: 0,label: '禁用'}]);
   const [form] = FormGroup.useForm();
+  const [update, setUpdate] = useState(false);
   const handleSubmit  = useCallback(() => {
     form.validateFields().then((values) => {
       console.log(values);
+      setUpdate(true);
     });
   })
   // 模拟远程数据获取
@@ -27,15 +29,21 @@ function Edit(props) {
       setEnums([{value: 1,label: '远程启用'}, {value: 0,label: '远程禁用'}])
     })
   }, [])
-  const { detail: data = { userName: 'doddle', mail: 'closertb@163.com', enable: true } } = props;
   const formProps = {
     layout: 'horizontal',
     required: true,
     formItemLayout,
     withWrap: true,
     fields: editFields,
+    // 这里因为datas 每次传递的新对象，而没保证不可变，会导致Edit 渲染更新时，组件修改的值被重置
+    // 重现步骤：
+    // 1. 是否激活按钮切换到false，其他表单填完；
+    // 2. 点击提交，即可看到，激活按钮又回到了true；
+    // 最好的方法就是采用ref来保证引用不可变；
     datas: {
-      userName: 'doddle'
+      userName: 'doddle',
+      mail: 'closertb@163.com',
+      enable: true
     },
     form,
     dynamicParams: {

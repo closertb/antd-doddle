@@ -81,7 +81,7 @@ type属性一共包含： input， inputNumber， text， select, radio, check, 
 很多在field和props同时出现的属性，props中的权重大于field中的, field中的权重大于FormGroup中声明的。除了上面所列，还有一些不常用的，后面慢慢补充    
 
 #### 表单联动实现
-主要通过rerquired, disabled 与 isEnable三个属性实现，如果是静态的，可直接设置布尔值一步到位；这里主要演示动态设置, 具体应用请参看示例
+主要通过rerquired, disabled 与 isEnable三个属性实现，如果是静态的，可直接设置布尔值一步到位，如果是动态的，联动项需要自己设置shouldUpdate属性；这里主要演示动态设置, 具体应用请参看示例
 ```javascript
 // rerquired, disabled 与 isEnable三个属性为函数时，会收到两个入参,分别为其值为initialValues 与 currentDatas
 // initialValues 是FormGroup接受的初始属性datas
@@ -118,10 +118,14 @@ const fields = [{
 
  - feat: enums新增object支持
 
- ### 2020-03-01
+### 2020-03-01
 
  - feat: 新增1.4.0版，支持Form表单联动
 
-  ### 2020-06-24
+### 2020-06-24
 
  - feat: 新增2.0.0版，定向支持antd 4.x版本表单
+
+### 2020-10-04
+
+ - feat: 新增2.1.0版，修复formGroup 对初始值的处理问题；

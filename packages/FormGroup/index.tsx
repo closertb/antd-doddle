@@ -36,8 +36,9 @@ function deepMap(children, extendProps, mapFields) {
 }
 
 const FormGroup: React.ForwardRefRenderFunction<FormInstance, GroupProps> = (props, ref) => {
+  // 这里datas 不能赋默认值，会导致未设置初始值时，datas 被不断赋 {}；
   const { formItemLayout = layout, containerName, required, fields = [],
-    Wrapper = WrapperDefault, withWrap, dynamicParams, children, datas = {}, ...others } = props;
+    Wrapper = WrapperDefault, withWrap, dynamicParams, children, datas, ...others } = props;
 
   const insideRef = useRef();
   const mapFields = useMemo(() => fields.reduce((pre, cur) => {
